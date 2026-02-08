@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 
@@ -27,8 +27,14 @@ export const LandingPageRouting = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/home" element={<Home />} />
+      <Route
+        path="/"
+        element={isLoggedIn ? <Home /> : <Navigate to="/auth/login" replace />}
+      />
+      <Route
+        path="/home"
+        element={isLoggedIn ? <Home /> : <Navigate to="/auth/login" replace />}
+      />
 
       <Route path="/success" element={<OnSuccessRegister />} />
       <Route path="/*" element={<Error404 />} />
@@ -42,6 +48,9 @@ export const LandingPageRouting = () => {
             </Suspense>
           }
         />
+      )}
+      {isLoggedIn && (
+        <Route path="/auth/*" element={<Navigate to="/home" replace />} />
       )}
       {isLoggedIn && (
         <Route
