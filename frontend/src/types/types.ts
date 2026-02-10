@@ -79,7 +79,7 @@ export type TLogoutUserParams = {
   onError: () => void;
 };
 
-export type TFrogotPasswordEmail = {
+export type TForgotPasswordEmail = {
   email: string;
 };
 
@@ -89,7 +89,7 @@ export type TResetPasswordParams = {
 };
 
 export type TForgotPasswordParams = {
-  data: TFrogotPasswordEmail;
+  data: TForgotPasswordEmail;
   onSuccess: (data: void) => void;
   onError: () => void;
 };
