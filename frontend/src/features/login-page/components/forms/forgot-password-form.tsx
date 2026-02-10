@@ -1,8 +1,10 @@
+import { useCallback } from "react";
+
 import { useModalContext } from "@/common/contexts/hooks/use-modal-context";
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 import { useForgotPasswordMutation } from "@/store/api/auth";
 
-import { TForgotPasswordProps, TFrogotPasswordEmail } from "@/types/types";
+import { TForgotPasswordProps, TForgotPasswordEmail } from "@/types/types";
 
 import { Button, Input, Form, Modal } from "antd";
 
@@ -15,37 +17,40 @@ export const ForgotPasswordForm = ({ visible }: TForgotPasswordProps) => {
 
   const [form] = Form.useForm();
 
-  const handleCancelModal = () => {
-    hideModal();
-    form.resetFields();
-  };
-
-  const handleSuccess = () => {
+  const handleSuccess = useCallback(() => {
     openNotification(
       "topRight",
       "success",
       "Email has been send follow the instructions",
-      true
+      true,
     );
-    handleCancelModal();
-  };
+  }, [openNotification]);
 
-  const handleError = () => {
+  const handleError = useCallback(() => {
     openNotification(
       "topRight",
       "error",
       "Unable to send request. Probably too many requests have been sent in short time. Please check your email address and try again.",
-      true
+      true,
     );
-  };
+  }, [openNotification]);
 
-  const handleSendEmail = async ({ email }: TFrogotPasswordEmail) => {
-    forgotPassword({
-      data: { email },
-      onSuccess: handleSuccess,
-      onError: handleError,
-    });
-  };
+  const handleCancelModal = useCallback(() => {
+    hideModal();
+    form.resetFields();
+  }, [form, hideModal]);
+
+  const handleSendEmail = useCallback(
+    async ({ email }: TForgotPasswordEmail) => {
+      forgotPassword({
+        data: { email },
+        onSuccess: handleSuccess,
+        onError: handleError,
+      });
+      handleCancelModal();
+    },
+    [forgotPassword, handleCancelModal, handleError, handleSuccess],
+  );
 
   return (
     <Modal
