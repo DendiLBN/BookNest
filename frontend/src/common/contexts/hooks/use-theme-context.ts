@@ -4,7 +4,7 @@ import {
   TThemeContextProps,
 } from "@/common/contexts/theme-context";
 
-export const useThemeContext = (): TThemeContextProps => {
+export const useThemeContext = (): NonNullable<TThemeContextProps> => {
   const ctx = useContext(ThemeContext);
   if (ctx === undefined) {
     throw new Error(
