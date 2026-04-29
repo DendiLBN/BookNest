@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import ChangePasswordForm from "./change-password-form";
+import ChangePasswordForm from "../change-password-form";
 
 const meta = {
   title: "Auth/ChangePasswordForm",
