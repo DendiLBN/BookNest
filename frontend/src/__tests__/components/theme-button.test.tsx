@@ -3,8 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
 import { ThemeProvider } from "@/common/contexts/theme-context";
-
-import { ThemeButton } from "./index.tsx";
+import { ThemeButton } from "@/layouts/header/components/theme-button/index.tsx";
 
 describe("ThemeButton", () => {
   it("toggles and persists the theme value", async () => {

@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
-import { DeleteBooksButton } from ".";
+import { DeleteBooksButton } from "@/features/book-page/components/delete-button";
 
 describe("DeleteBooksButton", () => {
   it("shows selected count and calls onDelete", async () => {

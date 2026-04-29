@@ -1,13 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 
-import { DeleteBooksButton } from ".";
+import { DeleteBooksButton } from "..";
+import { selectedBookRowKeysFixture } from "./fixtures/deleteBooksButtonData";
 
 const meta = {
   title: "Book/DeleteBooksButton",
   component: DeleteBooksButton,
   args: {
-    selectedBookRowKeys: ["book-1", "book-2"],
+    selectedBookRowKeys: selectedBookRowKeysFixture,
     loading: false,
     onDelete: fn(),
   },

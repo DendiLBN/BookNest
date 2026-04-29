@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 
-import { CategorySelect } from "./category-select";
+import { CategorySelect } from "../category-select";
+import { selectedCategoriesFixture } from "./fixtures/categorySelectData";
 
 const meta = {
   title: "Book/Filters/CategorySelect",
@@ -20,6 +21,6 @@ export const Empty: Story = {};
 
 export const WithSelectedCategories: Story = {
   args: {
-    selectedCategories: ["Fantasy", "Science Fiction"],
+    selectedCategories: selectedCategoriesFixture,
   },
 };

@@ -1,7 +1,7 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { BookSearch } from "./book-search";
+import { BookSearch } from "@/features/book-page/components/filters/book-search";
 
 describe("BookSearch", () => {
   it("debounces typed search text before calling onSearch", async () => {
