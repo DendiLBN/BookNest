@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { CategorySelect } from "./category-select";
+import { CategorySelect } from "@/features/book-page/components/filters/category-select";
 
 describe("CategorySelect", () => {
   it("renders selected categories", () => {
