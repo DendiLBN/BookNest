@@ -57,6 +57,7 @@ describe('AppController (e2e)', () => {
       title: 'Test Book',
       author: 'Test Author',
       rate: 2,
+      coverImageUrl: 'https://example.com/test-book-cover.jpg',
     };
 
     const response = await request(app.getHttpServer())
@@ -65,6 +66,7 @@ describe('AppController (e2e)', () => {
 
     expect(response.status).toBe(201);
     expect(response.body).toBeTruthy();
+    expect(response.body.coverImageUrl).toEqual(createBookDto.coverImageUrl);
 
     createdBook = response.body;
   });

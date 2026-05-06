@@ -7,6 +7,8 @@ import { FilterQuery, Model } from 'mongoose';
 import { categories } from 'src/shared/data/categories';
 
 const MIN_BOOKS_NUMBER = 100;
+const BOOK_COVER_WIDTH = 120;
+const BOOK_COVER_HEIGHT = 180;
 
 @Injectable()
 export class BooksService implements OnModuleInit {
@@ -16,6 +18,9 @@ export class BooksService implements OnModuleInit {
 
   async onModuleInit() {
     const booksCount = await this.bookModel.countDocuments();
+
+    await this.addMissingCoverImages();
+
     if (booksCount < MIN_BOOKS_NUMBER) {
       for (let i = 0; i < MIN_BOOKS_NUMBER - booksCount; i++) {
         let category1: string, category2: string;
@@ -24,11 +29,15 @@ export class BooksService implements OnModuleInit {
           category2 = categories[Math.floor(Math.random() * categories.length)];
         } while (category1 === category2);
 
+        const bookIndex = i + booksCount;
+        const title = `Book ${bookIndex}`;
+
         const createdBook = await this.create({
-          title: `Book ${i + booksCount}`,
-          author: `Author ${i + booksCount}`,
+          title,
+          author: `Author ${bookIndex}`,
           rate: Math.floor(Math.random() * 5) + 1,
           category: [category1, category2],
+          coverImageUrl: this.getSeededCoverImageUrl(title),
         });
         console.log(createdBook);
       }
@@ -122,5 +131,29 @@ export class BooksService implements OnModuleInit {
       skip,
       take: perPage,
     };
+  }
+
+  private async addMissingCoverImages() {
+    const booksWithoutCover = await this.bookModel.find({
+      $or: [
+        { coverImageUrl: { $exists: false } },
+        { coverImageUrl: '' },
+        { coverImageUrl: null },
+      ],
+    });
+
+    await Promise.all(
+      booksWithoutCover.map((book) =>
+        this.bookModel.findByIdAndUpdate(book._id, {
+          coverImageUrl: this.getSeededCoverImageUrl(book.title),
+        }),
+      ),
+    );
+  }
+
+  private getSeededCoverImageUrl(title: string) {
+    return `https://picsum.photos/seed/${encodeURIComponent(
+      title,
+    )}/${BOOK_COVER_WIDTH}/${BOOK_COVER_HEIGHT}`;
   }
 }

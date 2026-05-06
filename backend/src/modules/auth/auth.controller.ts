@@ -23,6 +23,7 @@ import { SkipThrottle, Throttle } from '@nestjs/throttler';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @SkipThrottle()
   @Post('register')
   register(@Body() createUserDto: CreateUserDto) {
     return this.authService.register(createUserDto);
