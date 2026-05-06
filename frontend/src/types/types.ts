@@ -9,7 +9,8 @@ export type TBookBody = {
   rate: number;
   author: string;
   tags: string[];
-  avatar: string;
+  avatar?: string;
+  coverImageUrl?: string;
 };
 
 export type IBookSearchProps = {

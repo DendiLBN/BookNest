@@ -35,6 +35,10 @@ export const LandingPageRouting = () => {
         path="/home"
         element={isLoggedIn ? <Home /> : <Navigate to="/auth/login" replace />}
       />
+      <Route
+        path="/dashboard"
+        element={isLoggedIn ? <Home /> : <Navigate to="/auth/login" replace />}
+      />
 
       <Route path="/success" element={<OnSuccessRegister />} />
       <Route path="/*" element={<Error404 />} />

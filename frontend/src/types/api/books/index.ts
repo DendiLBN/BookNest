@@ -13,5 +13,6 @@ export type TBookBodyResponse = {
   rate: number;
   author: string;
   tags: string[];
-  avatar: string;
+  avatar?: string;
+  coverImageUrl?: string;
 };
