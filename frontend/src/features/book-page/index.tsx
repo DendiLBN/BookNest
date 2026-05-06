@@ -3,23 +3,20 @@ import { Key, useEffect } from "react";
 import { Spin, Table, TableProps } from "antd";
 
 import { DeleteBooksButton } from "@/features/book-page/components/delete-button/index";
+import { BookSearch } from "@/features/book-page/components/filters/book-search";
+import { CategorySelect } from "@/features/book-page/components/filters/category-select";
 
-import { UseFetchBodyBooks } from "@/features/book-page/hooks/useFetchBooksList";
-
+import { UsePagination } from "@/common/hooks/pagination/usePagination";
 import { useDeleteAsArrayBooks } from "@/features/book-page/hooks/useDeleteAsArrayBooks";
+import { UseFetchBodyBooks } from "@/features/book-page/hooks/useFetchBooksList";
 import { useFilteredBooks } from "@/features/book-page/hooks/useFilteredBooks";
 
-import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
+import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
 
 import { TBookBody } from "@/types/types";
 
-import { BookSearch } from "@/features/book-page/components/filters/book-search";
-
-import { CategorySelect } from "@/features/book-page/components/filters/category-select";
-
 import { columns } from "@/features/book-page/consts/book-table-columns";
-import { UsePagination } from "@/common/hooks/pagination/usePagination";
 
 export const BookView: React.FC = () => {
   const { loading, openNotification } = useNotificationContext();
@@ -57,7 +54,7 @@ export const BookView: React.FC = () => {
         "topRight",
         "error",
         "An error occurred while selecting books. You can select up to 20 books.",
-        true
+        true,
       );
     }
   };
@@ -71,14 +68,10 @@ export const BookView: React.FC = () => {
     onChange: onSelectChange,
   };
 
-
   return (
     <div>
       <div style={{ display: "flex", gap: 15 }}>
-        <BookSearch
-          bookSearchText={bookSearchText}
-          onSearch={setBookSearchText}
-        />
+        <BookSearch bookSearchText={bookSearchText} onSearch={setBookSearchText} />
         <CategorySelect
           selectedCategories={selectedCategories}
           onChangeCategories={setSelectedCategories}

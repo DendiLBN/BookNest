@@ -6,10 +6,9 @@
     "frontend": "npm run dev --prefix ./frontend",
     "backend": "npm run start:dev --prefix ./backend",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "format": "lint-staged",
-    "format:check": "biome check --staged",
-    "format:all": "biome check --write . && npm run lint:fix --prefix ./frontend -- .",
-    "format:all:check": "biome check . && npm run lint --prefix ./frontend",
+    "format": "biome check --write . && npm run lint:fix --prefix ./frontend -- .",
+    "format:staged": "lint-staged",
+    "format:check": "biome check . && npm run lint --prefix ./frontend",
     "prepare": "husky",
     "test": "npm run test --prefix ./frontend && npm run test --prefix ./backend",
     "build": "npm run build --prefix ./frontend && npm run build --prefix ./backend"
