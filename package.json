@@ -6,15 +6,27 @@
     "frontend": "npm run dev --prefix ./frontend",
     "backend": "npm run start:dev --prefix ./backend",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "biome check --write --staged",
+    "format:check": "biome check --staged",
+    "format:all": "biome check --write .",
+    "format:all:check": "biome check .",
+    "prepare": "husky",
+    "test": "npm run test --prefix ./frontend && npm run test --prefix ./backend",
+    "build": "npm run build --prefix ./frontend && npm run build --prefix ./backend"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "@biomejs/biome": "^2.4.14",
+    "concurrently": "^8.2.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0"
   },
   "dependencies": {
     "@nestjs/jwt": "^10.2.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,jsonc,css,md}": "biome check --write --no-errors-on-unmatched"
   }
 }
