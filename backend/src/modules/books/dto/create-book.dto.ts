@@ -1,7 +1,9 @@
 import {
   IsInt,
   IsNotEmpty,
+  IsOptional,
   IsString,
+  IsUrl,
   Max,
   MaxLength,
   Min,
@@ -26,4 +28,9 @@ export class CreateBookDto {
   @Min(1)
   @Max(5)
   rate: number;
+
+  @IsOptional()
+  @IsString()
+  @IsUrl()
+  coverImageUrl?: string;
 }

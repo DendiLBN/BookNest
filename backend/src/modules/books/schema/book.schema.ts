@@ -13,6 +13,9 @@ export class Book {
 
   @Prop({ type: [String], default: [] })
   category: string[];
+
+  @Prop({ type: String, default: '' })
+  coverImageUrl?: string;
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);
