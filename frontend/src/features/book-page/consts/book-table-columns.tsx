@@ -1,63 +1,50 @@
-import { Button, Rate, Space, Tag } from "antd";
+import { Button, Rate, Space, Tag, Typography } from "antd";
 import { ColumnsType } from "antd/es/table";
-import {
-  FrownOutlined,
-  MehOutlined,
-  SmileOutlined,
-  ShoppingCartOutlined,
-} from "@ant-design/icons";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 
 import { TBookBody } from "@/types/types";
 
-import avatar from "@/assets/images/avatar.jpg";
 import { tagColors } from "@/features/book-page/consts/book-categories-colors";
 
-// TODO avatars fix on backend images.
-// TODO change icons smile for stars or numbers
+const fallbackCoverImage = "/book.png";
 
-const customIcons: { [key: number]: JSX.Element } = {
-  1: <FrownOutlined />,
-  2: <MehOutlined />,
-  3: <SmileOutlined />,
-};
+const { Text } = Typography;
 
 export const columns: ColumnsType<TBookBody> = [
   {
-    title: "",
-    dataIndex: "avatar",
-    width: 50,
+    title: "Cover",
+    dataIndex: "coverImageUrl",
+    width: 96,
     render: (_, record) => (
       <img
-        src={avatar}
+        src={record.coverImageUrl || record.avatar || fallbackCoverImage}
         alt={record.title}
-        style={{ width: "90px", height: "auto", borderRadius: "4px" }}
+        className="book-page__cover"
       />
     ),
   },
 
   {
-    title: "Title",
+    title: "Book",
     dataIndex: "title",
     key: "title",
     sorter: (a, b) => a.title.length - b.title.length,
+    render: (_, record) => (
+      <Space direction="vertical" size={2}>
+        <Text strong>{record.title}</Text>
+        <Text type="secondary">{record.author}</Text>
+      </Space>
+    ),
   },
   {
-    title: "Rate",
+    title: "Rating",
     dataIndex: "rate",
     key: "rate",
     defaultSortOrder: "descend",
     sorter: (a, b) => a.rate - b.rate,
     render: (_, record) => (
-      <Rate
-        defaultValue={record.rate}
-        character={({ index = 0 }) => customIcons[index + 1]}
-      />
+      <Rate disabled defaultValue={record.rate} />
     ),
-  },
-  {
-    title: "Author",
-    dataIndex: "author",
-    key: "author",
   },
   {
     title: "Category",
@@ -80,14 +67,14 @@ export const columns: ColumnsType<TBookBody> = [
     },
   },
   {
-    title: "Action Buttons",
+    title: "Actions",
     dataIndex: "actions",
     key: "Actions",
     render: () => {
       return (
         <Space>
-          <Button type="primary" icon={<ShoppingCartOutlined />}>
-            Add to shopping cart
+          <Button icon={<ShoppingCartOutlined />}>
+            Add to cart
           </Button>
         </Space>
       );

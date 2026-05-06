@@ -6,6 +6,7 @@ import {
   BellOutlined,
   HeartFilled,
   BookFilled,
+  LockOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
@@ -16,6 +17,11 @@ export const itemsSideBar: MenuProps["items"] = [
     label: <Link to="/dashboard">Dashboard</Link>,
   },
   {
+    key: "books",
+    icon: <BookFilled />,
+    label: <Link to="/book">Books</Link>,
+  },
+  {
     key: "profile",
     icon: <UserOutlined />,
     label: "Profile",
@@ -23,15 +29,17 @@ export const itemsSideBar: MenuProps["items"] = [
       {
         key: "order-history",
         style: { paddingLeft: "10px" },
-        label: <Link to="/profile/order-history">Order History</Link>,
+        label: "Order History",
         icon: <BookFilled />,
+        disabled: true,
       },
 
       {
         key: "favorites",
         style: { paddingLeft: "10px" },
-        label: <Link to="/profile/favorites">Favorites</Link>,
+        label: "Favorites",
         icon: <HeartFilled />,
+        disabled: true,
       },
     ],
   },
@@ -44,19 +52,14 @@ export const itemsSideBar: MenuProps["items"] = [
         key: "change-password",
         style: { paddingLeft: "10px" },
         label: <Link to="/auth/change-password">Change Password</Link>,
-        icon: <UserOutlined />,
-      },
-      {
-        key: "change-avatar",
-        style: { paddingLeft: "10px" },
-        label: <Link to="/auth/change-avatar">Change Avatar</Link>,
-        icon: <UserOutlined />,
+        icon: <LockOutlined />,
       },
       {
         key: "notifications",
         style: { paddingLeft: "10px" },
-        label: <Link to="/settings/notifications">Notifications</Link>,
+        label: "Notifications",
         icon: <BellOutlined />,
+        disabled: true,
       },
     ],
   },

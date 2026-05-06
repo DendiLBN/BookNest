@@ -1,6 +1,7 @@
 import { Key, useEffect } from "react";
 
 import { Spin, Table, TableProps } from "antd";
+import "@/assets/layouts-styles/book-styles/book.css";
 
 import { DeleteBooksButton } from "@/features/book-page/components/delete-button/index";
 
@@ -73,8 +74,29 @@ export const BookView: React.FC = () => {
 
 
   return (
-    <div>
-      <div style={{ display: "flex", gap: 15 }}>
+    <div className="book-page">
+      <section className="book-page__header">
+        <div>
+          <p className="book-page__eyebrow">Book catalog</p>
+          <h1 className="book-page__title">Manage library inventory</h1>
+          <p className="book-page__subtitle">
+            Search, filter, review ratings, and prepare selected books for bulk
+            actions.
+          </p>
+        </div>
+        <div className="book-page__stats">
+          <div className="book-page__stat">
+            <span>{bookList.length}</span>
+            <p>Visible books</p>
+          </div>
+          <div className="book-page__stat">
+            <span>{selectedBookRowKeys.length}</span>
+            <p>Selected</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="book-page__toolbar">
         <BookSearch
           bookSearchText={bookSearchText}
           onSearch={setBookSearchText}
@@ -83,23 +105,25 @@ export const BookView: React.FC = () => {
           selectedCategories={selectedCategories}
           onChangeCategories={setSelectedCategories}
         />
-        <div style={{ marginLeft: "auto" }}>
+        <div className="book-page__delete-action">
           <DeleteBooksButton
             selectedBookRowKeys={selectedBookRowKeys}
             loading={loading}
             onDelete={handleDeleteArray}
           />
         </div>
-      </div>
+      </section>
 
       <Spin tip="Loading..." size="large" spinning={loading}>
         <Table
+          className="book-page__table"
           rowSelection={rowSelection}
           columns={columns}
           dataSource={bookList.map((book) => ({
             ...book,
             key: book._id,
           }))}
+          scroll={{ x: 900 }}
           pagination={{
             position: ["bottomCenter"],
             showSizeChanger: true,
