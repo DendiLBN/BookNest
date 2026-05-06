@@ -6,10 +6,10 @@
     "frontend": "npm run dev --prefix ./frontend",
     "backend": "npm run start:dev --prefix ./backend",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "format": "biome check --write --staged",
+    "format": "lint-staged",
     "format:check": "biome check --staged",
-    "format:all": "biome check --write .",
-    "format:all:check": "biome check .",
+    "format:all": "biome check --write . && npm run lint:fix --prefix ./frontend -- .",
+    "format:all:check": "biome check . && npm run lint --prefix ./frontend",
     "prepare": "husky",
     "test": "npm run test --prefix ./frontend && npm run test --prefix ./backend",
     "build": "npm run build --prefix ./frontend && npm run build --prefix ./backend"
@@ -27,6 +27,11 @@
     "@nestjs/jwt": "^10.2.0"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx,json,jsonc,css,md}": "biome check --write --no-errors-on-unmatched"
+    "frontend/**/*.{ts,tsx,js,jsx}": [
+      "biome check --write --no-errors-on-unmatched",
+      "npm run lint:fix --prefix ./frontend --"
+    ],
+    "*.{json,jsonc,css,md,cjs,mjs}": "biome check --write --no-errors-on-unmatched",
+    "backend/**/*.{ts,js,jsx}": "biome check --write --no-errors-on-unmatched"
   }
 }
