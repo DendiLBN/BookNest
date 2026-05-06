@@ -3,15 +3,14 @@ import { BrowserRouter } from "react-router-dom";
 import { Layout } from "antd";
 
 import { AntdNotificationProvider } from "@/common/contexts/antd-notification-context";
+import { ModalProvider } from "@/common/contexts/modal-context";
 import { ThemeProvider } from "@/common/contexts/theme-context";
 
-import { LandingPageHeader } from "@/layouts/header/header";
-import { LandingPageSideBar } from "@/layouts/side-bar/sidebar";
+import ErrorBoundary from "@/common/error-boundary/error-boundry";
 import { LandingPageContent } from "@/layouts/content/content";
 import LandingPageFooter from "@/layouts/footer/footer";
-
-import ErrorBoundary from "@/common/error-boundary/error-boundry";
-import { ModalProvider } from "@/common/contexts/modal-context";
+import { LandingPageHeader } from "@/layouts/header/header";
+import { LandingPageSideBar } from "@/layouts/side-bar/sidebar";
 
 const App: React.FC = () => {
   return (
