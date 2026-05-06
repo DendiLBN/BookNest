@@ -1,26 +1,24 @@
 import { Key, useEffect } from "react";
 
-import { Spin, Table, TableProps } from "antd";
 import "@/assets/layouts-styles/book-styles/book.css";
 
+import { Spin, Table, TableProps } from "antd";
+
 import { DeleteBooksButton } from "@/features/book-page/components/delete-button/index";
+import { BookSearch } from "@/features/book-page/components/filters/book-search";
+import { CategorySelect } from "@/features/book-page/components/filters/category-select";
 
-import { UseFetchBodyBooks } from "@/features/book-page/hooks/useFetchBooksList";
-
+import { UsePagination } from "@/common/hooks/pagination/usePagination";
 import { useDeleteAsArrayBooks } from "@/features/book-page/hooks/useDeleteAsArrayBooks";
+import { UseFetchBodyBooks } from "@/features/book-page/hooks/useFetchBooksList";
 import { useFilteredBooks } from "@/features/book-page/hooks/useFilteredBooks";
 
-import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
+import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
 
 import { TBookBody } from "@/types/types";
 
-import { BookSearch } from "@/features/book-page/components/filters/book-search";
-
-import { CategorySelect } from "@/features/book-page/components/filters/category-select";
-
 import { columns } from "@/features/book-page/consts/book-table-columns";
-import { UsePagination } from "@/common/hooks/pagination/usePagination";
 
 export const BookView: React.FC = () => {
   const { loading, openNotification } = useNotificationContext();
@@ -58,7 +56,7 @@ export const BookView: React.FC = () => {
         "topRight",
         "error",
         "An error occurred while selecting books. You can select up to 20 books.",
-        true
+        true,
       );
     }
   };
@@ -72,7 +70,6 @@ export const BookView: React.FC = () => {
     onChange: onSelectChange,
   };
 
-
   return (
     <div className="book-page">
       <section className="book-page__header">
@@ -80,8 +77,7 @@ export const BookView: React.FC = () => {
           <p className="book-page__eyebrow">Book catalog</p>
           <h1 className="book-page__title">Manage library inventory</h1>
           <p className="book-page__subtitle">
-            Search, filter, review ratings, and prepare selected books for bulk
-            actions.
+            Search, filter, review ratings, and prepare selected books for bulk actions.
           </p>
         </div>
         <div className="book-page__stats">
@@ -97,10 +93,7 @@ export const BookView: React.FC = () => {
       </section>
 
       <section className="book-page__toolbar">
-        <BookSearch
-          bookSearchText={bookSearchText}
-          onSearch={setBookSearchText}
-        />
+        <BookSearch bookSearchText={bookSearchText} onSearch={setBookSearchText} />
         <CategorySelect
           selectedCategories={selectedCategories}
           onChangeCategories={setSelectedCategories}
