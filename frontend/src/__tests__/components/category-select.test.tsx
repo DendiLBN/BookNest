@@ -19,10 +19,7 @@ describe("CategorySelect", () => {
   it("calls onChangeCategories when a category is selected", () => {
     const onChangeCategories = vi.fn();
     const { container } = render(
-      <CategorySelect
-        selectedCategories={[]}
-        onChangeCategories={onChangeCategories}
-      />,
+      <CategorySelect selectedCategories={[]} onChangeCategories={onChangeCategories} />,
     );
 
     fireEvent.mouseDown(container.querySelector(".ant-select-selector")!);

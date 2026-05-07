@@ -1,6 +1,7 @@
+import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
+
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 
 import OnSuccessRegister from "@/features/register-page/results";

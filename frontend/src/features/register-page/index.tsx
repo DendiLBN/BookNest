@@ -1,17 +1,17 @@
-import { ThemeContext } from "@/common/contexts/theme-context";
+import { useContext } from "react";
 
-import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
-
+import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Select } from "antd";
 
-import { TRegisterUserRequestBody } from "@/types/types";
+import "@/assets/layouts-styles/register-styles/register.css";
 
 import { useRegistrationUser } from "@/features/register-page/hooks/useRegistrationUser";
 
-import initialRegisterValues from "@/features/register-page/consts/register-state-values";
+import { ThemeContext } from "@/common/contexts/theme-context";
 
-import "@/assets/layouts-styles/register-styles/register.css";
-import { useContext } from "react";
+import { TRegisterUserRequestBody } from "@/types/types";
+
+import initialRegisterValues from "@/features/register-page/consts/register-state-values";
 
 const { Option } = Select;
 
@@ -34,10 +34,7 @@ export const RegisterPage = () => {
   return (
     <div className="register__container">
       {" "}
-      <img
-        className="register__image"
-        src="https://picsum.photos/600/700.jpg"
-      ></img>
+      <img className="register__image" src="https://picsum.photos/600/700.jpg"></img>
       <Form
         name="register"
         initialValues={initialRegisterValues}
@@ -59,11 +56,7 @@ export const RegisterPage = () => {
             { required: true, message: "Please input your E-mail!" },
           ]}
         >
-          <Input
-            prefix={<MailOutlined />}
-            placeholder="Email"
-            autoComplete="username"
-          />
+          <Input prefix={<MailOutlined />} placeholder="Email" autoComplete="username" />
         </Form.Item>
 
         <Form.Item
@@ -159,9 +152,7 @@ export const RegisterPage = () => {
           rules={[
             {
               validator: (_, value) =>
-                value
-                  ? Promise.resolve()
-                  : Promise.reject(new Error("Should accept agreement")),
+                value ? Promise.resolve() : Promise.reject(new Error("Should accept agreement")),
             },
           ]}
         >
@@ -171,11 +162,7 @@ export const RegisterPage = () => {
         </Form.Item>
         <Form.Item wrapperCol={{ span: 14, offset: 6 }}>
           {" "}
-          <Button
-            className="register__submit-button"
-            type="primary"
-            htmlType="submit"
-          >
+          <Button className="register__submit-button" type="primary" htmlType="submit">
             click here to register account!
           </Button>
         </Form.Item>

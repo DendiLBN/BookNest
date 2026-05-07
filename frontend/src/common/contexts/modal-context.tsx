@@ -1,11 +1,4 @@
-import {
-  createContext,
-  ReactNode,
-  useState,
-  FC,
-  SetStateAction,
-  Dispatch,
-} from "react";
+import { createContext, Dispatch, FC, ReactNode, SetStateAction, useState } from "react";
 
 export type TModalContext = {
   isModalVisible: boolean;

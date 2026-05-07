@@ -1,4 +1,9 @@
 import { Layout, Menu } from "antd";
+
+import "@/assets/layouts-styles/header.css";
+
+import useUser from "@/common/users/useUser";
+import { LogoutButton } from "@/features/login-page/LogoutUser";
 import {
   homeMenuItem,
   leftMenuItems,
@@ -6,9 +11,6 @@ import {
   rightMenuItems,
   userMenuItems,
 } from "@/layouts/header/consts/menu-items";
-import { LogoutButton } from "@/features/login-page/LogoutUser";
-import useUser from "@/common/users/useUser";
-import "@/assets/layouts-styles/header.css";
 
 const { Header } = Layout;
 
@@ -20,40 +22,18 @@ export const LandingPageHeader = () => {
   return (
     <Header className="header">
       <div className="header__content">
-        <Menu
-          mode="horizontal"
-          theme="light"
-          items={homeMenuItem}
-          className="home-item"
-        />
+        <Menu mode="horizontal" theme="light" items={homeMenuItem} className="home-item" />
         {isLoggedIn ? (
-          <Menu
-            mode="horizontal"
-            theme="light"
-            items={leftMenuItems}
-            className="left-menu"
-          />
+          <Menu mode="horizontal" theme="light" items={leftMenuItems} className="left-menu" />
         ) : null}
 
-        <Menu
-          mode="horizontal"
-          theme="light"
-          items={middleMenuItems}
-          className="middle-menu"
-        />
+        <Menu mode="horizontal" theme="light" items={middleMenuItems} className="middle-menu" />
 
-        {isLoggedIn ? (
-          <Menu mode="horizontal" theme="light" items={userMenuItems} />
-        ) : null}
+        {isLoggedIn ? <Menu mode="horizontal" theme="light" items={userMenuItems} /> : null}
         {isLoggedIn ? (
           <LogoutButton />
         ) : (
-          <Menu
-            mode="horizontal"
-            theme="light"
-            items={rightMenuItems}
-            className="right-menu"
-          />
+          <Menu mode="horizontal" theme="light" items={rightMenuItems} className="right-menu" />
         )}
       </div>
     </Header>

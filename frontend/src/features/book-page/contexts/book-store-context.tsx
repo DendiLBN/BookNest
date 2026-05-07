@@ -1,12 +1,4 @@
-import React, {
-  useState,
-  createContext,
-  useMemo,
-  FC,
-  Dispatch,
-  SetStateAction,
-  Key,
-} from "react";
+import React, { createContext, Dispatch, FC, Key, SetStateAction, useMemo, useState } from "react";
 
 import { TBookBody } from "@/types/types";
 
@@ -25,13 +17,9 @@ export type TBookFormContext = {
   setSelectedBookRowKeys: Dispatch<SetStateAction<Key[]>>;
 };
 
-export const BookFormContext = createContext<TBookFormContext | undefined>(
-  undefined
-);
+export const BookFormContext = createContext<TBookFormContext | undefined>(undefined);
 
-export const BookFormContextProvider: FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const BookFormContextProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
   const [bookSearchText, setBookSearchText] = useState<string>("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [bookList, setBookList] = useState<TBookBody[]>([]);
@@ -61,12 +49,8 @@ export const BookFormContextProvider: FC<{ children: React.ReactNode }> = ({
       bookList,
       isSidebarCollapsed,
       fetchBookList,
-    ]
+    ],
   );
 
-  return (
-    <BookFormContext.Provider value={memoizedValue}>
-      {children}
-    </BookFormContext.Provider>
-  );
+  return <BookFormContext.Provider value={memoizedValue}>{children}</BookFormContext.Provider>;
 };

@@ -1,7 +1,7 @@
-import { useDeleteManyBooksMutation } from "@/store/api/books";
-
-import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
+import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
+
+import { useDeleteManyBooksMutation } from "@/store/api/books";
 
 export const useDeleteAsArrayBooks = () => {
   const { setLoading, openNotification } = useNotificationContext();
@@ -11,12 +11,7 @@ export const useDeleteAsArrayBooks = () => {
   const [deleteBooks] = useDeleteManyBooksMutation();
 
   const handleOnSuccesDelete = () => {
-    openNotification(
-      "topRight",
-      "success",
-      "Book delete successfully!.",
-      false
-    );
+    openNotification("topRight", "success", "Book delete successfully!.", false);
     setSelectedBookRowKeys([]);
   };
 
@@ -25,7 +20,7 @@ export const useDeleteAsArrayBooks = () => {
       "topRight",
       "error",
       "An error occurred while deleting books! Please try again.",
-      false
+      false,
     );
   };
 

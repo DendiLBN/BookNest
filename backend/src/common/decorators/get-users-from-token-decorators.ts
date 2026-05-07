@@ -1,8 +1,4 @@
-import {
-  ExecutionContext,
-  createParamDecorator,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { ExecutionContext, createParamDecorator, UnauthorizedException } from '@nestjs/common';
 import { Request } from 'express';
 import { JwtPayload } from '../strategy/acces-token-strategy';
 import { RefreshTokenPayload } from '../strategy/refresh-token-strategy';

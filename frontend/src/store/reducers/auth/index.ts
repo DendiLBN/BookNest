@@ -1,7 +1,10 @@
-import { RootState } from "@/common/hooks/redux-toolkit";
-import { removeTokens } from "@/common/utils/removeTokens";
-import { TUser } from "@/types/api/auth-user";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+import { RootState } from "@/common/hooks/redux-toolkit";
+
+import { TUser } from "@/types/api/auth-user";
+
+import { removeTokens } from "@/common/utils/removeTokens";
 
 type TAuthReducerState = {
   isLoggedIn: boolean;
@@ -17,10 +20,7 @@ export const authReducer = createSlice({
   name: "authReducer",
   initialState,
   reducers: {
-    setIsLoggedIn(
-      state,
-      action: PayloadAction<{ isLoggedIn: boolean; user: TUser | null }>
-    ) {
+    setIsLoggedIn(state, action: PayloadAction<{ isLoggedIn: boolean; user: TUser | null }>) {
       state.user = action.payload.user;
       state.isLoggedIn = action.payload.isLoggedIn;
     },
@@ -33,8 +33,7 @@ export const authReducer = createSlice({
   },
 });
 
-export const selectIsLoggedIn = (state: RootState) =>
-  state.authReducer.isLoggedIn;
+export const selectIsLoggedIn = (state: RootState) => state.authReducer.isLoggedIn;
 
 export const selectUser = (state: RootState) => state.authReducer.user;
 

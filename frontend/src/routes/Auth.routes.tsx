@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 

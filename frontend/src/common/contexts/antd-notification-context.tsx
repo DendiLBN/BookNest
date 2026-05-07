@@ -1,18 +1,16 @@
-import { notification } from "antd";
 import {
-  IconType,
-  NotificationPlacement,
-} from "antd/es/notification/interface";
-import {
-  useState,
   createContext,
+  Dispatch,
   FC,
   ReactNode,
-  useMemo,
-  useCallback,
   SetStateAction,
-  Dispatch,
+  useCallback,
+  useMemo,
+  useState,
 } from "react";
+
+import { notification } from "antd";
+import { IconType, NotificationPlacement } from "antd/es/notification/interface";
 
 export type TNotificationContext = {
   loading: boolean;
@@ -23,29 +21,20 @@ export type TNotificationContext = {
     placement: NotificationPlacement,
     type: IconType,
     message: string,
-    pauseOnHover: boolean
+    pauseOnHover: boolean,
   ) => void;
 };
 
-export const AntdNotificationContext = createContext<
-  TNotificationContext | undefined
->(undefined);
+export const AntdNotificationContext = createContext<TNotificationContext | undefined>(undefined);
 
-export const AntdNotificationProvider: FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+export const AntdNotificationProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [api, contextHolder] = notification.useNotification();
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const openNotification = useCallback(
-    (
-      placement: NotificationPlacement,
-      type: IconType,
-      message: string,
-      pauseOnHover: boolean
-    ) => {
+    (placement: NotificationPlacement, type: IconType, message: string, pauseOnHover: boolean) => {
       if (isNotificationOpen) {
         return;
       }
@@ -69,7 +58,7 @@ export const AntdNotificationProvider: FC<{ children: ReactNode }> = ({
         setIsNotificationOpen(false);
       }, 3000);
     },
-    [isNotificationOpen, api]
+    [isNotificationOpen, api],
   );
 
   const memoizedValue = useMemo(
@@ -80,7 +69,7 @@ export const AntdNotificationProvider: FC<{ children: ReactNode }> = ({
       setLoading,
       setError,
     }),
-    [error, loading, openNotification, setLoading]
+    [error, loading, openNotification, setLoading],
   );
 
   return (

@@ -1,14 +1,15 @@
-import { MenuProps } from "antd";
-import {
-  UserOutlined,
-  SettingOutlined,
-  BookOutlined,
-  BellOutlined,
-  HeartFilled,
-  BookFilled,
-  LockOutlined,
-} from "@ant-design/icons";
 import { Link } from "react-router-dom";
+
+import {
+  BellOutlined,
+  BookFilled,
+  BookOutlined,
+  HeartFilled,
+  LockOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { MenuProps } from "antd";
 
 export const itemsSideBar: MenuProps["items"] = [
   {

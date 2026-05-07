@@ -1,11 +1,11 @@
 import { Key } from "react";
-import { AxiosResponse } from "axios";
 
 import { createApi } from "@reduxjs/toolkit/query/react";
-
-import axiosBaseQuery from "@/common/services/axios-base-query";
+import { AxiosResponse } from "axios";
 
 import { TBookBodyParams, TBookBodyResponse } from "@/types/api/books";
+
+import axiosBaseQuery from "@/common/services/axios-base-query";
 
 export const bookApi = createApi({
   reducerPath: "bookApi",
@@ -23,12 +23,9 @@ export const bookApi = createApi({
           category,
         },
       }),
-      transformResponse: ({ data }: AxiosResponse<TBookBodyResponse[]>) =>
-        data || [],
+      transformResponse: ({ data }: AxiosResponse<TBookBodyResponse[]>) => data || [],
       providesTags: (response) =>
-        response
-          ? response.map((book) => ({ type: "books", id: book._id }))
-          : [{ type: "books" }],
+        response ? response.map((book) => ({ type: "books", id: book._id })) : [{ type: "books" }],
     }),
     deleteManyBooks: builder.mutation<void, Key[]>({
       query: (ids) => ({

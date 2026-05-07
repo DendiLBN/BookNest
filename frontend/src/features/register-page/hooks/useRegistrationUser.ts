@@ -1,12 +1,11 @@
-import { TRegisterUserRequestBody } from "@/types/types";
-
-import { useRegisterUserMutation } from "@/store/api/auth/index";
+import { useNavigate } from "react-router-dom";
 
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
-import { useNavigate } from "react-router-dom";
-
 import { TRegisterUserResponse } from "@/types/api/auth-user";
+import { TRegisterUserRequestBody } from "@/types/types";
+
+import { useRegisterUserMutation } from "@/store/api/auth/index";
 
 export const useRegistrationUser = () => {
   const [registerUser, { isLoading }] = useRegisterUserMutation();
@@ -26,7 +25,7 @@ export const useRegistrationUser = () => {
       "topRight",
       "error",
       "An error occurred while registering user. Please try again later.",
-      false
+      false,
     );
   };
 

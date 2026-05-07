@@ -1,6 +1,6 @@
+import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Button, Rate, Space, Tag, Typography } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { ShoppingCartOutlined } from "@ant-design/icons";
 
 import { TBookBody } from "@/types/types";
 
@@ -42,9 +42,7 @@ export const columns: ColumnsType<TBookBody> = [
     key: "rate",
     defaultSortOrder: "descend",
     sorter: (a, b) => a.rate - b.rate,
-    render: (_, record) => (
-      <Rate disabled defaultValue={record.rate} />
-    ),
+    render: (_, record) => <Rate disabled defaultValue={record.rate} />,
   },
   {
     title: "Category",
@@ -73,9 +71,7 @@ export const columns: ColumnsType<TBookBody> = [
     render: () => {
       return (
         <Space>
-          <Button icon={<ShoppingCartOutlined />}>
-            Add to cart
-          </Button>
+          <Button icon={<ShoppingCartOutlined />}>Add to cart</Button>
         </Space>
       );
     },

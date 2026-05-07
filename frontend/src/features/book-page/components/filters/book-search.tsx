@@ -1,14 +1,14 @@
-import { Input } from "antd";
-
-import { SearchOutlined } from "@ant-design/icons";
-
-import { TBookSearchProps } from "@/types/types";
-import { useControledDebounce } from "@/common/hooks/debounce/useControledDebounce";
 import { useEffect } from "react";
 
+import { SearchOutlined } from "@ant-design/icons";
+import { Input } from "antd";
+
+import { useControledDebounce } from "@/common/hooks/debounce/useControledDebounce";
+
+import { TBookSearchProps } from "@/types/types";
+
 export const BookSearch: React.FC<TBookSearchProps> = ({ onSearch }) => {
-  const { value, debouncedValue, handleDebouncedValue } =
-    useControledDebounce();
+  const { value, debouncedValue, handleDebouncedValue } = useControledDebounce();
 
   useEffect(() => {
     onSearch(debouncedValue);

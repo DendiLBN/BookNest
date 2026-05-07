@@ -1,9 +1,9 @@
-import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { BaseQueryFn } from "@reduxjs/toolkit/query";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/common/consts/local-storage";
-import { setTokens } from "@/common/utils/setTokens";
 import { removeTokens } from "@/common/utils/removeTokens";
+import { setTokens } from "@/common/utils/setTokens";
 
 export type TBaseQueryParams = {
   url: string;
@@ -17,7 +17,7 @@ const axiosBaseQuery =
   (
     { baseUrl }: { baseUrl: string } = {
       baseUrl: import.meta.env.VITE_BASE_URL,
-    }
+    },
   ): BaseQueryFn<TBaseQueryParams, unknown, unknown> =>
   async ({ method, url, data, params, headers: additionalHeader }) => {
     let token = window.localStorage.getItem(ACCESS_TOKEN);
@@ -72,7 +72,7 @@ const axiosBaseQuery =
               Authorization: `Bearer ${refreshToken}`,
             },
           });
-   
+
           const response = res.data;
 
           setTokens(response);
@@ -82,7 +82,7 @@ const axiosBaseQuery =
           originalRequest.headers["Authorization"] = `Bearer ${token}`;
           const retryResult = await axios({
             ...originalRequest,
-            
+
             headers: {
               ...originalRequest.headers,
               Authorization: `Bearer ${token}`,
@@ -93,13 +93,10 @@ const axiosBaseQuery =
         } catch (refreshError) {
           removeTokens();
 
-
           return {
             error: {
               status: (refreshError as AxiosError).response?.status || 500,
-              data:
-                (refreshError as AxiosError).response?.data ||
-                "Failed to refresh token",
+              data: (refreshError as AxiosError).response?.data || "Failed to refresh token",
             },
           };
         }

@@ -1,9 +1,10 @@
 import { useState } from "react";
+
 import { debounce } from "lodash";
 
 const debounceControledInput = debounce(
   (value: string, dispatch: (v: string) => void) => dispatch(value),
-  800
+  800,
 );
 
 export const useControledDebounce = () => {

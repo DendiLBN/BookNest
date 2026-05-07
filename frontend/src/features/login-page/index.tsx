@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 import { LoadingOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Spin } from "antd";
 
-import { useLoginUser } from "@/features/login-page/hooks/useLoginUser";
-
-import { useThemeContext } from "@/common/contexts/hooks/use-theme-context";
-
-import { TLoginUserRequestBody } from "@/types/types";
-
 import "@/assets/layouts-styles/login-styles/login.css";
 
 import ForgotPasswordForm from "@/features/login-page/components/forms/forgot-password-form";
+
+import { useLoginUser } from "@/features/login-page/hooks/useLoginUser";
+
 import { useModalContext } from "@/common/contexts/hooks/use-modal-context";
+import { useThemeContext } from "@/common/contexts/hooks/use-theme-context";
+
+import { TLoginUserRequestBody } from "@/types/types";
 
 export const LoginPage = () => {
   const { isModalVisible, showModal } = useModalContext();
@@ -89,11 +89,7 @@ export const LoginPage = () => {
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
-            <Button
-              type="text"
-              onClick={handleShowModal}
-              style={{ marginLeft: "auto" }}
-            >
+            <Button type="text" onClick={handleShowModal} style={{ marginLeft: "auto" }}>
               Forgot password
             </Button>
             <ForgotPasswordForm visible={isModalVisible} />
@@ -109,14 +105,7 @@ export const LoginPage = () => {
             htmlType="submit"
           >
             {loading ? (
-              <Spin
-                indicator={
-                  <LoadingOutlined
-                    style={{ fontSize: 24, color: "#fff" }}
-                    spin
-                  />
-                }
-              />
+              <Spin indicator={<LoadingOutlined style={{ fontSize: 24, color: "#fff" }} spin />} />
             ) : (
               "Log in"
             )}
@@ -125,11 +114,7 @@ export const LoginPage = () => {
         </Form.Item>
       </Form>
 
-      <img
-        className="login__image"
-        src="https://picsum.photos/600/700.jpg"
-        alt="Login"
-      />
+      <img className="login__image" src="https://picsum.photos/600/700.jpg" alt="Login" />
     </div>
   );
 };
