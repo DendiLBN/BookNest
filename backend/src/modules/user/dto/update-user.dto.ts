@@ -16,4 +16,8 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsOptional()
   @IsDate()
   resetTokenExpiry?: Date;
+
+  @IsOptional()
+  @IsString()
+  avatarUrl?: string;
 }

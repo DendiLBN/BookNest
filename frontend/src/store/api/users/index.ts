@@ -15,7 +15,15 @@ export const userApi = createApi({
       }),
       providesTags: ["users"],
     }),
+    uploadAvatar: builder.mutation<TUserState, FormData>({
+      query: (data) => ({
+        method: "PATCH",
+        url: "users/me/avatar",
+        data,
+      }),
+      invalidatesTags: ["users"],
+    }),
   }),
 });
 
-export const { useFetchUsersQuery } = userApi;
+export const { useFetchUsersQuery, useUploadAvatarMutation } = userApi;
