@@ -12,11 +12,6 @@ import { MailService } from 'src/common/services/mail.service';
 @Module({
   imports: [JwtModule.register({}), UserModule],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    AccessTokenStrategy,
-    RefreshTokenStrategy,
-    MailService,
-  ],
+  providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy, MailService],
 })
 export class AuthModule {}

@@ -2,8 +2,9 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
-import { ThemeProvider } from "@/common/contexts/theme-context";
 import { ThemeButton } from "@/layouts/header/components/theme-button/index.tsx";
+
+import { ThemeProvider } from "@/common/contexts/theme-context";
 
 describe("ThemeButton", () => {
   it("toggles and persists the theme value", async () => {

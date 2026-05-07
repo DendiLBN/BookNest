@@ -18,11 +18,7 @@ export class UsersService {
   }
 
   async getUserById(userId: string): Promise<UsersDocument | null> {
-    const user = await this.userModel
-      .findById(userId)
-      .select('+password')
-      .lean() 
-      .exec();
+    const user = await this.userModel.findById(userId).select('+password').lean().exec();
 
     if (!user) throw new NotFoundException(`User with id ${userId} not found`);
     return user as UsersDocument;
@@ -30,8 +26,8 @@ export class UsersService {
 
   async getUserByEmail(email: string): Promise<UsersDocument | null> {
     const user = await this.userModel.findOne({ email }).lean().exec();
-    return user as UsersDocument; 
-}
+    return user as UsersDocument;
+  }
 
   async update(userId: string, updateUserDto: UpdateUserDto): Promise<UsersDocument | null> {
     return this.userModel.findByIdAndUpdate(userId, updateUserDto, { new: true }).exec();

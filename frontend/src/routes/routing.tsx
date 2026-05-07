@@ -1,20 +1,17 @@
 import { lazy, Suspense } from "react";
-
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 
-import { Home } from "@/pages/Home/Home";
+import ChangePasswordForm from "@/features/login-page/components/forms/change-password-form";
 
-import { Book } from "@/pages/Book/Books";
-
-import { selectIsLoggedIn } from "@/store/reducers/auth";
+import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
 import { Error404 } from "@/common/error-boundary/error/404";
-
 import OnSuccessRegister from "@/features/register-page/results";
-import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
-import ChangePasswordForm from "@/features/login-page/components/forms/change-password-form";
+import { Book } from "@/pages/Book/Books";
+import { Home } from "@/pages/Home/Home";
+import { selectIsLoggedIn } from "@/store/reducers/auth";
 
 const AuthRoutes = lazy(() => import("@/routes/Auth.routes"));
 
@@ -27,14 +24,8 @@ export const LandingPageRouting = () => {
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={isLoggedIn ? <Home /> : <Navigate to="/auth/login" replace />}
-      />
-      <Route
-        path="/home"
-        element={isLoggedIn ? <Home /> : <Navigate to="/auth/login" replace />}
-      />
+      <Route path="/" element={isLoggedIn ? <Home /> : <Navigate to="/auth/login" replace />} />
+      <Route path="/home" element={isLoggedIn ? <Home /> : <Navigate to="/auth/login" replace />} />
       <Route
         path="/dashboard"
         element={isLoggedIn ? <Home /> : <Navigate to="/auth/login" replace />}
@@ -53,9 +44,7 @@ export const LandingPageRouting = () => {
           }
         />
       )}
-      {isLoggedIn && (
-        <Route path="/auth/*" element={<Navigate to="/home" replace />} />
-      )}
+      {isLoggedIn && <Route path="/auth/*" element={<Navigate to="/home" replace />} />}
       {isLoggedIn && (
         <Route
           path="/protected/*"

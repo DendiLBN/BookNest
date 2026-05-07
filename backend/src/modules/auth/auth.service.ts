@@ -28,12 +28,8 @@ export class AuthService {
     private readonly mailService: MailService,
   ) {}
 
-  async register(
-    createUserDto: CreateUserDto,
-  ): Promise<{ firstName: string; email: string }> {
-    const isUserExists = await this.usersService.getUserByEmail(
-      createUserDto.email,
-    );
+  async register(createUserDto: CreateUserDto): Promise<{ firstName: string; email: string }> {
+    const isUserExists = await this.usersService.getUserByEmail(createUserDto.email);
     if (isUserExists) throw new BadRequestException('Email occupied');
 
     const hashedPsssword = await hashData(createUserDto.password);
@@ -47,11 +43,7 @@ export class AuthService {
     };
   }
 
-  async changePassword(
-    userId: string,
-    oldPassword: string,
-    newPassword: string,
-  ) {
+  async changePassword(userId: string, oldPassword: string, newPassword: string) {
     const user = await this.usersService.getUserById(userId);
 
     if (!user) {
@@ -59,9 +51,7 @@ export class AuthService {
     }
 
     if (!oldPassword) {
-      throw new UnauthorizedException(
-        'Old password or user password is missing...',
-      );
+      throw new UnauthorizedException('Old password or user password is missing...');
     }
 
     const passwordMatches = await bcrypt.compare(oldPassword, user.password);
@@ -81,10 +71,7 @@ export class AuthService {
     const user = await this.usersService.getUserByEmail(loginDto.email);
     if (!user) throw new NotFoundException();
 
-    const passwordMatches = await bcrypt.compare(
-      loginDto.password,
-      user.password,
-    );
+    const passwordMatches = await bcrypt.compare(loginDto.password, user.password);
     if (!passwordMatches) throw new UnauthorizedException();
     const tokens = await this.getTokens(user._id);
 
@@ -151,10 +138,7 @@ export class AuthService {
       throw new ForbiddenException('Access Denied');
     }
 
-    const refreshTokenMatches = await bcrypt.compare(
-      refreshToken,
-      user.refreshToken,
-    );
+    const refreshTokenMatches = await bcrypt.compare(refreshToken, user.refreshToken);
 
     if (!refreshTokenMatches) {
       throw new ForbiddenException('Invalid refresh token');
@@ -179,9 +163,7 @@ export class AuthService {
     });
   }
 
-  private async getTokens(
-    userId: string,
-  ): Promise<{ accessToken: string; refreshToken: string }> {
+  private async getTokens(userId: string): Promise<{ accessToken: string; refreshToken: string }> {
     try {
       const [accessToken, refreshToken] = await Promise.all([
         this.jwtService.signAsync(

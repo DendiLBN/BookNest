@@ -15,14 +15,12 @@ export const useFilteredBooks = ({
       (item) =>
         item.title.toLowerCase().includes(lowerSearchText) ||
         item.author.toLowerCase().includes(lowerSearchText) ||
-        item.rate.toString().includes(lowerSearchText)
+        item.rate.toString().includes(lowerSearchText),
     );
 
     const filteredByCategories = selectedCategories.length
       ? filteredBySearch.filter((book) =>
-          book.category.some((category) =>
-            selectedCategories.includes(category)
-          )
+          book.category.some((category) => selectedCategories.includes(category)),
         )
       : filteredBySearch;
 

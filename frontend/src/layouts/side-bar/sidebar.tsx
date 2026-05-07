@@ -1,12 +1,16 @@
 import { useState } from "react";
-import { Avatar, Layout, Menu } from "antd";
-import { itemsSideBar } from "@/layouts/side-bar/consts/items-side-bar";
-import "@/assets/layouts-styles/sidebar.css";
-import { selectIsLoggedIn } from "@/store/reducers/auth";
-import { useSelector } from "react-redux";
+
 import { UserOutlined } from "@ant-design/icons";
-import useUser from "@/common/users/useUser";
+import { Avatar, Layout, Menu } from "antd";
+import { useSelector } from "react-redux";
+
+import "@/assets/layouts-styles/sidebar.css";
+
 import { useThemeContext } from "@/common/contexts/hooks/use-theme-context";
+
+import useUser from "@/common/users/useUser";
+import { itemsSideBar } from "@/layouts/side-bar/consts/items-side-bar";
+import { selectIsLoggedIn } from "@/store/reducers/auth";
 
 const { Sider } = Layout;
 

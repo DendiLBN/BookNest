@@ -1,6 +1,7 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Button, Result } from "antd";
+
 import { TOnSuccessRegisterProps } from "@/types/types";
 
 export const OnSuccessRegister = () => {

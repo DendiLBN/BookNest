@@ -23,13 +23,7 @@ describe("DeleteBooksButton", () => {
   });
 
   it("is disabled when there are no selected books", () => {
-    render(
-      <DeleteBooksButton
-        selectedBookRowKeys={[]}
-        loading={false}
-        onDelete={vi.fn()}
-      />,
-    );
+    render(<DeleteBooksButton selectedBookRowKeys={[]} loading={false} onDelete={vi.fn()} />);
 
     expect(screen.getByRole("button", { name: /delete selected/i })).toBeDisabled();
   });

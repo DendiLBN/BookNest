@@ -1,5 +1,7 @@
 import { FC, useContext } from "react";
-import { Layout, Input, Button, Space } from "antd";
+
+import { Button, Input, Layout, Space } from "antd";
+
 import { ThemeContext } from "@/common/contexts/theme-context";
 
 const { Footer } = Layout;
@@ -58,10 +60,7 @@ export const LandingPageFooter: FC = () => {
         >
           Terms of Service
         </a>
-        <a
-          href="/privacy"
-          style={{ color: isDarkMode ? "#e0e0e0" : "#333333" }}
-        >
+        <a href="/privacy" style={{ color: isDarkMode ? "#e0e0e0" : "#333333" }}>
           Privacy Policy
         </a>
       </div>

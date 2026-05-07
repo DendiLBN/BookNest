@@ -1,12 +1,6 @@
 import { Link } from "react-router-dom";
 
-import {
-  BellOutlined,
-  HomeOutlined,
-  SnippetsFilled,
-  UserOutlined,
-} from "@ant-design/icons";
-
+import { BellOutlined, HomeOutlined, SnippetsFilled, UserOutlined } from "@ant-design/icons";
 import { MenuProps } from "antd";
 
 import { ThemeButton } from "@/layouts/header/components/theme-button/index.tsx";

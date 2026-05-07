@@ -1,6 +1,5 @@
-import axiosBaseQuery from "@/common/services/axios-base-query";
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { logOutUser, setIsLoggedIn } from "@/store/reducers/auth";
+
 import {
   TLoginUserResponse,
   TLogOutUserResponse,
@@ -12,8 +11,11 @@ import {
   TLogoutUserParams,
   TRegisterUserParams,
 } from "@/types/types";
+
+import axiosBaseQuery from "@/common/services/axios-base-query";
 import { setTokens } from "@/common/utils/setTokens";
 import { userApi } from "@/store/api/users";
+import { logOutUser, setIsLoggedIn } from "@/store/reducers/auth";
 import { clearUser } from "@/store/reducers/users";
 
 export const authApi = createApi({
@@ -26,15 +28,10 @@ export const authApi = createApi({
         url: `auth/register/`,
         data,
       }),
-      async onQueryStarted(
-        { onSuccess, onError },
-        { dispatch, queryFulfilled },
-      ) {
+      async onQueryStarted({ onSuccess, onError }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          const userResponse = await dispatch(
-            userApi.endpoints.fetchUsers.initiate(),
-          );
+          const userResponse = await dispatch(userApi.endpoints.fetchUsers.initiate());
           if (userResponse?.data) {
             onSuccess(userResponse.data);
           }
@@ -50,10 +47,7 @@ export const authApi = createApi({
         url: `auth/login/`,
         data,
       }),
-      async onQueryStarted(
-        { onSuccess, onError },
-        { dispatch, queryFulfilled },
-      ) {
+      async onQueryStarted({ onSuccess, onError }, { dispatch, queryFulfilled }) {
         try {
           const response = await queryFulfilled;
           const { accessToken, refreshToken } = response.data;
@@ -67,9 +61,7 @@ export const authApi = createApi({
           );
 
           if (userResponse?.data) {
-            dispatch(
-              setIsLoggedIn({ isLoggedIn: true, user: userResponse.data }),
-            );
+            dispatch(setIsLoggedIn({ isLoggedIn: true, user: userResponse.data }));
             onSuccess(userResponse.data);
           }
         } catch (error) {
@@ -93,10 +85,7 @@ export const authApi = createApi({
         };
       },
 
-      onQueryStarted: async (
-        { onSuccess, onError },
-        { dispatch, queryFulfilled },
-      ) => {
+      onQueryStarted: async ({ onSuccess, onError }, { dispatch, queryFulfilled }) => {
         try {
           const response = await queryFulfilled;
 

@@ -1,4 +1,5 @@
 import React, { Component, ReactNode } from "react";
+
 import { Error404 } from "@/common/error-boundary/error/404";
 
 interface ErrorBoundaryProps {

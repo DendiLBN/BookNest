@@ -1,4 +1,5 @@
 import { Button, Form, Input } from "antd";
+
 import "@/assets/layouts-styles/login-styles/change-password-styles/password.css";
 
 const ChangePasswordForm = () => {
@@ -51,9 +52,7 @@ const ChangePasswordForm = () => {
                   if (!value || getFieldValue("newPassword") === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(
-                    new Error("The two passwords do not match!"),
-                  );
+                  return Promise.reject(new Error("The two passwords do not match!"));
                 },
               }),
             ]}

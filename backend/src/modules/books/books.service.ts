@@ -12,9 +12,7 @@ const BOOK_COVER_HEIGHT = 180;
 
 @Injectable()
 export class BooksService implements OnModuleInit {
-  constructor(
-    @InjectModel(Book.name) private readonly bookModel: Model<BookDocument>,
-  ) {}
+  constructor(@InjectModel(Book.name) private readonly bookModel: Model<BookDocument>) {}
 
   async onModuleInit() {
     const booksCount = await this.bookModel.countDocuments();
@@ -49,9 +47,7 @@ export class BooksService implements OnModuleInit {
     return newBook;
   }
 
-  async findAll(
-    searchBookDto: SearchBookDto,
-  ): Promise<PaginatedResponse<Book>> {
+  async findAll(searchBookDto: SearchBookDto): Promise<PaginatedResponse<Book>> {
     const { page, perPage } = searchBookDto;
 
     const { skip, take } = this.getPaginationParams(page, perPage);
@@ -104,9 +100,7 @@ export class BooksService implements OnModuleInit {
     });
 
     if (resultDeleted.deletedCount !== ids.length) {
-      throw new NotFoundException(
-        `Book with ids not deleted ${resultDeleted.deletedCount}.`,
-      );
+      throw new NotFoundException(`Book with ids not deleted ${resultDeleted.deletedCount}.`);
     }
 
     return { deletedCount: resultDeleted.deletedCount };
@@ -135,11 +129,7 @@ export class BooksService implements OnModuleInit {
 
   private async addMissingCoverImages() {
     const booksWithoutCover = await this.bookModel.find({
-      $or: [
-        { coverImageUrl: { $exists: false } },
-        { coverImageUrl: '' },
-        { coverImageUrl: null },
-      ],
+      $or: [{ coverImageUrl: { $exists: false } }, { coverImageUrl: '' }, { coverImageUrl: null }],
     });
 
     await Promise.all(

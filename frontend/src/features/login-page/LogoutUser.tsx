@@ -1,12 +1,11 @@
 import { useNavigate } from "react-router-dom";
 
+import { LogoutOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
-import { LogoutOutlined } from "@ant-design/icons";
+import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
 import { useLogOutUserMutation } from "@/store/api/auth";
-
-import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
 export const LogoutButton: React.FC = () => {
   const { openNotification } = useNotificationContext();
@@ -21,12 +20,7 @@ export const LogoutButton: React.FC = () => {
   };
 
   const handleError = () => {
-    openNotification(
-      "topRight",
-      "error",
-      "An error occurred while logging out.",
-      false
-    );
+    openNotification("topRight", "error", "An error occurred while logging out.", false);
   };
 
   const handleLogout = async () => {

@@ -2,15 +2,9 @@ import { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { useFetchUsersQuery } from "@/store/api/users";
-
-import {
-  selectIsLoggedIn,
-  selectUser,
-  setIsLoggedIn,
-} from "@/store/reducers/auth";
-
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/common/consts/local-storage";
+import { useFetchUsersQuery } from "@/store/api/users";
+import { selectIsLoggedIn, selectUser, setIsLoggedIn } from "@/store/reducers/auth";
 
 const useUser = () => {
   const dispatch = useDispatch();

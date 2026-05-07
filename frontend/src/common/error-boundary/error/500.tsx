@@ -1,5 +1,6 @@
-import { Result } from "antd";
 import { Link } from "react-router-dom";
+
+import { Result } from "antd";
 
 export const Error500 = () => {
   return (

@@ -1,4 +1,5 @@
-import { useState, ReactNode, createContext } from "react";
+import { createContext, ReactNode, useState } from "react";
+
 import { ConfigProvider, theme } from "antd";
 
 export type TThemeContextProps =
@@ -9,17 +10,13 @@ export type TThemeContextProps =
     }
   | undefined;
 
-export const ThemeContext = createContext<TThemeContextProps | undefined>(
-  undefined
-);
+export const ThemeContext = createContext<TThemeContextProps | undefined>(undefined);
 
-export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { defaultAlgorithm, darkAlgorithm } = theme;
 
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() =>
-    JSON.parse(localStorage.getItem("isDarkMode") || "false")
+    JSON.parse(localStorage.getItem("isDarkMode") || "false"),
   );
 
   const handleToggleTheme = () => {

@@ -1,6 +1,5 @@
-import { Switch } from "antd";
-
 import { MoonOutlined, SunOutlined } from "@ant-design/icons";
+import { Switch } from "antd";
 
 import { useThemeContext } from "@/common/contexts/hooks/use-theme-context";
 

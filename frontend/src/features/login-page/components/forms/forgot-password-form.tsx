@@ -1,12 +1,13 @@
 import { useCallback } from "react";
 
+import { Button, Form, Input, Modal } from "antd";
+
 import { useModalContext } from "@/common/contexts/hooks/use-modal-context";
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
+
+import { TForgotPasswordEmail, TForgotPasswordProps } from "@/types/types";
+
 import { useForgotPasswordMutation } from "@/store/api/auth";
-
-import { TForgotPasswordProps, TForgotPasswordEmail } from "@/types/types";
-
-import { Button, Input, Form, Modal } from "antd";
 
 export const ForgotPasswordForm = ({ visible }: TForgotPasswordProps) => {
   const { openNotification } = useNotificationContext();
@@ -18,12 +19,7 @@ export const ForgotPasswordForm = ({ visible }: TForgotPasswordProps) => {
   const [form] = Form.useForm();
 
   const handleSuccess = useCallback(() => {
-    openNotification(
-      "topRight",
-      "success",
-      "Email has been send follow the instructions",
-      true,
-    );
+    openNotification("topRight", "success", "Email has been send follow the instructions", true);
   }, [openNotification]);
 
   const handleError = useCallback(() => {
@@ -80,11 +76,7 @@ export const ForgotPasswordForm = ({ visible }: TForgotPasswordProps) => {
         </Form.Item>
 
         <Form.Item>
-          <Button
-            style={{ width: 300, justifyContent: "center" }}
-            type="primary"
-            htmlType="submit"
-          >
+          <Button style={{ width: 300, justifyContent: "center" }} type="primary" htmlType="submit">
             Send reset password link
           </Button>
         </Form.Item>

@@ -9,11 +9,7 @@ describe("DeleteBooksButton behavior", () => {
     const onDelete = vi.fn();
 
     render(
-      <DeleteBooksButton
-        selectedBookRowKeys={["book-1"]}
-        loading={true}
-        onDelete={onDelete}
-      />,
+      <DeleteBooksButton selectedBookRowKeys={["book-1"]} loading={true} onDelete={onDelete} />,
     );
 
     const button = screen.getByRole("button");

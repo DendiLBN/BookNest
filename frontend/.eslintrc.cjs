@@ -6,12 +6,20 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
   ],
-  ignorePatterns: ["dist", ".eslintrc.cjs"],
+  ignorePatterns: ["dist", "storybook-static", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
   plugins: ["react-refresh", "perfectionist"],
   rules: {
     "no-duplicate-imports": "error",
     "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+    "perfectionist/sort-named-imports": [
+      "error",
+      {
+        type: "natural",
+        order: "asc",
+        ignoreCase: true,
+      },
+    ],
     "perfectionist/sort-imports": [
       "error",
       {
@@ -23,8 +31,8 @@ module.exports = {
         sortSideEffects: true,
         groups: [
           "react",
-          ["side-effect-style", "style"],
           ["builtin", "external"],
+          ["side-effect-style", "style"],
           "component",
           "hook",
           "context",
@@ -36,9 +44,14 @@ module.exports = {
         customGroups: {
           value: {
             react: ["react", "react-dom", "react-router-dom"],
-            component: "@/**/components/**",
-            context: ["@/**/contexts/**", "@/common/contexts/**"],
-            hook: ["@/**/hooks/**", "@/common/hooks/**"],
+            component: ["@/**/components/**", "./components/**", "../components/**"],
+            context: [
+              "@/**/contexts/**",
+              "@/common/contexts/**",
+              "./contexts/**",
+              "../contexts/**",
+            ],
+            hook: ["@/**/hooks/**", "@/common/hooks/**", "./hooks/**", "../hooks/**"],
             "app-type": ["@/**/types/**", "@/types/**"],
           },
           type: {
