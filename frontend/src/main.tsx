@@ -3,6 +3,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 
+import "@/assets/global-styles/app.css";
+
 import { store } from "@/store/index";
 // TODO IGNORE BELOW import
 import App from "./App";
