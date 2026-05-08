@@ -38,9 +38,8 @@ export const itemsSideBar: MenuProps["items"] = [
       {
         key: "favorites",
         style: { paddingLeft: "10px" },
-        label: "Favorites",
+        label: <Link to="/favorites">Favorites</Link>,
         icon: <HeartFilled />,
-        disabled: true,
       },
     ],
   },

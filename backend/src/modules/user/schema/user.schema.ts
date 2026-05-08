@@ -42,6 +42,18 @@ export class User {
   })
   lastName: string;
 
+  @Prop({
+    type: String,
+    default: null,
+  })
+  avatarUrl?: string;
+
+  @Prop({
+    type: [String],
+    default: [],
+  })
+  favoriteBookIds: string[];
+
   @Prop()
   resetToken?: string;
 

@@ -6,6 +6,8 @@ export type TRegisterUserResponse = {
 export type TLoginUserResponseData = {
   email: string;
   firstName: string;
+  favoriteBookIds?: string[];
+  avatarUrl?: string;
 };
 
 export type TLoginUserResponse = {
@@ -22,4 +24,6 @@ export type TUser = {
   _id: string;
   email: string;
   firstName: string;
+  favoriteBookIds?: string[];
+  avatarUrl?: string;
 };

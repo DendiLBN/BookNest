@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateUserDto } from './create-user.dto';
-import { IsDate, IsOptional, IsString, ValidateIf } from 'class-validator';
+import { IsArray, IsDate, IsOptional, IsString, ValidateIf } from 'class-validator';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsOptional()
@@ -16,4 +16,13 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsOptional()
   @IsDate()
   resetTokenExpiry?: Date;
+
+  @IsOptional()
+  @IsString()
+  avatarUrl?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  favoriteBookIds?: string[];
 }

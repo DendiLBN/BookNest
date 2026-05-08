@@ -1,6 +1,7 @@
 import type { BaseQueryFn } from "@reduxjs/toolkit/query";
 import axios, { type AxiosError, type AxiosRequestConfig } from "axios";
 
+import { API_BASE_URL } from "@/common/config/api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/common/consts/local-storage";
 import { removeTokens } from "@/common/utils/removeTokens";
 import { setTokens } from "@/common/utils/setTokens";

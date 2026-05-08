@@ -1,25 +1,32 @@
-import { useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Layout, Menu } from "antd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import "@/assets/layouts-styles/sidebar.css";
 
+import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 import { useThemeContext } from "@/common/contexts/hooks/use-theme-context";
 
+import { getApiAssetUrl } from "@/common/config/api";
 import useUser from "@/common/users/useUser";
 import { itemsSideBar } from "@/layouts/side-bar/consts/items-side-bar";
-import { selectIsLoggedIn } from "@/store/reducers/auth";
+import { useUploadAvatarMutation } from "@/store/api/users";
+import { selectIsLoggedIn, setIsLoggedIn } from "@/store/reducers/auth";
 
 const { Sider } = Layout;
 
 export const LandingPageSideBar = () => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [uploadAvatar, { isLoading: isUploadingAvatar }] = useUploadAvatarMutation();
+  const dispatch = useDispatch();
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const { user } = useUser();
+  const { openNotification } = useNotificationContext();
 
   const themeContext = useThemeContext();
 
@@ -32,6 +39,32 @@ export const LandingPageSideBar = () => {
   }
 
   const { isDarkMode } = themeContext;
+  const avatarSrc = getApiAssetUrl(user.avatarUrl);
+
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleAvatarChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    const avatarFormData = new FormData();
+    avatarFormData.append("avatar", file);
+
+    try {
+      const updatedUser = await uploadAvatar(avatarFormData).unwrap();
+      dispatch(setIsLoggedIn({ isLoggedIn: true, user: updatedUser }));
+      openNotification("topRight", "success", "Avatar updated successfully.", false);
+    } catch {
+      openNotification("topRight", "error", "Could not update avatar.", false);
+    } finally {
+      event.target.value = "";
+    }
+  };
 
   return (
     isLoggedIn && (
@@ -44,7 +77,27 @@ export const LandingPageSideBar = () => {
         trigger={true}
       >
         <div style={{ textAlign: "center", padding: "5px", marginTop: "15px" }}>
-          <Avatar size={64} icon={<UserOutlined />} />
+          <button
+            aria-label="Change avatar"
+            disabled={isUploadingAvatar}
+            onClick={handleAvatarClick}
+            style={{
+              border: "none",
+              background: "transparent",
+              cursor: isUploadingAvatar ? "progress" : "pointer",
+              padding: 0,
+            }}
+            type="button"
+          >
+            <Avatar size={64} icon={<UserOutlined />} src={avatarSrc} />
+          </button>
+          <input
+            accept="image/png,image/jpeg,image/webp"
+            hidden
+            onChange={handleAvatarChange}
+            ref={fileInputRef}
+            type="file"
+          />
           <h3
             style={{
               marginTop: "20px",
