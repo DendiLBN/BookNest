@@ -6,8 +6,6 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/common/consts/local-storage";
 import { removeTokens } from "@/common/utils/removeTokens";
 import { setTokens } from "@/common/utils/setTokens";
 
-import { API_BASE_URL } from "./config";
-
 export type TBaseQueryParams = {
   url: string;
   method?: AxiosRequestConfig["method"];
