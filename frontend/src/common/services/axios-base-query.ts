@@ -1,6 +1,7 @@
 import { BaseQueryFn } from "@reduxjs/toolkit/query";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 
+import { API_BASE_URL } from "@/common/config/api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/common/consts/local-storage";
 import { removeTokens } from "@/common/utils/removeTokens";
 import { setTokens } from "@/common/utils/setTokens";
@@ -16,7 +17,7 @@ export type TBaseQueryParams = {
 const axiosBaseQuery =
   (
     { baseUrl }: { baseUrl: string } = {
-      baseUrl: import.meta.env.VITE_BASE_URL,
+      baseUrl: API_BASE_URL,
     },
   ): BaseQueryFn<TBaseQueryParams, unknown, unknown> =>
   async ({ method, url, data, params, headers: additionalHeader }) => {

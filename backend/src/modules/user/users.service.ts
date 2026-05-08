@@ -33,6 +33,10 @@ export class UsersService {
     return this.userModel.findByIdAndUpdate(userId, updateUserDto, { new: true }).exec();
   }
 
+  async updateAvatar(userId: string, avatarUrl: string): Promise<UsersDocument | null> {
+    return this.update(userId, { avatarUrl });
+  }
+
   async findOne(userId: string): Promise<UsersDocument | null> {
     return this.userModel.findById(userId).exec();
   }

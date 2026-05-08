@@ -30,7 +30,7 @@ export const useDeleteAsArrayBooks = () => {
     try {
       await deleteBooks(selectedBookRowKeys).unwrap();
       handleOnSuccesDelete();
-    } catch (error) {
+    } catch {
       handleErrorDelete();
     } finally {
       setLoading(false);
