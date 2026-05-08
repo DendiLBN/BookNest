@@ -1,4 +1,4 @@
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import { HeartFilled, HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Button, Rate, Space, Tag, Typography } from "antd";
 import { ColumnsType } from "antd/es/table";
 
@@ -10,7 +10,17 @@ const fallbackCoverImage = "/book.png";
 
 const { Text } = Typography;
 
-export const columns: ColumnsType<TBookBody> = [
+type TCreateBookTableColumnsParams = {
+  favoriteBookIds: string[];
+  favoriteActionLoading: boolean;
+  onToggleFavorite: (bookId: string) => void;
+};
+
+export const createBookTableColumns = ({
+  favoriteBookIds,
+  favoriteActionLoading,
+  onToggleFavorite,
+}: TCreateBookTableColumnsParams): ColumnsType<TBookBody> => [
   {
     title: "Cover",
     dataIndex: "coverImageUrl",
@@ -68,9 +78,19 @@ export const columns: ColumnsType<TBookBody> = [
     title: "Actions",
     dataIndex: "actions",
     key: "Actions",
-    render: () => {
+    render: (_, record) => {
+      const isFavorite = favoriteBookIds.includes(record._id);
+
       return (
         <Space>
+          <Button
+            icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
+            loading={favoriteActionLoading}
+            onClick={() => onToggleFavorite(record._id)}
+            type={isFavorite ? "primary" : "default"}
+          >
+            {isFavorite ? "Saved" : "Save"}
+          </Button>
           <Button icon={<ShoppingCartOutlined />}>Add to cart</Button>
         </Space>
       );

@@ -35,7 +35,7 @@ export const authApi = createApi({
           if (userResponse?.data) {
             onSuccess(userResponse.data);
           }
-        } catch (error) {
+        } catch {
           onError();
         }
       },
@@ -64,7 +64,7 @@ export const authApi = createApi({
             dispatch(setIsLoggedIn({ isLoggedIn: true, user: userResponse.data }));
             onSuccess(userResponse.data);
           }
-        } catch (error) {
+        } catch {
           onError();
         }
       },
@@ -97,7 +97,7 @@ export const authApi = createApi({
             dispatch(logOutUser());
             dispatch(setIsLoggedIn({ isLoggedIn: false, user: null }));
           }
-        } catch (error) {
+        } catch {
           onError();
         }
       },
@@ -113,7 +113,7 @@ export const authApi = createApi({
         try {
           await queryFulfilled;
           onSuccess();
-        } catch (error) {
+        } catch {
           onError();
         }
       },

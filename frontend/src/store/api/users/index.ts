@@ -15,7 +15,34 @@ export const userApi = createApi({
       }),
       providesTags: ["users"],
     }),
+    uploadAvatar: builder.mutation<TUserState, FormData>({
+      query: (data) => ({
+        method: "PATCH",
+        url: "users/me/avatar",
+        data,
+      }),
+      invalidatesTags: ["users"],
+    }),
+    addFavoriteBook: builder.mutation<TUserState, string>({
+      query: (bookId) => ({
+        method: "PATCH",
+        url: `users/me/favorites/${bookId}`,
+      }),
+      invalidatesTags: ["users"],
+    }),
+    removeFavoriteBook: builder.mutation<TUserState, string>({
+      query: (bookId) => ({
+        method: "DELETE",
+        url: `users/me/favorites/${bookId}`,
+      }),
+      invalidatesTags: ["users"],
+    }),
   }),
 });
 
-export const { useFetchUsersQuery } = userApi;
+export const {
+  useFetchUsersQuery,
+  useUploadAvatarMutation,
+  useAddFavoriteBookMutation,
+  useRemoveFavoriteBookMutation,
+} = userApi;
