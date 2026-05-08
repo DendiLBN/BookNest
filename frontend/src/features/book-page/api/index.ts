@@ -1,11 +1,11 @@
-import { Key } from "react";
+import type { Key } from "react";
 
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 
 import { TBookBodyParams, TBookBodyResponse } from "@/types/api/books";
 
-import axiosBaseQuery from "@/common/services/axios-base-query";
+import axiosBaseQuery from "@/common/api/axios-base-query";
 
 export const bookApi = createApi({
   reducerPath: "bookApi",

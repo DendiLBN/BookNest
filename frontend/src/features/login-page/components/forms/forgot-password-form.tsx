@@ -7,7 +7,7 @@ import { useNotificationContext } from "@/common/contexts/hooks/use-notification
 
 import { TForgotPasswordEmail, TForgotPasswordProps } from "@/types/types";
 
-import { useForgotPasswordMutation } from "@/store/api/auth";
+import { useForgotPasswordMutation } from "@/features/auth/api";
 
 export const ForgotPasswordForm = ({ visible }: TForgotPasswordProps) => {
   const { openNotification } = useNotificationContext();

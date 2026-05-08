@@ -12,7 +12,7 @@ import {
 
 import "@/assets/layouts-styles/home-styles/home.css";
 
-import { useFetchBooksQuery } from "@/store/api/books";
+import { useFetchBooksQuery } from "@/features/book-page/api";
 
 export const HomeView = () => {
   const { data: books = [], isFetching } = useFetchBooksQuery({
