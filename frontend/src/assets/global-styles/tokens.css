@@ -1,0 +1,94 @@
+:root {
+  /* Breakpoint reference: xs 320, sm 480, md 768, lg 1024, xl 1280, 2xl 1536, 3xl 1980+. */
+  --screen-xs: 320px;
+  --screen-sm: 480px;
+  --screen-md: 768px;
+  --screen-lg: 1024px;
+  --screen-xl: 1280px;
+  --screen-2xl: 1536px;
+  --screen-3xl: 1980px;
+
+  --space-0: 0;
+  --space-2xs: 2px;
+  --space-xs: 4px;
+  --space-s: 8px;
+  --space-m: 12px;
+  --space-l: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 48px;
+  --space-4xl: 64px;
+
+  --radius-xs: 4px;
+  --radius-s: 6px;
+  --radius-m: 8px;
+  --radius-l: 12px;
+
+  --color-page: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f1f5f9;
+  --color-border: #e2e8f0;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-text-inverse: #f8fafc;
+  --color-brand: #166534;
+  --color-brand-strong: #14532d;
+  --color-accent: #0f766e;
+  --color-accent-soft: #ecfeff;
+  --color-warning: #b45309;
+  --color-highlight: #d9f99d;
+
+  --shadow-s: 0 4px 14px rgba(15, 23, 42, 0.06);
+  --shadow-m: 0 10px 28px rgba(15, 23, 42, 0.18);
+
+  --page-padding-x: var(--space-s);
+  --page-padding-y: var(--space-l);
+  --section-gap: var(--space-l);
+  --content-max-width: 1980px;
+}
+
+@media (min-width: 480px) {
+  :root {
+    --page-padding-x: var(--space-l);
+    --page-padding-y: var(--space-xl);
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --page-padding-x: var(--space-xl);
+    --section-gap: var(--space-xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --page-padding-x: var(--space-2xl);
+    --page-padding-y: var(--space-2xl);
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --page-padding-x: var(--space-3xl);
+  }
+}
+
+@media (min-width: 1980px) {
+  :root {
+    --page-padding-x: var(--space-4xl);
+    --section-gap: var(--space-2xl);
+  }
+}
+
+.u-page-shell {
+  width: min(100%, var(--content-max-width));
+  margin-inline: auto;
+  padding-inline: var(--page-padding-x);
+}
+
+.u-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap);
+}
