@@ -23,7 +23,26 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["users"],
     }),
+    addFavoriteBook: builder.mutation<TUserState, string>({
+      query: (bookId) => ({
+        method: "PATCH",
+        url: `users/me/favorites/${bookId}`,
+      }),
+      invalidatesTags: ["users"],
+    }),
+    removeFavoriteBook: builder.mutation<TUserState, string>({
+      query: (bookId) => ({
+        method: "DELETE",
+        url: `users/me/favorites/${bookId}`,
+      }),
+      invalidatesTags: ["users"],
+    }),
   }),
 });
 
-export const { useFetchUsersQuery, useUploadAvatarMutation } = userApi;
+export const {
+  useFetchUsersQuery,
+  useUploadAvatarMutation,
+  useAddFavoriteBookMutation,
+  useRemoveFavoriteBookMutation,
+} = userApi;

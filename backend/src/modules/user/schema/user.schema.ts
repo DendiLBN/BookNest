@@ -48,6 +48,12 @@ export class User {
   })
   avatarUrl?: string;
 
+  @Prop({
+    type: [String],
+    default: [],
+  })
+  favoriteBookIds: string[];
+
   @Prop()
   resetToken?: string;
 
