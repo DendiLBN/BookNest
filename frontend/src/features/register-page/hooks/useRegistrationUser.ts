@@ -5,7 +5,7 @@ import { useNotificationContext } from "@/common/contexts/hooks/use-notification
 import { TRegisterUserResponse } from "@/types/api/auth-user";
 import { TRegisterUserRequestBody } from "@/types/types";
 
-import { useRegisterUserMutation } from "@/store/api/auth/index";
+import { useRegisterUserMutation } from "@/features/auth/api";
 
 export const useRegistrationUser = () => {
   const [registerUser, { isLoading }] = useRegisterUserMutation();

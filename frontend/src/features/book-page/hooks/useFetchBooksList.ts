@@ -5,7 +5,7 @@ import { UsePagination } from "@/common/hooks/pagination/usePagination";
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
 
-import { useFetchBooksQuery } from "@/store/api/books";
+import { useFetchBooksQuery } from "@/features/book-page/api";
 
 export const UseFetchBodyBooks = () => {
   const { setLoading, openNotification } = useNotificationContext();

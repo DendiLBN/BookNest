@@ -11,8 +11,8 @@ import { useThemeContext } from "@/common/contexts/hooks/use-theme-context";
 
 import { getApiAssetUrl } from "@/common/config/api";
 import useUser from "@/common/users/useUser";
+import { useUploadAvatarMutation } from "@/features/users/api";
 import { itemsSideBar } from "@/layouts/side-bar/consts/items-side-bar";
-import { useUploadAvatarMutation } from "@/store/api/users";
 import { selectIsLoggedIn, setIsLoggedIn } from "@/store/reducers/auth";
 
 const { Sider } = Layout;

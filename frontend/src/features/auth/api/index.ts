@@ -12,9 +12,9 @@ import {
   TRegisterUserParams,
 } from "@/types/types";
 
-import axiosBaseQuery from "@/common/services/axios-base-query";
+import axiosBaseQuery from "@/common/api/axios-base-query";
 import { setTokens } from "@/common/utils/setTokens";
-import { userApi } from "@/store/api/users";
+import { userApi } from "@/features/users/api";
 import { logOutUser, setIsLoggedIn } from "@/store/reducers/auth";
 import { clearUser } from "@/store/reducers/users";
 

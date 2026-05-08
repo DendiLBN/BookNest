@@ -21,7 +21,7 @@ import { TBookBody } from "@/types/types";
 
 import useUser from "@/common/users/useUser";
 import { createBookTableColumns } from "@/features/book-page/consts/book-table-columns";
-import { useAddFavoriteBookMutation, useRemoveFavoriteBookMutation } from "@/store/api/users";
+import { useAddFavoriteBookMutation, useRemoveFavoriteBookMutation } from "@/features/users/api";
 import { setIsLoggedIn } from "@/store/reducers/auth";
 
 export const BookView: React.FC = () => {

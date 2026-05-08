@@ -1,7 +1,7 @@
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
 
-import { useDeleteManyBooksMutation } from "@/store/api/books";
+import { useDeleteManyBooksMutation } from "@/features/book-page/api";
 
 export const useDeleteAsArrayBooks = () => {
   const { setLoading, openNotification } = useNotificationContext();

@@ -6,9 +6,9 @@ import "@/assets/layouts-styles/book-styles/book.css";
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
 import useUser from "@/common/users/useUser";
+import { useFetchBooksQuery } from "@/features/book-page/api";
 import { createBookTableColumns } from "@/features/book-page/consts/book-table-columns";
-import { useFetchBooksQuery } from "@/store/api/books";
-import { useAddFavoriteBookMutation, useRemoveFavoriteBookMutation } from "@/store/api/users";
+import { useAddFavoriteBookMutation, useRemoveFavoriteBookMutation } from "@/features/users/api";
 import { setIsLoggedIn } from "@/store/reducers/auth";
 
 export const FavoritesView = () => {

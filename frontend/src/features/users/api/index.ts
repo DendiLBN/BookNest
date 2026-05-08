@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
-import axiosBaseQuery from "@/common/services/axios-base-query";
+import axiosBaseQuery from "@/common/api/axios-base-query";
 import { TUserState } from "@/store/reducers/users";
 
 export const userApi = createApi({
