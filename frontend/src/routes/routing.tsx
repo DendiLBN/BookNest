@@ -10,6 +10,7 @@ import { useNotificationContext } from "@/common/contexts/hooks/use-notification
 import { Error404 } from "@/common/error-boundary/error/404";
 import OnSuccessRegister from "@/features/register-page/results";
 import { Book } from "@/pages/Book/Books";
+import { Favorites } from "@/pages/Favorites/Favorites";
 import { Home } from "@/pages/Home/Home";
 import { selectIsLoggedIn } from "@/store/reducers/auth";
 
@@ -61,6 +62,16 @@ export const LandingPageRouting = () => {
           element={
             <Suspense fallback={loading}>
               <Book />
+            </Suspense>
+          }
+        />
+      )}
+      {isLoggedIn && (
+        <Route
+          path="/favorites"
+          element={
+            <Suspense fallback={loading}>
+              <Favorites />
             </Suspense>
           }
         />

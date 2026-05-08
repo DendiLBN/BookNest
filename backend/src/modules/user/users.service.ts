@@ -37,6 +37,18 @@ export class UsersService {
     return this.update(userId, { avatarUrl });
   }
 
+  async addFavoriteBook(userId: string, bookId: string): Promise<UsersDocument | null> {
+    return this.userModel
+      .findByIdAndUpdate(userId, { $addToSet: { favoriteBookIds: bookId } }, { new: true })
+      .exec();
+  }
+
+  async removeFavoriteBook(userId: string, bookId: string): Promise<UsersDocument | null> {
+    return this.userModel
+      .findByIdAndUpdate(userId, { $pull: { favoriteBookIds: bookId } }, { new: true })
+      .exec();
+  }
+
   async findOne(userId: string): Promise<UsersDocument | null> {
     return this.userModel.findById(userId).exec();
   }

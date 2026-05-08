@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Patch,
   UploadedFile,
   UseGuards,
@@ -66,6 +67,18 @@ export class UsersController {
     }
 
     return this.usersService.updateAvatar(user.id, `/uploads/avatars/${file.filename}`);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Patch('me/favorites/:bookId')
+  addFavoriteBook(@GetUserFromToken() user: JwtPayload, @Param('bookId') bookId: string) {
+    return this.usersService.addFavoriteBook(user.id, bookId);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Delete('me/favorites/:bookId')
+  removeFavoriteBook(@GetUserFromToken() user: JwtPayload, @Param('bookId') bookId: string) {
+    return this.usersService.removeFavoriteBook(user.id, bookId);
   }
 
   @UseGuards(AccessTokenGuard)
