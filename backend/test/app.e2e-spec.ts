@@ -60,7 +60,9 @@ describe('AppController (e2e)', () => {
       coverImageUrl: 'https://example.com/test-book-cover.jpg',
     };
 
-    const response = await request(app.getHttpServer()).post('/books').send(createBookDto);
+    const response = await request(app.getHttpServer())
+      .post('/books')
+      .send(createBookDto);
 
     expect(response.status).toBe(201);
     expect(response.body).toBeTruthy();
@@ -74,7 +76,9 @@ describe('AppController (e2e)', () => {
       title: 'Test Book',
     };
 
-    const response = await request(app.getHttpServer()).post('/books').send(createBookDto);
+    const response = await request(app.getHttpServer())
+      .post('/books')
+      .send(createBookDto);
 
     expect(response.status).toBe(400);
     expect(response.body.error).toEqual('Bad Request');
@@ -145,14 +149,18 @@ describe('AppController (e2e)', () => {
    * NOTE /books/:id (GET)
    */
   it('/books/:id (GET) - should return book element', async () => {
-    const response = await request(app.getHttpServer()).get(`/books/${createdBook._id}`);
+    const response = await request(app.getHttpServer()).get(
+      `/books/${createdBook._id}`,
+    );
 
     expect(response.status).toBe(200);
     expect(response.body).toBeTruthy();
     expect(response.body.title).toEqual('Test Book');
   });
   it('/books/:id (GET) - should return 404', async () => {
-    const response = await request(app.getHttpServer()).get(`/books/${new Types.ObjectId()}`);
+    const response = await request(app.getHttpServer()).get(
+      `/books/${new Types.ObjectId()}`,
+    );
 
     expect(response.status).toBe(404);
   });
@@ -171,7 +179,9 @@ describe('AppController (e2e)', () => {
     expect(response.body.author).toEqual('Test Author');
   });
   it('/books/:id (PATCH) - should return 404', async () => {
-    const response = await request(app.getHttpServer()).get(`/books/${new Types.ObjectId()}`);
+    const response = await request(app.getHttpServer()).get(
+      `/books/${new Types.ObjectId()}`,
+    );
 
     expect(response.status).toBe(404);
   });
@@ -180,7 +190,9 @@ describe('AppController (e2e)', () => {
    * NOTE /books/:id (DELETE)
    */
   it('/books/:id (DELETE) - should return book element', async () => {
-    const response = await request(app.getHttpServer()).delete(`/books/${createdBook._id}`);
+    const response = await request(app.getHttpServer()).delete(
+      `/books/${createdBook._id}`,
+    );
 
     expect(response.status).toBe(200);
     expect(response.body).toBeTruthy();
@@ -188,7 +200,9 @@ describe('AppController (e2e)', () => {
     expect(response.body.author).toEqual('Test Author');
   });
   it('/books/:id (DELETE) - should return 404', async () => {
-    const response = await request(app.getHttpServer()).delete(`/books/${createdBook._id}`);
+    const response = await request(app.getHttpServer()).delete(
+      `/books/${createdBook._id}`,
+    );
 
     expect(response.status).toBe(404);
   });

@@ -7,7 +7,9 @@ import { User, UsersDocument } from './schema/user.schema';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<UsersDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UsersDocument>,
+  ) {}
 
   async getUserByResetToken(resetToken: string): Promise<UsersDocument | null> {
     return this.userModel.findOne({ resetToken }).exec();
@@ -18,7 +20,11 @@ export class UsersService {
   }
 
   async getUserById(userId: string): Promise<UsersDocument | null> {
-    const user = await this.userModel.findById(userId).select('+password').lean().exec();
+    const user = await this.userModel
+      .findById(userId)
+      .select('+password')
+      .lean()
+      .exec();
 
     if (!user) throw new NotFoundException(`User with id ${userId} not found`);
     return user as UsersDocument;
@@ -29,23 +35,45 @@ export class UsersService {
     return user as UsersDocument;
   }
 
-  async update(userId: string, updateUserDto: UpdateUserDto): Promise<UsersDocument | null> {
-    return this.userModel.findByIdAndUpdate(userId, updateUserDto, { new: true }).exec();
-  }
-
-  async updateAvatar(userId: string, avatarUrl: string): Promise<UsersDocument | null> {
-    return this.update(userId, { avatarUrl });
-  }
-
-  async addFavoriteBook(userId: string, bookId: string): Promise<UsersDocument | null> {
+  async update(
+    userId: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<UsersDocument | null> {
     return this.userModel
-      .findByIdAndUpdate(userId, { $addToSet: { favoriteBookIds: bookId } }, { new: true })
+      .findByIdAndUpdate(userId, updateUserDto, { new: true })
       .exec();
   }
 
-  async removeFavoriteBook(userId: string, bookId: string): Promise<UsersDocument | null> {
+  async updateAvatar(
+    userId: string,
+    avatarUrl: string,
+  ): Promise<UsersDocument | null> {
+    return this.update(userId, { avatarUrl });
+  }
+
+  async addFavoriteBook(
+    userId: string,
+    bookId: string,
+  ): Promise<UsersDocument | null> {
     return this.userModel
-      .findByIdAndUpdate(userId, { $pull: { favoriteBookIds: bookId } }, { new: true })
+      .findByIdAndUpdate(
+        userId,
+        { $addToSet: { favoriteBookIds: bookId } },
+        { new: true },
+      )
+      .exec();
+  }
+
+  async removeFavoriteBook(
+    userId: string,
+    bookId: string,
+  ): Promise<UsersDocument | null> {
+    return this.userModel
+      .findByIdAndUpdate(
+        userId,
+        { $pull: { favoriteBookIds: bookId } },
+        { new: true },
+      )
       .exec();
   }
 

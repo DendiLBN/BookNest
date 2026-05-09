@@ -47,10 +47,15 @@ export class UsersController {
         },
       }),
       fileFilter: (_req, file, callback) => {
-        const isImage = ['image/jpeg', 'image/png', 'image/webp'].includes(file.mimetype);
+        const isImage = ['image/jpeg', 'image/png', 'image/webp'].includes(
+          file.mimetype,
+        );
 
         if (!isImage) {
-          callback(new BadRequestException('Avatar must be a JPG, PNG, or WEBP image'), false);
+          callback(
+            new BadRequestException('Avatar must be a JPG, PNG, or WEBP image'),
+            false,
+          );
           return;
         }
 
@@ -61,23 +66,35 @@ export class UsersController {
       },
     }),
   )
-  updateAvatar(@GetUserFromToken() user: JwtPayload, @UploadedFile() file: Express.Multer.File) {
+  updateAvatar(
+    @GetUserFromToken() user: JwtPayload,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
     if (!file) {
       throw new BadRequestException('Avatar file is required');
     }
 
-    return this.usersService.updateAvatar(user.id, `/uploads/avatars/${file.filename}`);
+    return this.usersService.updateAvatar(
+      user.id,
+      `/uploads/avatars/${file.filename}`,
+    );
   }
 
   @UseGuards(AccessTokenGuard)
   @Patch('me/favorites/:bookId')
-  addFavoriteBook(@GetUserFromToken() user: JwtPayload, @Param('bookId') bookId: string) {
+  addFavoriteBook(
+    @GetUserFromToken() user: JwtPayload,
+    @Param('bookId') bookId: string,
+  ) {
     return this.usersService.addFavoriteBook(user.id, bookId);
   }
 
   @UseGuards(AccessTokenGuard)
   @Delete('me/favorites/:bookId')
-  removeFavoriteBook(@GetUserFromToken() user: JwtPayload, @Param('bookId') bookId: string) {
+  removeFavoriteBook(
+    @GetUserFromToken() user: JwtPayload,
+    @Param('bookId') bookId: string,
+  ) {
     return this.usersService.removeFavoriteBook(user.id, bookId);
   }
 

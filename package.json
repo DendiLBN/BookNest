@@ -6,9 +6,9 @@
     "frontend": "npm run dev --prefix ./frontend",
     "backend": "npm run start:dev --prefix ./backend",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "format": "node scripts/remove-duplicate-side-effect-imports.mjs frontend/src && npm run lint:fix --prefix ./frontend -- . && biome check --write .",
+    "format": "node scripts/remove-duplicate-side-effect-imports.mjs frontend/src && npm run lint:fix --prefix ./frontend -- . && npm run format --prefix ./backend && biome check --write .",
     "format:staged": "lint-staged",
-    "format:check": "biome check . && npm run lint --prefix ./frontend",
+    "format:check": "biome check . && npm run lint --prefix ./frontend && npm run format:check --prefix ./backend",
     "prepare": "husky",
     "test": "npm run test --prefix ./frontend && npm run test --prefix ./backend",
     "build": "npm run build --prefix ./frontend && npm run build --prefix ./backend"
@@ -32,6 +32,6 @@
       "biome check --write --no-errors-on-unmatched"
     ],
     "*.{json,jsonc,css,md,cjs,mjs}": "biome check --write --no-errors-on-unmatched",
-    "backend/**/*.{ts,js,jsx}": "biome check --write --no-errors-on-unmatched"
+    "backend/**/*.{ts,js,jsx}": "npm run format --prefix ./backend --"
   }
 }

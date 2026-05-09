@@ -15,6 +15,7 @@
       "!**/coverage",
       "!**/storybook-static",
       "!backend/.env",
+      "!backend/**/*.ts",
       "!backend/dist",
       "!frontend/dist"
     ]
