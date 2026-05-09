@@ -8,7 +8,8 @@
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "format": "node scripts/remove-duplicate-side-effect-imports.mjs frontend/src && npm run lint:fix --prefix ./frontend -- . && npm run format --prefix ./backend && biome check --write .",
     "format:staged": "lint-staged",
-    "format:check": "biome check . && npm run lint --prefix ./frontend && npm run format:check --prefix ./backend",
+    "format:check": "biome check . && npm run lint --prefix ./frontend && npm run lint:check --prefix ./backend && npm run format:check --prefix ./backend",
+    "verify": "npm run format:check && npm run test && npm run build",
     "prepare": "husky",
     "test": "npm run test --prefix ./frontend && npm run test --prefix ./backend",
     "build": "npm run build --prefix ./frontend && npm run build --prefix ./backend"
