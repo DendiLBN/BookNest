@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { SearchBookDto } from './dto/search-book.dto';
+import { seedBooks } from './data/seed-books';
 import { PaginatedResponse } from 'src/shared/interfaces/paginated-response.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Book, BookDocument } from './schema/book.schema';
@@ -19,6 +20,7 @@ export class BooksService implements OnModuleInit {
   async onModuleInit() {
     const booksCount = await this.bookModel.countDocuments();
 
+    await this.replaceGeneratedBookNames();
     await this.addMissingCoverImages();
 
     if (booksCount < MIN_BOOKS_NUMBER) {
@@ -30,16 +32,16 @@ export class BooksService implements OnModuleInit {
         } while (category1 === category2);
 
         const bookIndex = i + booksCount;
-        const title = `Book ${bookIndex}`;
+        const seedBook = this.getSeedBook(bookIndex);
 
         const createdBook = await this.create({
-          title,
-          author: `Author ${bookIndex}`,
+          title: seedBook.title,
+          author: seedBook.author,
           rate: Math.floor(Math.random() * 5) + 1,
           category: [category1, category2],
-          coverImageUrl: this.getSeededCoverImageUrl(title),
+          coverImageUrl: this.getSeededCoverImageUrl(seedBook.title),
         });
-        console.log(createdBook);
+        console.log(createdBook.title);
       }
     }
   }
@@ -149,6 +151,40 @@ export class BooksService implements OnModuleInit {
         }),
       ),
     );
+  }
+
+  private async replaceGeneratedBookNames() {
+    const generatedBooks = await this.bookModel
+      .find({
+        $or: [{ title: /^Book \d+$/ }, { author: /^Author \d+$/ }],
+      })
+      .sort({ _id: 1 });
+
+    await Promise.all(
+      generatedBooks.map((book, index) => {
+        const seedBook = this.getSeedBook(index);
+
+        return this.bookModel.findByIdAndUpdate(book._id, {
+          title: seedBook.title,
+          author: seedBook.author,
+          coverImageUrl: this.getSeededCoverImageUrl(seedBook.title),
+        });
+      }),
+    );
+  }
+
+  private getSeedBook(index: number) {
+    const seedBook = seedBooks[index % seedBooks.length];
+    const duplicateNumber = Math.floor(index / seedBooks.length);
+
+    if (duplicateNumber === 0) {
+      return seedBook;
+    }
+
+    return {
+      title: `${seedBook.title} (${duplicateNumber + 1})`,
+      author: seedBook.author,
+    };
   }
 
   private getSeededCoverImageUrl(title: string) {
