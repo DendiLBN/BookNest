@@ -159,7 +159,7 @@ export const BookView: React.FC = () => {
             position: ["bottomCenter"],
             showSizeChanger: true,
             defaultPageSize: 10,
-            pageSizeOptions: [10, 20],
+            pageSizeOptions: [10, 20, 50, 100],
             current: currentPage,
             pageSize: itemsPerPage,
             onChange: handleChangePagination,
