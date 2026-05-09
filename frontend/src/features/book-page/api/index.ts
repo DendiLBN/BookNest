@@ -27,6 +27,13 @@ export const bookApi = createApi({
       providesTags: (response) =>
         response ? response.map((book) => ({ type: "books", id: book._id })) : [{ type: "books" }],
     }),
+    fetchBookById: builder.query<TBookBodyResponse, string>({
+      query: (bookId) => ({
+        method: "GET",
+        url: `books/${bookId}`,
+      }),
+      providesTags: (response) => (response ? [{ type: "books", id: response._id }] : []),
+    }),
     deleteManyBooks: builder.mutation<void, Key[]>({
       query: (ids) => ({
         method: "POST",
@@ -38,4 +45,4 @@ export const bookApi = createApi({
   }),
 });
 
-export const { useFetchBooksQuery, useDeleteManyBooksMutation } = bookApi;
+export const { useFetchBooksQuery, useFetchBookByIdQuery, useDeleteManyBooksMutation } = bookApi;

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import { HeartFilled, HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Button, Rate, Space, Tag, Typography } from "antd";
 import { ColumnsType } from "antd/es/table";
@@ -92,6 +94,9 @@ export const createBookTableColumns = ({
             {isFavorite ? "Saved" : "Save"}
           </Button>
           <Button icon={<ShoppingCartOutlined />}>Add to cart</Button>
+          <Link to={`/book/${record._id}`}>
+            <Button>Details</Button>
+          </Link>
         </Space>
       );
     },
