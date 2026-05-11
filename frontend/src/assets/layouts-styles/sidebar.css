@@ -1,6 +1,4 @@
 .landing__page-sidebar {
-  /* min-width: 400px; */
   border-inline-end: none;
-  min-height: 50vh;
-  height: 50%;
+  min-height: calc(100vh - 64px);
 }

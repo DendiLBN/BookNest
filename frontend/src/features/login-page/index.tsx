@@ -12,9 +12,8 @@ import { useLoginUser } from "@/features/login-page/hooks/useLoginUser";
 import { useModalContext } from "@/common/contexts/hooks/use-modal-context";
 import { useThemeContext } from "@/common/contexts/hooks/use-theme-context";
 
-import type { TLoginUserRequestBody } from "@/features/auth/types";
-
 import { AUTH_IMAGE_URLS } from "@/features/auth/consts/auth-images";
+import type { TLoginUserRequestBody } from "@/features/auth/types";
 
 export const LoginPage = () => {
   const { isModalVisible, showModal } = useModalContext();

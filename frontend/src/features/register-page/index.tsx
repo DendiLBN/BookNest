@@ -9,6 +9,7 @@ import { useRegistrationUser } from "@/features/register-page/hooks/useRegistrat
 
 import { ThemeContext } from "@/common/contexts/theme-context";
 
+import { AUTH_IMAGE_URLS } from "@/features/auth/consts/auth-images";
 import type { TRegisterUserRequestBody } from "@/features/auth/types";
 import initialRegisterValues from "@/features/register-page/consts/register-state-values";
 

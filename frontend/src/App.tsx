@@ -1,7 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
 
-import { Layout } from "antd";
-
 import { AntdNotificationProvider } from "@/common/contexts/antd-notification-context";
 import { ModalProvider } from "@/common/contexts/modal-context";
 import { ThemeProvider } from "@/common/contexts/theme-context";
@@ -19,12 +17,14 @@ const App: React.FC = () => {
         <AntdNotificationProvider>
           <BrowserRouter>
             <ErrorBoundary>
-              <LandingPageHeader />
-              <Layout>
-                <LandingPageSideBar />
-                <LandingPageContent />
-              </Layout>
-              <LandingPageFooter />
+              <div className="min-h-screen bg-[var(--color-page)] text-[var(--color-text)]">
+                <LandingPageHeader />
+                <div className="flex min-h-[calc(100vh-64px)] w-full items-stretch">
+                  <LandingPageSideBar />
+                  <LandingPageContent />
+                </div>
+                <LandingPageFooter />
+              </div>
             </ErrorBoundary>
           </BrowserRouter>
         </AntdNotificationProvider>
