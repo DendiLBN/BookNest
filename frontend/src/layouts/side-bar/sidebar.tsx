@@ -36,9 +36,7 @@ export const LandingPageSideBar = () => {
 
   const { isDarkMode } = themeContext;
   const avatarSrc = getApiAssetUrl(user.avatarUrl);
-  const shellClassName = isDarkMode
-    ? "border-slate-800 bg-slate-950 text-slate-100"
-    : "border-slate-200 bg-white text-slate-950";
+  const menuTheme = isDarkMode ? "dark" : "light";
 
   const handleAvatarClick = () => {
     fileInputRef.current?.click();
@@ -69,7 +67,7 @@ export const LandingPageSideBar = () => {
     <aside
       className={`relative hidden min-h-[calc(100vh-64px)] shrink-0 border-r transition-[width] duration-200 md:block ${
         collapsed ? "w-20" : "w-64"
-      } ${shellClassName}`}
+      } border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)]`}
     >
       <div className="flex flex-col items-center gap-3 border-b border-inherit px-3 py-5">
         <button
@@ -98,12 +96,12 @@ export const LandingPageSideBar = () => {
         inlineCollapsed={collapsed}
         items={itemsSideBar}
         mode="inline"
-        theme={isDarkMode ? "dark" : "light"}
+        theme={menuTheme}
       />
 
       <button
         aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-        className="absolute right-3 bottom-5 inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-100"
+        className="absolute right-3 bottom-5 inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] shadow-sm transition hover:bg-[var(--color-surface-muted)]"
         onClick={toggleCollapsed}
         type="button"
       >

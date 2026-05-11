@@ -16,32 +16,21 @@ export const LandingPageFooter: FC = () => {
     return;
   }
 
-  const { isDarkMode } = themeContext;
-
-  const surfaceClassName = isDarkMode
-    ? "border-slate-700 bg-slate-950 text-slate-100"
-    : "border-slate-200 bg-white text-slate-950";
-
-  const mutedTextClassName = isDarkMode ? "text-slate-400" : "text-slate-600";
-  const inputClassName = isDarkMode
-    ? "border-slate-700 bg-slate-900 text-slate-100 placeholder:text-slate-500"
-    : "border-slate-300 bg-white text-slate-950 placeholder:text-slate-400";
-
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
 
   return (
-    <footer className={`border-t ${surfaceClassName}`}>
+    <footer className="border-t border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)]">
       <div className="mx-auto grid w-full max-w-[1980px] gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1fr_1.2fr] lg:px-8">
         <section aria-label="BookNest footer summary" className="flex flex-col gap-3">
-          <p className="m-0 text-sm font-semibold tracking-normal text-emerald-600 uppercase">
+          <p className="m-0 text-sm font-semibold tracking-normal text-[var(--color-brand)] uppercase">
             BookNest
           </p>
           <h2 className="m-0 max-w-[420px] text-2xl leading-tight font-bold">
             Build your shelf, track favorites, and keep reading organized.
           </h2>
-          <p className={`m-0 max-w-[520px] text-sm leading-6 ${mutedTextClassName}`}>
+          <p className="m-0 max-w-[520px] text-sm leading-6 text-[var(--color-text-muted)]">
             A practical bookstore dashboard for browsing books, managing your account, and keeping
             personal reading picks close.
           </p>
@@ -53,13 +42,13 @@ export const LandingPageFooter: FC = () => {
               Newsletter email
             </label>
             <input
-              className={`min-h-11 flex-1 rounded-md border px-4 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 ${inputClassName}`}
+              className="min-h-11 flex-1 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-4 text-sm text-[var(--color-text)] outline-none transition placeholder:text-[var(--color-text-muted)] focus:border-[var(--color-brand)] focus:ring-2 focus:ring-[var(--color-brand)]/20"
               id="footer-newsletter-email"
               placeholder="Enter your email"
               type="email"
             />
             <button
-              className="min-h-11 rounded-md bg-emerald-700 px-5 text-sm font-semibold text-white transition hover:bg-emerald-800 focus:ring-2 focus:ring-emerald-600/30 focus:outline-none"
+              className="min-h-11 rounded-md bg-[var(--color-brand)] px-5 text-sm font-semibold text-[var(--color-text-inverse)] transition hover:bg-[var(--color-brand-strong)] focus:ring-2 focus:ring-[var(--color-brand)]/30 focus:outline-none"
               type="submit"
             >
               Subscribe
@@ -69,7 +58,7 @@ export const LandingPageFooter: FC = () => {
           <nav aria-label="Footer navigation" className="flex flex-wrap gap-x-5 gap-y-3">
             {footerLinks.map(({ href, label }) => (
               <a
-                className={`text-sm font-medium transition hover:text-emerald-600 ${mutedTextClassName}`}
+                className="text-sm font-medium text-[var(--color-text-muted)] transition hover:text-[var(--color-brand)]"
                 href={href}
                 key={href}
               >
@@ -80,12 +69,8 @@ export const LandingPageFooter: FC = () => {
         </section>
       </div>
 
-      <div
-        className={`mx-auto flex w-full max-w-[1980px] flex-col gap-2 border-t px-4 py-4 text-xs sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8 ${
-          isDarkMode ? "border-slate-800 text-slate-500" : "border-slate-200 text-slate-500"
-        }`}
-      >
-        <span>© 2024 BookNest. All rights reserved.</span>
+      <div className="mx-auto flex w-full max-w-[1980px] flex-col gap-2 border-t border-[var(--color-border)] px-4 py-4 text-xs text-[var(--color-text-muted)] sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+        <span>Copyright 2024 BookNest. All rights reserved.</span>
         <span>Designed for readers and bookstore workflows.</span>
       </div>
     </footer>

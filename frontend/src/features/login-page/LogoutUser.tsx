@@ -36,7 +36,12 @@ export const LogoutButton: React.FC = () => {
 
   return (
     <Button
-      style={{ padding: "31px", borderRadius: "0px" }}
+      style={{
+        minHeight: "40px",
+        borderColor: "var(--color-border)",
+        background: "var(--color-surface)",
+        color: "var(--color-text)",
+      }}
       icon={<LogoutOutlined />}
       onClick={handleLogout}
     >
