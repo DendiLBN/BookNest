@@ -1,7 +1,5 @@
 import { Key } from "react";
 
-import { TUser } from "@/types/api/auth-user";
-
 export type TBookBody = {
   _id: string;
   category: string[];
@@ -40,67 +38,4 @@ export type TCategorySelectProps = {
 export type TBookSearchProps = {
   bookSearchText: string;
   onSearch: (value: string) => void;
-};
-
-export type TRegisterUserRequestBody = {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-};
-
-export type TRegisterUserParams = {
-  data: TRegisterUserRequestBody;
-  onSuccess: (data: TUser) => void;
-  onError: () => void;
-};
-
-export type TLoginUserRequestBody = {
-  email: string;
-  password: string;
-};
-
-export type TLoginUserParams = {
-  data: TLoginUserRequestBody;
-  onSuccess: (data: TUser) => void;
-  onError: () => void;
-};
-
-export type TTokens = {
-  accessToken: string;
-  refreshToken: string;
-};
-
-export type TLogoutRequestBody = {
-  accessToken: string;
-  refreshToken: string;
-};
-
-export type TLogoutUserParams = {
-  onSuccess: (data: void) => void;
-  onError: () => void;
-};
-
-export type TForgotPasswordEmail = {
-  email: string;
-};
-
-export type TResetPasswordParams = {
-  oldPassword: string;
-  newPassword: string;
-};
-
-export type TForgotPasswordParams = {
-  data: TForgotPasswordEmail;
-  onSuccess: (data: void) => void;
-  onError: () => void;
-};
-
-export type TForgotPasswordProps = {
-  visible: boolean;
-};
-
-export type TOnSuccessRegisterProps = {
-  firstName: string;
-  email: string;
 };

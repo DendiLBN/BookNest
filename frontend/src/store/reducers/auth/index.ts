@@ -1,10 +1,9 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-import { RootState } from "@/common/hooks/redux-toolkit";
-
-import { TUser } from "@/types/api/auth-user";
+import type { RootState } from "@/common/hooks/redux-toolkit";
 
 import { removeTokens } from "@/common/utils/removeTokens";
+import type { TUser } from "@/features/users/types";
 
 type TAuthReducerState = {
   isLoggedIn: boolean;

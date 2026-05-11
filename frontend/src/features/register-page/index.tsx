@@ -9,8 +9,7 @@ import { useRegistrationUser } from "@/features/register-page/hooks/useRegistrat
 
 import { ThemeContext } from "@/common/contexts/theme-context";
 
-import { TRegisterUserRequestBody } from "@/types/types";
-
+import type { TRegisterUserRequestBody } from "@/features/auth/types";
 import initialRegisterValues from "@/features/register-page/consts/register-state-values";
 
 const { Option } = Select;
