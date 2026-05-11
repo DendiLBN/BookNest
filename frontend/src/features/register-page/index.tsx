@@ -33,7 +33,7 @@ export const RegisterPage = () => {
   return (
     <div className="register__container">
       {" "}
-      <img className="register__image" src="https://picsum.photos/600/700.jpg"></img>
+      <img className="register__image" src={AUTH_IMAGE_URLS.register} alt="Books on a shelf" />
       <Form
         name="register"
         initialValues={initialRegisterValues}
