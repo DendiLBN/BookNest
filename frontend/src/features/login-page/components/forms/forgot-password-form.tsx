@@ -5,9 +5,8 @@ import { Button, Form, Input, Modal } from "antd";
 import { useModalContext } from "@/common/contexts/hooks/use-modal-context";
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
-import { TForgotPasswordEmail, TForgotPasswordProps } from "@/types/types";
-
 import { useForgotPasswordMutation } from "@/features/auth/api";
+import type { TForgotPasswordEmail, TForgotPasswordProps } from "@/features/auth/types";
 
 export const ForgotPasswordForm = ({ visible }: TForgotPasswordProps) => {
   const { openNotification } = useNotificationContext();

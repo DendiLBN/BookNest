@@ -1,55 +1,81 @@
-# About this app
+# BookNest
 
-The client side of this app was created using React and TypeScript, while the server side was developed using NestJS and Node.js with Express.
+BookNest is a full-stack bookstore application built with React, TypeScript, NestJS, MongoDB, and RTK Query. It is designed as a bookstore dashboard where users can browse books, manage their account, save favorites, and use authenticated flows backed by a NestJS API.
 
-The goal of this app was to create a functional version of an online store with essential features, including below:
+## Features
 
-- User registration, 
-- User login,
-- Password change and reset.
-- Searching items by category or keywords,
-- Access token,
-- Refresh token,
+- User registration and login
+- Password change and reset
+- Book catalog with search, categories, ratings, and covers
+- Favorite books
+- Avatar upload
+- Protected user flows with access and refresh tokens
+- Storybook and focused frontend tests
+- Backend tests and CI verification
 
----
+## Recent improvements
 
-## Technologies and libraries
+- Rebranded the application from the original bookstore name to BookNest across the UI, browser title, footer, and email templates.
+- Improved the book catalog with more realistic titles, category data, ratings, and cover support instead of placeholder-only content.
+- Added favorite books support so users can keep a personal reading list.
+- Added avatar upload support for user profiles.
+- Added Storybook stories and fixtures close to the related frontend components.
+- Added focused frontend tests for isolated component behavior.
+- Added backend tests for core API behavior.
+- Added formatting and verification scripts for a more consistent development workflow.
+- Improved API organization on the frontend while keeping RTK Query as the main data fetching layer.
 
-### On the client side, I used the following technologies:
+## Stack
 
-- **TypeScript** – for static typing,
-- **React** – to build the user interface,
-- **Redux Toolkit** – for state management,
-- **RTK Query** – for handling data queries and caching,
-- **React Router** – for navigation between components,
-- **Ant Design** – UI components,
-- **Axios** – for HTTP requests.
-- **Error boundry** - for error handling.
+Frontend:
 
-### On the server side, I used:
+- Vite
+- React
+- TypeScript
+- Redux Toolkit Query
+- React Router
+- Ant Design
+- Tailwind CSS
+- Vitest
+- Storybook
 
-- **nestjs** 
-- **bcryptjs** – for password hashing,
-- **jsonwebtoken** – for handling JWT-based authentication,
-- **nodemailer** – for sending emails containing a new access token and a request to reset the password.
-- **mongoose** – as the MongoDB ORM.
-- **nestjs/throttle** – to prevent the server from being overwhelmed by excessive requests (or "to prevent server spamming").
-- **jwt** - JWT keys are currently stored in the .env file included in this repository. For security reasons, sensitive data like JWT keys should ideally be excluded from version control. 
----
-## Todo: 
-- Sharp to change the resolution of uploaded images on the server side,
-- Settings panel for user,
-- Option for change avatar,
-- Adding and removing items from the shopping cart, 
-- Viewing transaction history and purchase details,
-- Admin capabilities to manage user information, review transactions, and modify the store inventory,  
-- Tests storebook.
----
+Backend:
 
-## How to run this app?
+- NestJS
+- MongoDB
+- Mongoose
+- JWT
+- Nodemailer
+- Jest
 
+## Scripts
 
-Clone repository with git clone https://github.com/DendiLBN/bookStore.
-Fetch all dependencies on the server side using npm install or yarn install and then go to the client - ./client and fetch all dependiences using also npm or yarn.
-Run app using npm run dev or yarn dev.
-Open http://localhost:3000 to view it in the browser.
+```bash
+npm run dev
+npm run frontend
+npm run backend
+npm run format
+npm run format:check
+npm run test
+npm run build
+npm run verify
+```
+
+## Local setup
+
+Install root, frontend, and backend dependencies:
+
+```bash
+npm install
+npm install --prefix ./frontend
+npm install --prefix ./backend
+```
+
+Create local environment files for frontend and backend, then run:
+
+```bash
+npm run dev
+```
+
+Frontend runs on `http://localhost:5173`.
+Backend runs on `http://localhost:5000`.

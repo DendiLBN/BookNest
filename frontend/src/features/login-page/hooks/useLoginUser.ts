@@ -1,8 +1,7 @@
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
-import { TLoginUserRequestBody } from "@/types/types";
-
 import { useLoginUserMutation } from "@/features/auth/api";
+import type { TLoginUserRequestBody } from "@/features/auth/types";
 import { useFetchUsersQuery } from "@/features/users/api";
 
 export const useLoginUser = () => {
