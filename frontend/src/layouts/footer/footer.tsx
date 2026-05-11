@@ -64,9 +64,7 @@ export const LandingPageFooter: FC = () => {
           Privacy Policy
         </a>
       </div>
-      <div style={{ marginTop: "20px", color: "#888" }}>
-        © 2024 Book Store. All rights reserved.
-      </div>
+      <div style={{ marginTop: "20px", color: "#888" }}>© 2024 BookNest. All rights reserved.</div>
     </Footer>
   );
 };
