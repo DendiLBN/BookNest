@@ -20,7 +20,7 @@ export const LandingPageHeader = () => {
   const isLoggedIn = !!user;
 
   return (
-    <Header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-[var(--color-surface)] px-0 text-[var(--color-text)] shadow-[var(--shadow-s)]">
+    <Header className="app-header app-layout-surface sticky top-0 z-20 border-b px-0 shadow-[var(--shadow-s)]">
       <div className="mx-auto flex min-h-16 w-full max-w-[1980px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-2">
           <Menu className={menuClassName} items={homeMenuItem} mode="horizontal" theme="light" />

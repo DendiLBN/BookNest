@@ -65,14 +65,14 @@ export const LandingPageSideBar = () => {
 
   return (
     <aside
-      className={`relative hidden min-h-[calc(100vh-64px)] shrink-0 border-r transition-[width] duration-200 md:block ${
+      className={`app-sidebar app-layout-surface relative hidden min-h-[calc(100vh-64px)] shrink-0 border-r transition-[width] duration-200 md:block ${
         collapsed ? "w-20" : "w-64"
-      } border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)]`}
+      }`}
     >
       <div className="flex flex-col items-center gap-3 border-b border-inherit px-3 py-5">
         <button
           aria-label="Change avatar"
-          className="rounded-full transition hover:opacity-80 focus:ring-2 focus:ring-emerald-600/30 focus:outline-none disabled:cursor-progress"
+          className="rounded-full transition hover:opacity-80 focus:ring-2 focus:ring-[var(--color-brand)]/30 focus:outline-none disabled:cursor-progress"
           disabled={isUploadingAvatar}
           onClick={handleAvatarClick}
           type="button"
@@ -101,7 +101,7 @@ export const LandingPageSideBar = () => {
 
       <button
         aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-        className="absolute right-3 bottom-5 inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] shadow-sm transition hover:bg-[var(--color-surface-muted)]"
+        className="absolute right-3 bottom-5 inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--interactive-bg)] text-[var(--interactive-text)] shadow-sm transition hover:bg-[var(--interactive-bg-hover)] hover:text-[var(--interactive-text-hover)]"
         onClick={toggleCollapsed}
         type="button"
       >
