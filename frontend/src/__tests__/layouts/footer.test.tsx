@@ -22,7 +22,7 @@ describe("LandingPageFooter", () => {
   it("renders newsletter controls", () => {
     renderFooter();
 
-    expect(screen.getByText(/subscribe to our newsletter/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /build your shelf/i })).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/enter your email/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /subscribe/i })).toBeInTheDocument();
   });
