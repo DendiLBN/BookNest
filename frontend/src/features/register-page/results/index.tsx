@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { Button, Result } from "antd";
 
-import { TOnSuccessRegisterProps } from "@/types/types";
+import type { TOnSuccessRegisterProps } from "@/features/auth/types";
 
 export const OnSuccessRegister = () => {
   const navigate = useNavigate();
