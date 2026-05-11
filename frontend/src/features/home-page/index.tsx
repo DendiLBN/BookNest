@@ -66,10 +66,10 @@ export const HomeView = () => {
       <section className="flex flex-col items-start justify-between gap-6 rounded-lg bg-[linear-gradient(110deg,rgba(22,101,52,0.94),rgba(21,94,117,0.9)),url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1400&q=80')] bg-cover bg-center p-6 text-[var(--color-text-inverse)] shadow-[var(--shadow-m)] lg:flex-row lg:items-center lg:p-8">
         <div>
           <p className="mb-2 font-semibold tracking-normal text-[var(--color-highlight)] uppercase">
-            Bookstore dashboard
+            BookNest dashboard
           </p>
           <h1 className="m-0 text-[1.55rem] leading-tight font-bold md:text-[2.1rem]">
-            Your bookstore command center
+            Your BookNest command center
           </h1>
           <p className="mt-3 max-w-[760px] text-base text-[var(--color-accent-soft)]">
             Track catalog activity, review featured shelves, and keep the store ready for readers.
@@ -83,7 +83,7 @@ export const HomeView = () => {
         </Link>
       </section>
 
-      <section aria-label="Bookstore overview" className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <section aria-label="BookNest overview" className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {dashboardStats.map((stat) => (
           <article
             className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-s)]"

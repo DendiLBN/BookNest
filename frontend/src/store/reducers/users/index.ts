@@ -1,12 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-export type TUserState = {
-  _id: string;
-  email: string;
-  firstName: string;
-  favoriteBookIds: string[];
-  avatarUrl?: string;
-};
+import type { TUserState } from "@/features/users/types";
 
 const initialState: TUserState = {
   _id: "",

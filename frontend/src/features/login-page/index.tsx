@@ -12,7 +12,9 @@ import { useLoginUser } from "@/features/login-page/hooks/useLoginUser";
 import { useModalContext } from "@/common/contexts/hooks/use-modal-context";
 import { useThemeContext } from "@/common/contexts/hooks/use-theme-context";
 
-import { TLoginUserRequestBody } from "@/types/types";
+import type { TLoginUserRequestBody } from "@/features/auth/types";
+
+import { AUTH_IMAGE_URLS } from "@/features/auth/consts/auth-images";
 
 export const LoginPage = () => {
   const { isModalVisible, showModal } = useModalContext();
@@ -114,7 +116,7 @@ export const LoginPage = () => {
         </Form.Item>
       </Form>
 
-      <img className="login__image" src="https://picsum.photos/600/700.jpg" alt="Login" />
+      <img className="login__image" src={AUTH_IMAGE_URLS.login} alt="Library reading room" />
     </div>
   );
 };

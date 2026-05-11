@@ -21,7 +21,7 @@ export class MailService {
     const mailOptions = {
       from: process.env.MAIL_USERNAME,
       to: to,
-      subject: 'Password Reset Request Book Store',
+      subject: 'Password Reset Request BookNest',
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6;">
             <h2>Password Reset Request</h2>
@@ -31,7 +31,7 @@ export class MailService {
                 <a href="${resetLink}" style="color: #1a73e8; text-decoration: none; font-weight: bold;">${resetLink}</a>
             </p>
             <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>
-            <p>Thank you! Book Store!</p>
+            <p>Thank you! BookNest!</p>
         </div>
     `,
     };

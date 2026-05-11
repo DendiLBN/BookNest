@@ -1,19 +1,16 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
-import {
-  TLoginUserResponse,
-  TLogOutUserResponse,
-  TRegisterUserResponse,
-} from "@/types/api/auth-user";
-import {
-  TForgotPasswordParams,
-  TLoginUserParams,
-  TLogoutUserParams,
-  TRegisterUserParams,
-} from "@/types/types";
-
 import axiosBaseQuery from "@/common/api/axios-base-query";
 import { setTokens } from "@/common/utils/setTokens";
+import type {
+  TForgotPasswordParams,
+  TLoginUserParams,
+  TLoginUserResponse,
+  TLogoutUserParams,
+  TLogOutUserResponse,
+  TRegisterUserParams,
+  TRegisterUserResponse,
+} from "@/features/auth/types";
 import { userApi } from "@/features/users/api";
 import { logOutUser, setIsLoggedIn } from "@/store/reducers/auth";
 import { clearUser } from "@/store/reducers/users";

@@ -6,7 +6,7 @@ export const UsePagination = () => {
 
   const handleChangePagination = (page: number, pageSize: number) => {
     setCurrentPage(page);
-    setItemsPerPage(Math.min(pageSize, 20));
+    setItemsPerPage(Math.min(pageSize, 100));
   };
 
   return {

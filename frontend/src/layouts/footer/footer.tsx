@@ -79,16 +79,8 @@ export const LandingPageFooter: FC = () => {
           </nav>
         </section>
       </div>
-
-      <div
-        className={`mx-auto flex w-full max-w-[1980px] flex-col gap-2 border-t px-4 py-4 text-xs sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8 ${
-          isDarkMode ? "border-slate-800 text-slate-500" : "border-slate-200 text-slate-500"
-        }`}
-      >
-        <span>© 2024 BookNest. All rights reserved.</span>
-        <span>Designed for readers and bookstore workflows.</span>
-      </div>
-    </footer>
+      <div style={{ marginTop: "20px", color: "#888" }}>© 2024 BookNest. All rights reserved.</div>
+    </Footer>
   );
 };
 
