@@ -14,6 +14,8 @@ import { useThemeContext } from "@/common/contexts/hooks/use-theme-context";
 
 import { TLoginUserRequestBody } from "@/types/types";
 
+import { AUTH_IMAGE_URLS } from "@/features/auth/consts/auth-images";
+
 export const LoginPage = () => {
   const { isModalVisible, showModal } = useModalContext();
   const { fetchBodyLoginUser, loading } = useLoginUser();
@@ -114,7 +116,7 @@ export const LoginPage = () => {
         </Form.Item>
       </Form>
 
-      <img className="login__image" src="https://picsum.photos/600/700.jpg" alt="Login" />
+      <img className="login__image" src={AUTH_IMAGE_URLS.login} alt="Library reading room" />
     </div>
   );
 };

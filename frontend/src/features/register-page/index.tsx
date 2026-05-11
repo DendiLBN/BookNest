@@ -11,6 +11,7 @@ import { ThemeContext } from "@/common/contexts/theme-context";
 
 import { TRegisterUserRequestBody } from "@/types/types";
 
+import { AUTH_IMAGE_URLS } from "@/features/auth/consts/auth-images";
 import initialRegisterValues from "@/features/register-page/consts/register-state-values";
 
 const { Option } = Select;
@@ -34,7 +35,7 @@ export const RegisterPage = () => {
   return (
     <div className="register__container">
       {" "}
-      <img className="register__image" src="https://picsum.photos/600/700.jpg"></img>
+      <img className="register__image" src={AUTH_IMAGE_URLS.register} alt="Books on a shelf" />
       <Form
         name="register"
         initialValues={initialRegisterValues}
