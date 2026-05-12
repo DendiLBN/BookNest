@@ -12,7 +12,7 @@ import {
 
 const { Header } = Layout;
 
-const menuClassName = "min-w-fit border-none bg-transparent";
+const menuClassName = "min-w-max shrink-0 border-none bg-transparent";
 
 export const LandingPageHeader = () => {
   const { user } = useUser();
@@ -21,22 +21,19 @@ export const LandingPageHeader = () => {
 
   return (
     <Header className="app-header app-layout-surface sticky top-0 z-20 border-b px-0 shadow-[var(--shadow-s)]">
-      <div className="mx-auto flex min-h-16 w-full max-w-[1980px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <div className="flex min-w-0 items-center gap-2">
+      <div className="mx-auto grid min-h-16 w-full max-w-[var(--content-max-width)] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 px-4 sm:px-6 lg:px-8">
+        <div className="flex shrink-0 items-center gap-2">
           <Menu className={menuClassName} items={homeMenuItem} mode="horizontal" theme="light" />
           {isLoggedIn ? (
             <Menu className={menuClassName} items={leftMenuItems} mode="horizontal" theme="light" />
           ) : null}
         </div>
 
-        <Menu
-          className="flex flex-1 justify-center border-none bg-transparent"
-          items={middleMenuItems}
-          mode="horizontal"
-          theme="light"
-        />
+        <div className="flex min-w-0 justify-center">
+          <Menu className={menuClassName} items={middleMenuItems} mode="horizontal" theme="light" />
+        </div>
 
-        <div className="flex min-w-0 items-center justify-end gap-2">
+        <div className="flex shrink-0 items-center justify-end gap-2">
           {isLoggedIn ? (
             <>
               <Menu
