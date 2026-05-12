@@ -1,6 +1,12 @@
 import { type ChangeEvent, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 
-import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  CameraOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { Avatar, Menu } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -18,6 +24,7 @@ export const LandingPageSideBar = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [uploadAvatar, { isLoading: isUploadingAvatar }] = useUploadAvatarMutation();
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
@@ -37,6 +44,13 @@ export const LandingPageSideBar = () => {
   const { isDarkMode } = themeContext;
   const avatarSrc = getApiAssetUrl(user.avatarUrl);
   const menuTheme = isDarkMode ? "dark" : "light";
+  const selectedMenuKey = pathname.startsWith("/book")
+    ? "books"
+    : pathname.startsWith("/favorites")
+      ? "favorites"
+      : pathname.startsWith("/auth/change-password")
+        ? "change-password"
+        : "dashboard";
 
   const handleAvatarClick = () => {
     fileInputRef.current?.click();
@@ -69,15 +83,23 @@ export const LandingPageSideBar = () => {
         collapsed ? "w-20" : "w-64"
       }`}
     >
-      <div className="flex flex-col items-center gap-3 border-b border-inherit px-3 py-5">
+      <div className="m-3 flex flex-col items-center gap-3 overflow-hidden rounded-lg border border-[var(--color-border)] bg-[linear-gradient(180deg,var(--color-surface-muted),var(--color-surface))] px-3 py-5 shadow-[var(--shadow-s)]">
         <button
           aria-label="Change avatar"
-          className="rounded-full transition hover:opacity-80 focus:ring-2 focus:ring-[var(--color-brand)]/30 focus:outline-none disabled:cursor-progress"
+          className="group relative rounded-full transition hover:opacity-90 focus:ring-2 focus:ring-[var(--color-brand)]/30 focus:outline-none disabled:cursor-progress"
           disabled={isUploadingAvatar}
           onClick={handleAvatarClick}
           type="button"
         >
-          <Avatar size={64} icon={<UserOutlined />} src={avatarSrc} />
+          <Avatar
+            className="border border-[var(--color-border)] bg-[var(--color-accent-soft)] text-[var(--color-accent)]"
+            size={64}
+            icon={<UserOutlined />}
+            src={avatarSrc}
+          />
+          <span className="absolute right-0 bottom-0 grid h-6 w-6 place-items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-xs text-[var(--color-brand)] shadow-sm">
+            <CameraOutlined />
+          </span>
         </button>
         <input
           accept="image/png,image/jpeg,image/webp"
@@ -86,16 +108,23 @@ export const LandingPageSideBar = () => {
           ref={fileInputRef}
           type="file"
         />
-        {collapsed ? null : <h3 className="m-0 text-sm font-semibold">{user.firstName}</h3>}
+        {collapsed ? null : (
+          <div className="min-w-0 text-center">
+            <h3 className="m-0 truncate text-sm font-semibold text-[var(--color-text)]">
+              {user.firstName}
+            </h3>
+            <p className="m-0 mt-1 truncate text-xs text-[var(--color-text-muted)]">{user.email}</p>
+          </div>
+        )}
       </div>
 
       <Menu
-        className="border-0"
+        className="border-0 px-2"
         defaultOpenKeys={collapsed ? [] : ["profile", "settings"]}
-        defaultSelectedKeys={["dashboard"]}
         inlineCollapsed={collapsed}
         items={itemsSideBar}
         mode="inline"
+        selectedKeys={[selectedMenuKey]}
         theme={menuTheme}
       />
 
