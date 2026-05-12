@@ -1,10 +1,8 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { type ChangeEvent, useRef, useState } from "react";
 
-import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Layout, Menu } from "antd";
+import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from "@ant-design/icons";
+import { Avatar, Menu } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-
-import "@/assets/layouts-styles/sidebar.css";
 
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 import { useThemeContext } from "@/common/contexts/hooks/use-theme-context";
@@ -14,8 +12,6 @@ import useUser from "@/common/users/useUser";
 import { useUploadAvatarMutation } from "@/features/users/api";
 import { itemsSideBar } from "@/layouts/side-bar/consts/items-side-bar";
 import { selectIsLoggedIn, setIsLoggedIn } from "@/store/reducers/auth";
-
-const { Sider } = Layout;
 
 export const LandingPageSideBar = () => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
@@ -31,15 +27,16 @@ export const LandingPageSideBar = () => {
   const themeContext = useThemeContext();
 
   const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
+    setCollapsed((currentCollapsed) => !currentCollapsed);
   };
 
-  if (!user || !themeContext) {
+  if (!isLoggedIn || !user || !themeContext) {
     return null;
   }
 
   const { isDarkMode } = themeContext;
   const avatarSrc = getApiAssetUrl(user.avatarUrl);
+  const menuTheme = isDarkMode ? "dark" : "light";
 
   const handleAvatarClick = () => {
     fileInputRef.current?.click();
@@ -67,67 +64,49 @@ export const LandingPageSideBar = () => {
   };
 
   return (
-    isLoggedIn && (
-      <Sider
-        className="landing__page-sidebar"
-        theme="light"
-        collapsed={collapsed}
-        onCollapse={toggleCollapsed}
-        width={200}
-        trigger={true}
-      >
-        <div style={{ textAlign: "center", padding: "5px", marginTop: "15px" }}>
-          <button
-            aria-label="Change avatar"
-            disabled={isUploadingAvatar}
-            onClick={handleAvatarClick}
-            style={{
-              border: "none",
-              background: "transparent",
-              cursor: isUploadingAvatar ? "progress" : "pointer",
-              padding: 0,
-            }}
-            type="button"
-          >
-            <Avatar size={64} icon={<UserOutlined />} src={avatarSrc} />
-          </button>
-          <input
-            accept="image/png,image/jpeg,image/webp"
-            hidden
-            onChange={handleAvatarChange}
-            ref={fileInputRef}
-            type="file"
-          />
-          <h3
-            style={{
-              marginTop: "20px",
-              color: isDarkMode ? "#e0e0e0" : "#333333",
-            }}
-          >
-            {user.firstName}
-          </h3>
-        </div>
-        <Menu
-          mode="inline"
-          style={{ borderInlineEnd: "none" }}
-          theme="light"
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
-          items={itemsSideBar}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "20px",
-            left: "50%",
-            transform: "translateX(-50%)",
-          }}
+    <aside
+      className={`app-sidebar app-layout-surface relative hidden min-h-[calc(100vh-64px)] shrink-0 border-r transition-[width] duration-200 md:block ${
+        collapsed ? "w-20" : "w-64"
+      }`}
+    >
+      <div className="flex flex-col items-center gap-3 border-b border-inherit px-3 py-5">
+        <button
+          aria-label="Change avatar"
+          className="rounded-full transition hover:opacity-80 focus:ring-2 focus:ring-[var(--color-brand)]/30 focus:outline-none disabled:cursor-progress"
+          disabled={isUploadingAvatar}
+          onClick={handleAvatarClick}
+          type="button"
         >
-          <div onClick={toggleCollapsed} style={{ cursor: "pointer" }}>
-            {collapsed ? "▶" : "◁"}
-          </div>
-        </div>
-      </Sider>
-    )
+          <Avatar size={64} icon={<UserOutlined />} src={avatarSrc} />
+        </button>
+        <input
+          accept="image/png,image/jpeg,image/webp"
+          hidden
+          onChange={handleAvatarChange}
+          ref={fileInputRef}
+          type="file"
+        />
+        {collapsed ? null : <h3 className="m-0 text-sm font-semibold">{user.firstName}</h3>}
+      </div>
+
+      <Menu
+        className="border-0"
+        defaultOpenKeys={collapsed ? [] : ["profile", "settings"]}
+        defaultSelectedKeys={["dashboard"]}
+        inlineCollapsed={collapsed}
+        items={itemsSideBar}
+        mode="inline"
+        theme={menuTheme}
+      />
+
+      <button
+        aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        className="absolute right-3 bottom-5 inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--interactive-bg)] text-[var(--interactive-text)] shadow-sm transition hover:bg-[var(--interactive-bg-hover)] hover:text-[var(--interactive-text-hover)]"
+        onClick={toggleCollapsed}
+        type="button"
+      >
+        {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+      </button>
+    </aside>
   );
 };
