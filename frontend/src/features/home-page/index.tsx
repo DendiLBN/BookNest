@@ -63,8 +63,8 @@ export const HomeView = () => {
   }, [books]);
 
   return (
-    <div className="flex flex-col gap-[var(--section-gap)]">
-      <section className="relative overflow-hidden rounded-lg border border-[color-mix(in_srgb,var(--color-brand)_24%,var(--color-border))] bg-[linear-gradient(110deg,color-mix(in_srgb,var(--color-brand-strong)_88%,black),color-mix(in_srgb,var(--color-accent)_72%,black)),url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1400&q=80')] bg-cover bg-center p-6 text-white shadow-[var(--shadow-m)] lg:p-8">
+    <div className="flex flex-col gap-l">
+      <section className="relative overflow-hidden rounded-l border border-app-border bg-[linear-gradient(110deg,color-mix(in_srgb,var(--color-brand-strong)_88%,black),color-mix(in_srgb,var(--color-accent)_72%,black)),url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1400&q=80')] bg-cover bg-center p-m text-app-text-inverse shadow-app-m lg:p-l">
         <div className="absolute inset-y-0 right-0 hidden w-1/3 bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--color-highlight)_16%,transparent))] lg:block" />
         <div className="relative flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
           <div>
@@ -82,7 +82,7 @@ export const HomeView = () => {
             </span>
           </div>
           <Link
-            className="shrink-0 rounded-md bg-white px-4 py-3 font-bold text-[var(--color-brand)] no-underline shadow-[var(--shadow-s)] hover:text-[var(--color-brand)]"
+            className="shrink-0 rounded-m border border-app-border bg-app-surface px-s py-xs font-bold text-app-brand no-underline shadow-app-s transition hover:bg-app-surface-muted hover:text-app-brand"
             to="/book"
           >
             Browse books

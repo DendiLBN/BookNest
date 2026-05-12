@@ -45,6 +45,9 @@ const config = {
           warning: "var(--color-warning)",
         },
       },
+      maxWidth: {
+        content: "1980px",
+      },
       spacing,
     },
     screens: {

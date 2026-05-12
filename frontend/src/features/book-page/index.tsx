@@ -3,19 +3,17 @@ import { Key, useEffect } from "react";
 import { Spin, Table, TableProps } from "antd";
 import { useDispatch } from "react-redux";
 
-import "@/assets/layouts-styles/book-styles/book.css";
+import { DeleteBooksButton } from "@/features/book-page/components/delete-button";
+import { BookSearch } from "@/features/book-page/components/filters/book-search";
+import { CategorySelect } from "@/features/book-page/components/filters/category-select";
 
-import { DeleteBooksButton } from "./components/delete-button";
-import { BookSearch } from "./components/filters/book-search";
-import { CategorySelect } from "./components/filters/category-select";
-
-import { useDeleteAsArrayBooks } from "./hooks/useDeleteAsArrayBooks";
-import { UseFetchBodyBooks } from "./hooks/useFetchBooksList";
-import { useFilteredBooks } from "./hooks/useFilteredBooks";
 import { UsePagination } from "@/common/hooks/pagination/usePagination";
+import { useDeleteAsArrayBooks } from "@/features/book-page/hooks/useDeleteAsArrayBooks";
+import { UseFetchBodyBooks } from "@/features/book-page/hooks/useFetchBooksList";
+import { useFilteredBooks } from "@/features/book-page/hooks/useFilteredBooks";
 
-import { useBooksFormContext } from "./contexts/hooks/use-form-book-context";
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
+import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
 
 import { TBookBody } from "@/types/types";
 
