@@ -9,6 +9,12 @@ const footerLinks = [
   { href: "/privacy", label: "Privacy Policy" },
 ];
 
+const footerStats = [
+  { label: "Catalog", value: "100+" },
+  { label: "Shelves", value: "12" },
+  { label: "Secure auth", value: "JWT" },
+];
+
 export const LandingPageFooter: FC = () => {
   const themeContext = useContext(ThemeContext);
 
@@ -22,8 +28,11 @@ export const LandingPageFooter: FC = () => {
 
   return (
     <footer className="app-layout-surface border-t">
-      <div className="mx-auto grid w-full max-w-[1980px] gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1fr_1.2fr] lg:px-8">
-        <section aria-label="BookNest footer summary" className="flex flex-col gap-3">
+      <div className="mx-auto grid w-full max-w-[var(--content-max-width)] gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1fr_1.15fr] lg:px-8">
+        <section
+          aria-label="BookNest footer summary"
+          className="rounded-lg border border-[var(--color-border)] bg-[linear-gradient(135deg,var(--color-surface-muted),var(--color-surface))] p-5 shadow-[var(--shadow-s)]"
+        >
           <p className="m-0 text-sm font-semibold tracking-normal text-[var(--color-brand)] uppercase">
             BookNest
           </p>
@@ -34,9 +43,30 @@ export const LandingPageFooter: FC = () => {
             A practical bookstore dashboard for browsing books, managing your account, and keeping
             personal reading picks close.
           </p>
+          <div className="mt-5 grid grid-cols-3 gap-3">
+            {footerStats.map((stat) => (
+              <div
+                className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2"
+                key={stat.label}
+              >
+                <strong className="block text-base text-[var(--color-brand)]">{stat.value}</strong>
+                <span className="app-muted-text text-xs">{stat.label}</span>
+              </div>
+            ))}
+          </div>
         </section>
 
-        <section aria-label="BookNest newsletter and navigation" className="flex flex-col gap-6">
+        <section
+          aria-label="BookNest newsletter and navigation"
+          className="flex flex-col justify-between gap-6 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-[var(--shadow-s)]"
+        >
+          <div>
+            <p className="m-0 text-sm font-semibold text-[var(--color-text)]">Stay in the loop</p>
+            <p className="app-muted-text mt-1 mb-4 text-sm">
+              Get catalog notes and account updates in one place.
+            </p>
+          </div>
+
           <form className="flex w-full flex-col gap-3 sm:flex-row" onSubmit={handleSubmit}>
             <label className="sr-only" htmlFor="footer-newsletter-email">
               Newsletter email
@@ -55,7 +85,10 @@ export const LandingPageFooter: FC = () => {
             </button>
           </form>
 
-          <nav aria-label="Footer navigation" className="flex flex-wrap gap-x-5 gap-y-3">
+          <nav
+            aria-label="Footer navigation"
+            className="flex flex-wrap gap-x-5 gap-y-3 border-t border-[var(--color-border)] pt-5"
+          >
             {footerLinks.map(({ href, label }) => (
               <a
                 className="app-muted-text text-sm font-medium transition hover:text-[var(--color-brand)]"
@@ -69,7 +102,7 @@ export const LandingPageFooter: FC = () => {
         </section>
       </div>
 
-      <div className="app-muted-text mx-auto flex w-full max-w-[1980px] flex-col gap-2 border-t border-[var(--color-border)] px-4 py-4 text-xs sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+      <div className="app-muted-text mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-2 border-t border-[var(--color-border)] px-4 py-4 text-xs sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
         <span>Copyright 2024 BookNest. All rights reserved.</span>
         <span>Designed for readers and bookstore workflows.</span>
       </div>
