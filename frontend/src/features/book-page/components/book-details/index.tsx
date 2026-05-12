@@ -6,6 +6,7 @@ import { Button, Descriptions, Empty, Rate, Spin, Tag } from "antd";
 import "@/assets/layouts-styles/book-styles/book.css";
 
 import { useFetchBookByIdQuery } from "@/features/book-page/api";
+import { tagColors } from "@/features/book-page/consts/book-categories-colors";
 
 const fallbackCoverImage = "/book.png";
 
@@ -39,6 +40,14 @@ export const BookDetails = () => {
     );
   }
 
+  const categoryCount = book.category?.length ?? 0;
+  const primaryCategory = book.category?.[0] ?? "General";
+  const bookMetrics = [
+    { label: "Rating", value: `${book.rate}/5` },
+    { label: "Shelves", value: categoryCount },
+    { label: "Primary", value: primaryCategory },
+  ];
+
   return (
     <div className="book-page book-page__details">
       <Link to="/book">
@@ -59,9 +68,20 @@ export const BookDetails = () => {
 
           <Rate disabled value={book.rate} />
 
+          <div className="book-page__details-metrics">
+            {bookMetrics.map((metric) => (
+              <div className="book-page__details-metric" key={metric.label}>
+                <strong>{metric.value}</strong>
+                <span>{metric.label}</span>
+              </div>
+            ))}
+          </div>
+
           <div className="book-page__details-tags">
             {book.category?.map((category) => (
-              <Tag key={category}>{category}</Tag>
+              <Tag color={tagColors[category] || "green"} key={category}>
+                {category}
+              </Tag>
             ))}
           </div>
 
@@ -71,6 +91,10 @@ export const BookDetails = () => {
             </Button>
             <Button icon={<HeartOutlined />}>Save favorite</Button>
           </div>
+          <p className="book-page__details-note">
+            Preview catalog data before adding this title to a basket or saving it to your reading
+            list.
+          </p>
         </div>
       </section>
 

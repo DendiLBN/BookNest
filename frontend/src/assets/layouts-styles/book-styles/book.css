@@ -186,6 +186,40 @@
   gap: 12px;
 }
 
+.book-page__details-metrics {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-s);
+}
+
+.book-page__details-metric {
+  min-width: 0;
+  padding: var(--space-m);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-m);
+  background: var(--color-surface-muted);
+}
+
+.book-page__details-metric strong,
+.book-page__details-metric span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.book-page__details-metric strong {
+  color: var(--color-brand);
+  font-size: 1rem;
+}
+
+.book-page__details-metric span {
+  margin-top: 2px;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
 .book-page__details-tags,
 .book-page__details-actions {
   display: flex;
@@ -193,10 +227,34 @@
   gap: 10px;
 }
 
+.book-page__details-note {
+  max-width: 620px;
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
 .book-page__details-panel {
   padding: 20px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-m);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.book-page__details-panel .ant-descriptions-view,
+.book-page__details-panel .ant-descriptions-item-label,
+.book-page__details-panel .ant-descriptions-item-content {
+  border-color: var(--color-border);
+}
+
+.book-page__details-panel .ant-descriptions-item-label {
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.book-page__details-panel .ant-descriptions-item-content {
   background: var(--color-surface);
   color: var(--color-text);
 }
@@ -211,6 +269,10 @@
 
   .book-page__stats {
     width: 100%;
+  }
+
+  .book-page__details-metrics {
+    grid-template-columns: 1fr;
   }
 
   .book-page__delete-action {
