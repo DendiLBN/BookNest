@@ -68,16 +68,14 @@ export const BookDetails = () => {
 
           <Rate disabled value={book.rate} />
 
-          <div className="grid w-full grid-cols-1 gap-[var(--space-s)] sm:grid-cols-3">
+          <div className="grid w-full grid-cols-1 gap-s sm:grid-cols-3">
             {bookMetrics.map((metric) => (
               <div
-                className="min-w-0 rounded-[var(--radius-m)] border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-[var(--space-m)]"
+                className="min-w-0 rounded-m border border-app-border bg-app-surface-muted p-m"
                 key={metric.label}
               >
-                <strong className="block truncate text-base text-[var(--color-brand)]">
-                  {metric.value}
-                </strong>
-                <span className="mt-0.5 block truncate text-xs text-[var(--color-text-muted)]">
+                <strong className="block truncate text-base text-app-brand">{metric.value}</strong>
+                <span className="mt-0.5 block truncate text-xs text-app-text-muted">
                   {metric.label}
                 </span>
               </div>
@@ -98,7 +96,7 @@ export const BookDetails = () => {
             </Button>
             <Button icon={<HeartOutlined />}>Save favorite</Button>
           </div>
-          <p className="m-0 max-w-[620px] leading-6 text-[var(--color-text-muted)]">
+          <p className="m-0 max-w-[620px] leading-6 text-app-text-muted">
             Preview catalog data before adding this title to a basket or saving it to your reading
             list.
           </p>
@@ -108,7 +106,7 @@ export const BookDetails = () => {
       <section className="book-page__details-panel">
         <Descriptions
           bordered
-          className="[&_.ant-descriptions-item-content]:border-[var(--color-border)] [&_.ant-descriptions-item-content]:bg-[var(--color-surface)] [&_.ant-descriptions-item-content]:text-[var(--color-text)] [&_.ant-descriptions-item-label]:border-[var(--color-border)] [&_.ant-descriptions-item-label]:bg-[var(--color-surface-muted)] [&_.ant-descriptions-item-label]:font-bold [&_.ant-descriptions-item-label]:text-[var(--color-text)] [&_.ant-descriptions-view]:border-[var(--color-border)]"
+          className="[&_.ant-descriptions-item-content]:border-app-border [&_.ant-descriptions-item-content]:bg-app-surface [&_.ant-descriptions-item-content]:text-app-text [&_.ant-descriptions-item-label]:border-app-border [&_.ant-descriptions-item-label]:bg-app-surface-muted [&_.ant-descriptions-item-label]:font-bold [&_.ant-descriptions-item-label]:text-app-text [&_.ant-descriptions-view]:border-app-border"
           column={1}
           size="middle"
         >
