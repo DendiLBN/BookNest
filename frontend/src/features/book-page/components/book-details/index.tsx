@@ -68,11 +68,18 @@ export const BookDetails = () => {
 
           <Rate disabled value={book.rate} />
 
-          <div className="book-page__details-metrics">
+          <div className="grid w-full grid-cols-1 gap-[var(--space-s)] sm:grid-cols-3">
             {bookMetrics.map((metric) => (
-              <div className="book-page__details-metric" key={metric.label}>
-                <strong>{metric.value}</strong>
-                <span>{metric.label}</span>
+              <div
+                className="min-w-0 rounded-[var(--radius-m)] border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-[var(--space-m)]"
+                key={metric.label}
+              >
+                <strong className="block truncate text-base text-[var(--color-brand)]">
+                  {metric.value}
+                </strong>
+                <span className="mt-0.5 block truncate text-xs text-[var(--color-text-muted)]">
+                  {metric.label}
+                </span>
               </div>
             ))}
           </div>
@@ -91,7 +98,7 @@ export const BookDetails = () => {
             </Button>
             <Button icon={<HeartOutlined />}>Save favorite</Button>
           </div>
-          <p className="book-page__details-note">
+          <p className="m-0 max-w-[620px] leading-6 text-[var(--color-text-muted)]">
             Preview catalog data before adding this title to a basket or saving it to your reading
             list.
           </p>
@@ -99,7 +106,12 @@ export const BookDetails = () => {
       </section>
 
       <section className="book-page__details-panel">
-        <Descriptions bordered column={1} size="middle">
+        <Descriptions
+          bordered
+          className="[&_.ant-descriptions-item-content]:border-[var(--color-border)] [&_.ant-descriptions-item-content]:bg-[var(--color-surface)] [&_.ant-descriptions-item-content]:text-[var(--color-text)] [&_.ant-descriptions-item-label]:border-[var(--color-border)] [&_.ant-descriptions-item-label]:bg-[var(--color-surface-muted)] [&_.ant-descriptions-item-label]:font-bold [&_.ant-descriptions-item-label]:text-[var(--color-text)] [&_.ant-descriptions-view]:border-[var(--color-border)]"
+          column={1}
+          size="middle"
+        >
           <Descriptions.Item label="Title">{book.title}</Descriptions.Item>
           <Descriptions.Item label="Author">{book.author}</Descriptions.Item>
           <Descriptions.Item label="Rating">{book.rate}/5</Descriptions.Item>
