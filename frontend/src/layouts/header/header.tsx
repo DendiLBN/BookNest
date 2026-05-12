@@ -1,5 +1,7 @@
 import { Layout, Menu } from "antd";
 
+import { NotificationCenter } from "@/layouts/header/components/notification-center";
+
 import useUser from "@/common/users/useUser";
 import { LogoutButton } from "@/features/login-page/LogoutUser";
 import {
@@ -7,7 +9,6 @@ import {
   leftMenuItems,
   middleMenuItems,
   rightMenuItems,
-  userMenuItems,
 } from "@/layouts/header/consts/menu-items";
 
 const { Header } = Layout;
@@ -36,12 +37,7 @@ export const LandingPageHeader = () => {
         <div className="flex shrink-0 items-center justify-end gap-2">
           {isLoggedIn ? (
             <>
-              <Menu
-                className={menuClassName}
-                items={userMenuItems}
-                mode="horizontal"
-                theme="light"
-              />
+              <NotificationCenter />
               <LogoutButton />
             </>
           ) : (
