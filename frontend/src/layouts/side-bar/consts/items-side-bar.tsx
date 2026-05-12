@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 import {
-  BellOutlined,
   BookFilled,
   BookOutlined,
   HeartFilled,
@@ -53,13 +52,6 @@ export const itemsSideBar: MenuProps["items"] = [
         style: { paddingLeft: "10px" },
         label: <Link to="/auth/change-password">Change Password</Link>,
         icon: <LockOutlined />,
-      },
-      {
-        key: "notifications",
-        style: { paddingLeft: "10px" },
-        label: "Notifications",
-        icon: <BellOutlined />,
-        disabled: true,
       },
     ],
   },
