@@ -9,7 +9,7 @@
     "format": "node scripts/remove-duplicate-side-effect-imports.mjs frontend/src && npm run lint:fix --prefix ./frontend -- . && npm run format --prefix ./backend && biome check --write .",
     "format:staged": "lint-staged",
     "format:check": "biome check . && npm run lint --prefix ./frontend && npm run format:check --prefix ./backend",
-    "prepare": "husky",
+    "prepare": "lefthook install --reset-hooks-path",
     "test": "npm run test --prefix ./frontend && npm run test --prefix ./backend",
     "build": "npm run build --prefix ./frontend && npm run build --prefix ./backend"
   },
@@ -19,7 +19,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.4.14",
     "concurrently": "^8.2.2",
-    "husky": "^9.1.7",
+    "lefthook": "^2.1.6",
     "lint-staged": "^16.4.0"
   },
   "dependencies": {

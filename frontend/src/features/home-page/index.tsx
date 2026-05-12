@@ -47,6 +47,7 @@ export const HomeView = () => {
   }, [books, isFetching]);
 
   const featuredBooks = books.slice(0, 4);
+  const catalogStatus = isFetching ? "Syncing catalog data" : "Catalog ready";
 
   const topCategories = useMemo(() => {
     const categoryCounts = books
@@ -63,30 +64,36 @@ export const HomeView = () => {
 
   return (
     <div className="flex flex-col gap-[var(--section-gap)]">
-      <section className="flex flex-col items-start justify-between gap-6 rounded-lg bg-[linear-gradient(110deg,rgba(22,101,52,0.94),rgba(21,94,117,0.9)),url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1400&q=80')] bg-cover bg-center p-6 text-[var(--color-text-inverse)] shadow-[var(--shadow-m)] lg:flex-row lg:items-center lg:p-8">
-        <div>
-          <p className="mb-2 font-semibold tracking-normal text-[var(--color-highlight)] uppercase">
-            BookNest dashboard
-          </p>
-          <h1 className="m-0 text-[1.55rem] leading-tight font-bold md:text-[2.1rem]">
-            Your BookNest command center
-          </h1>
-          <p className="mt-3 max-w-[760px] text-base text-[var(--color-accent-soft)]">
-            Track catalog activity, review featured shelves, and keep the store ready for readers.
-          </p>
+      <section className="relative overflow-hidden rounded-lg border border-[color-mix(in_srgb,var(--color-brand)_24%,var(--color-border))] bg-[linear-gradient(110deg,color-mix(in_srgb,var(--color-brand-strong)_88%,black),color-mix(in_srgb,var(--color-accent)_72%,black)),url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1400&q=80')] bg-cover bg-center p-6 text-white shadow-[var(--shadow-m)] lg:p-8">
+        <div className="absolute inset-y-0 right-0 hidden w-1/3 bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--color-highlight)_16%,transparent))] lg:block" />
+        <div className="relative flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
+          <div>
+            <p className="mb-2 font-semibold tracking-normal text-[var(--color-highlight)] uppercase">
+              BookNest dashboard
+            </p>
+            <h1 className="m-0 text-[1.55rem] leading-tight font-bold md:text-[2.1rem]">
+              Your BookNest command center
+            </h1>
+            <p className="mt-3 max-w-[760px] text-base text-[color-mix(in_srgb,#ffffff_84%,var(--color-highlight))]">
+              Track catalog activity, review featured shelves, and keep the store ready for readers.
+            </p>
+            <span className="mt-5 inline-flex items-center rounded-md border border-white/25 bg-white/10 px-3 py-2 text-sm font-semibold backdrop-blur">
+              {catalogStatus}
+            </span>
+          </div>
+          <Link
+            className="shrink-0 rounded-md bg-white px-4 py-3 font-bold text-[var(--color-brand)] no-underline shadow-[var(--shadow-s)] hover:text-[var(--color-brand)]"
+            to="/book"
+          >
+            Browse books
+          </Link>
         </div>
-        <Link
-          className="shrink-0 rounded-md bg-[var(--color-text-inverse)] px-4 py-3 font-bold text-[var(--color-brand)] no-underline hover:text-[var(--color-brand)]"
-          to="/book"
-        >
-          Browse books
-        </Link>
       </section>
 
       <section aria-label="BookNest overview" className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {dashboardStats.map((stat) => (
           <article
-            className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-s)]"
+            className="rounded-lg border border-[var(--color-border)] bg-[linear-gradient(180deg,var(--color-surface),var(--color-surface-muted))] p-4 shadow-[var(--shadow-s)]"
             key={stat.label}
           >
             <span className="block text-3xl leading-none font-extrabold text-[var(--color-accent)]">
@@ -116,7 +123,7 @@ export const HomeView = () => {
             {featuredBooks.length > 0 ? (
               featuredBooks.map((book) => (
                 <Link
-                  className="grid grid-cols-[52px_minmax(0,1fr)] items-center gap-3 rounded-lg border border-[var(--color-border)] p-3 text-inherit no-underline hover:border-[var(--color-accent)] sm:grid-cols-[52px_minmax(0,1fr)_auto]"
+                  className="grid grid-cols-[52px_minmax(0,1fr)] items-center gap-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-3 text-inherit no-underline transition hover:border-[var(--color-accent)] hover:bg-[var(--interactive-bg-hover)] sm:grid-cols-[52px_minmax(0,1fr)_auto]"
                   key={book._id}
                   to="/book"
                 >
@@ -164,21 +171,21 @@ export const HomeView = () => {
           </div>
           <div className="flex flex-col gap-3">
             <Link
-              className="flex items-center gap-3 rounded-md bg-[var(--color-page)] px-3 py-3 font-bold text-[var(--color-text)] no-underline hover:bg-[var(--color-accent-soft)] hover:text-[var(--color-accent)]"
+              className="flex items-center gap-3 rounded-md bg-[var(--color-surface-muted)] px-3 py-3 font-bold text-[var(--color-text)] no-underline transition hover:bg-[var(--color-accent-soft)] hover:text-[var(--color-accent)]"
               to="/book"
             >
               <BookOutlined />
               Manage catalog
             </Link>
             <Link
-              className="flex items-center gap-3 rounded-md bg-[var(--color-page)] px-3 py-3 font-bold text-[var(--color-text)] no-underline hover:bg-[var(--color-accent-soft)] hover:text-[var(--color-accent)]"
+              className="flex items-center gap-3 rounded-md bg-[var(--color-surface-muted)] px-3 py-3 font-bold text-[var(--color-text)] no-underline transition hover:bg-[var(--color-accent-soft)] hover:text-[var(--color-accent)]"
               to="/book"
             >
               <PlusCircleOutlined />
               Prepare new title
             </Link>
             <Link
-              className="flex items-center gap-3 rounded-md bg-[var(--color-page)] px-3 py-3 font-bold text-[var(--color-text)] no-underline hover:bg-[var(--color-accent-soft)] hover:text-[var(--color-accent)]"
+              className="flex items-center gap-3 rounded-md bg-[var(--color-surface-muted)] px-3 py-3 font-bold text-[var(--color-text)] no-underline transition hover:bg-[var(--color-accent-soft)] hover:text-[var(--color-accent)]"
               to="/book"
             >
               <ShoppingCartOutlined />
@@ -206,7 +213,7 @@ export const HomeView = () => {
                   className="flex items-center justify-between gap-3 border-b border-[var(--color-border)] py-2"
                   key={category}
                 >
-                  <span className="text-slate-700">{category}</span>
+                  <span className="text-[var(--color-text)]">{category}</span>
                   <strong className="text-[var(--color-accent)]">{count}</strong>
                 </div>
               ))
@@ -222,19 +229,19 @@ export const HomeView = () => {
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <article className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-s)]">
           <h2 className="mb-2 text-lg font-bold">For customers</h2>
-          <p className="m-0 leading-6 text-slate-700">
+          <p className="m-0 leading-6 text-[var(--color-text-muted)]">
             Browse featured titles, compare categories, and keep favorite books close.
           </p>
         </article>
         <article className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-s)]">
           <h2 className="mb-2 text-lg font-bold">For store owners</h2>
-          <p className="m-0 leading-6 text-slate-700">
+          <p className="m-0 leading-6 text-[var(--color-text-muted)]">
             Keep inventory readable, review ratings, and prepare catalog updates quickly.
           </p>
         </article>
         <article className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-s)]">
           <h2 className="mb-2 text-lg font-bold">Account security</h2>
-          <p className="m-0 leading-6 text-slate-700">
+          <p className="m-0 leading-6 text-[var(--color-text-muted)]">
             Refresh your password regularly and avoid reusing the same one.
           </p>
           <Link

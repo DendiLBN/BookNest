@@ -1,14 +1,11 @@
 import { Layout, Menu } from "antd";
 
+import { NotificationCenter } from "@/layouts/header/components/notification-center";
+import { ThemeButton } from "@/layouts/header/components/theme-button/index.tsx";
+
 import useUser from "@/common/users/useUser";
 import { LogoutButton } from "@/features/login-page/LogoutUser";
-import {
-  homeMenuItem,
-  leftMenuItems,
-  middleMenuItems,
-  rightMenuItems,
-  userMenuItems,
-} from "@/layouts/header/consts/menu-items";
+import { homeMenuItem, leftMenuItems, rightMenuItems } from "@/layouts/header/consts/menu-items";
 
 const { Header } = Layout;
 
@@ -30,18 +27,13 @@ export const LandingPageHeader = () => {
         </div>
 
         <div className="flex min-w-0 justify-center">
-          <Menu className={menuClassName} items={middleMenuItems} mode="horizontal" theme="light" />
+          <ThemeButton />
         </div>
 
         <div className="flex shrink-0 items-center justify-end gap-2">
           {isLoggedIn ? (
             <>
-              <Menu
-                className={menuClassName}
-                items={userMenuItems}
-                mode="horizontal"
-                theme="light"
-              />
+              <NotificationCenter />
               <LogoutButton />
             </>
           ) : (

@@ -1,4 +1,7 @@
-import { Empty, Spin, Table } from "antd";
+import { useMemo } from "react";
+import { Link } from "react-router-dom";
+
+import { Button, Empty, Space, Spin, Table, Tag } from "antd";
 import { useDispatch } from "react-redux";
 
 import "@/assets/layouts-styles/book-styles/book.css";
@@ -27,6 +30,25 @@ export const FavoritesView = () => {
     useRemoveFavoriteBookMutation();
 
   const favoriteBooks = books.filter((book) => favoriteBookIds.includes(book._id));
+  const hasFavoriteBooks = favoriteBooks.length > 0;
+
+  const favoriteCategories = useMemo(
+    () =>
+      Array.from(new Set(favoriteBooks.flatMap((book) => book.category))).filter(
+        (category) => category.length > 0,
+      ),
+    [favoriteBooks],
+  );
+
+  const averageFavoriteRating = useMemo(() => {
+    if (!hasFavoriteBooks) {
+      return "0.0";
+    }
+
+    const ratingSum = favoriteBooks.reduce((sum, book) => sum + book.rate, 0);
+
+    return (ratingSum / favoriteBooks.length).toFixed(1);
+  }, [favoriteBooks, hasFavoriteBooks]);
 
   const handleToggleFavorite = async (bookId: string) => {
     const isFavorite = favoriteBookIds.includes(bookId);
@@ -69,11 +91,30 @@ export const FavoritesView = () => {
             <span>{favoriteBooks.length}</span>
             <p>Saved books</p>
           </div>
+          <div className="book-page__stat">
+            <span>{averageFavoriteRating}</span>
+            <p>Average rating</p>
+          </div>
         </div>
       </section>
 
+      {hasFavoriteBooks ? (
+        <section className="book-page__toolbar">
+          <Space direction="vertical" size={8}>
+            <strong>Saved categories</strong>
+            <Space wrap>
+              {favoriteCategories.map((category) => (
+                <Tag color="green" key={category}>
+                  {category}
+                </Tag>
+              ))}
+            </Space>
+          </Space>
+        </section>
+      ) : null}
+
       <Spin tip="Loading..." size="large" spinning={isFetching}>
-        {favoriteBooks.length ? (
+        {hasFavoriteBooks ? (
           <Table
             className="book-page__table"
             columns={columns}
@@ -86,7 +127,11 @@ export const FavoritesView = () => {
           />
         ) : (
           <div className="book-page__empty">
-            <Empty description="No favorite books yet" />
+            <Empty description="No favorite books yet">
+              <Link to="/book">
+                <Button type="primary">Browse books</Button>
+              </Link>
+            </Empty>
           </div>
         )}
       </Spin>

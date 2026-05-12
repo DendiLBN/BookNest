@@ -1,0 +1,9 @@
+pre-commit:
+  commands:
+    format-staged:
+      run: npm run format:staged
+
+pre-push:
+  commands:
+    quality-check:
+      run: npm run format:check

@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 
-import { BellOutlined, HomeOutlined, SnippetsFilled, UserOutlined } from "@ant-design/icons";
+import { HomeOutlined, SnippetsFilled, UserOutlined } from "@ant-design/icons";
 import { MenuProps } from "antd";
-
-import { ThemeButton } from "@/layouts/header/components/theme-button/index.tsx";
 
 export const homeMenuItem: MenuProps["items"] = [
   {
@@ -21,13 +19,6 @@ export const leftMenuItems: MenuProps["items"] = [
   },
 ];
 
-export const middleMenuItems: MenuProps["items"] = [
-  {
-    key: "theme-button",
-    label: <ThemeButton />,
-  },
-];
-
 export const rightMenuItems: MenuProps["items"] = [
   {
     key: "account-login",
@@ -38,18 +29,5 @@ export const rightMenuItems: MenuProps["items"] = [
     key: "account-register",
     label: <Link to="/auth/register">Register</Link>,
     icon: <UserOutlined />,
-  },
-];
-
-export const userMenuItems: MenuProps["items"] = [
-  {
-    key: "notifications",
-    label: <Link to="/settings/notifications"></Link>,
-    style: { textDecoration: "none" },
-    icon: (
-      <span className="icon-notification">
-        <BellOutlined />
-      </span>
-    ),
   },
 ];
