@@ -19,12 +19,13 @@ export const FavoritesView = () => {
   const { openNotification } = useNotificationContext();
   const { user } = useUser();
   const favoriteBookIds = user?.favoriteBookIds ?? [];
-  const { data: books = [], isFetching } = useFetchBooksQuery({
+  const { data: booksResponse, isFetching } = useFetchBooksQuery({
     page: 1,
     perPage: 100,
     searchString: "",
     category: [],
   });
+  const books = useMemo(() => booksResponse?.data ?? [], [booksResponse]);
   const [addFavoriteBook, { isLoading: isAddingFavoriteBook }] = useAddFavoriteBookMutation();
   const [removeFavoriteBook, { isLoading: isRemovingFavoriteBook }] =
     useRemoveFavoriteBookMutation();

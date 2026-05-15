@@ -1,9 +1,8 @@
 import type { Key } from "react";
 
 import { createApi } from "@reduxjs/toolkit/query/react";
-import type { AxiosResponse } from "axios";
 
-import { TBookBodyParams, TBookBodyResponse } from "@/types/api/books";
+import { TBookBodyParams, TBookBodyResponse, TPaginatedBooksResponse } from "@/types/api/books";
 
 import axiosBaseQuery from "@/common/api/axios-base-query";
 
@@ -12,7 +11,7 @@ export const bookApi = createApi({
   baseQuery: axiosBaseQuery(),
   tagTypes: ["books"],
   endpoints: (builder) => ({
-    fetchBooks: builder.query<TBookBodyResponse[], TBookBodyParams>({
+    fetchBooks: builder.query<TPaginatedBooksResponse, TBookBodyParams>({
       query: ({ page = 1, perPage = 100, category = [], searchString }) => ({
         method: "GET",
         url: "books",
@@ -23,9 +22,10 @@ export const bookApi = createApi({
           category,
         },
       }),
-      transformResponse: ({ data }: AxiosResponse<TBookBodyResponse[]>) => data || [],
       providesTags: (response) =>
-        response ? response.map((book) => ({ type: "books", id: book._id })) : [{ type: "books" }],
+        response
+          ? response.data.map((book) => ({ type: "books", id: book._id }))
+          : [{ type: "books" }],
     }),
     fetchBookById: builder.query<TBookBodyResponse, string>({
       query: (bookId) => ({

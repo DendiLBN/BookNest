@@ -16,3 +16,10 @@ export type TBookBodyResponse = {
   avatar?: string;
   coverImageUrl?: string;
 };
+
+export type TPaginatedBooksResponse = {
+  data: TBookBodyResponse[];
+  page: number;
+  perPage: number;
+  totalItems: number;
+};

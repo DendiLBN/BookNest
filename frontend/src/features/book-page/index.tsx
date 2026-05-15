@@ -32,11 +32,13 @@ export const BookView: React.FC = () => {
   const [removeFavoriteBook, { isLoading: isRemovingFavoriteBook }] =
     useRemoveFavoriteBookMutation();
 
-  const { fetchBooksList } = UseFetchBodyBooks();
+  const { handleChangePagination, currentPage, itemsPerPage } = UsePagination();
+  const { fetchBooksList, totalItems } = UseFetchBodyBooks({
+    currentPage,
+    itemsPerPage,
+  });
 
   const { handleDeleteArray } = useDeleteAsArrayBooks();
-
-  const { handleChangePagination, currentPage, itemsPerPage } = UsePagination();
 
   const {
     selectedCategories,
@@ -114,7 +116,7 @@ export const BookView: React.FC = () => {
         <div>
           <p className="mb-1 text-xs font-bold text-app-brand uppercase">Book catalog</p>
           <h1 className="m-0 text-[1.55rem] leading-tight font-bold">Manage library inventory</h1>
-          <p className="mt-xs mb-0 max-w-[640px] leading-6 text-app-text-muted">
+          <p className="mt-xs mb-0 max-w-160 leading-6 text-app-text-muted">
             Search, filter, review ratings, and prepare selected books for bulk actions.
           </p>
         </div>
@@ -162,6 +164,7 @@ export const BookView: React.FC = () => {
             pageSizeOptions: [10, 20, 50, 100],
             current: currentPage,
             pageSize: itemsPerPage,
+            total: totalItems,
             onChange: handleChangePagination,
           }}
         />
