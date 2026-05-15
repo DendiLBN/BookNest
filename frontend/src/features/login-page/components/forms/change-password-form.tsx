@@ -5,6 +5,10 @@ import "@/assets/layouts-styles/login-styles/change-password-styles/password.css
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
 import { useChangePasswordMutation } from "@/features/auth/api";
+import {
+  createConfirmPasswordRules,
+  createPasswordRules,
+} from "@/features/auth/consts/password-validation";
 import type { TChangePasswordRequestBody } from "@/features/auth/types";
 
 const ChangePasswordForm = () => {
@@ -53,14 +57,7 @@ const ChangePasswordForm = () => {
           <Form.Item
             name="newPassword"
             label="New Password"
-            rules={[
-              {
-                required: true,
-                message: "Please input your new password!",
-                min: 8,
-                max: 32,
-              },
-            ]}
+            rules={createPasswordRules("Please input your new password!")}
           >
             <Input.Password placeholder="Enter new password" />
           </Form.Item>
@@ -68,20 +65,11 @@ const ChangePasswordForm = () => {
             name="confirmPassword"
             label="Confirm New Password"
             dependencies={["newPassword"]}
-            rules={[
-              {
-                required: true,
-                message: "Please confirm your new password!",
-              },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue("newPassword") === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error("The two passwords do not match!"));
-                },
-              }),
-            ]}
+            rules={createConfirmPasswordRules({
+              fieldName: "newPassword",
+              requiredMessage: "Please confirm your new password!",
+              mismatchMessage: "The two passwords do not match!",
+            })}
           >
             <Input.Password placeholder="Repeat new password" />
           </Form.Item>

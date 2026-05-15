@@ -10,6 +10,10 @@ import { useRegistrationUser } from "@/features/register-page/hooks/useRegistrat
 import { ThemeContext } from "@/common/contexts/theme-context";
 
 import { AUTH_IMAGE_URLS } from "@/features/auth/consts/auth-images";
+import {
+  createConfirmPasswordRules,
+  createPasswordRules,
+} from "@/features/auth/consts/password-validation";
 import type { TRegisterUserRequestBody } from "@/features/auth/types";
 import initialRegisterValues from "@/features/register-page/consts/register-state-values";
 
@@ -61,10 +65,7 @@ export const RegisterPage = () => {
         <Form.Item
           label="Password"
           name="password"
-          rules={[
-            { required: true, message: "Please input your password!" },
-            { min: 8, message: "Password must be at least 8 characters!" },
-          ]}
+          rules={createPasswordRules("Please input your password!")}
           hasFeedback
         >
           <Input.Password
@@ -77,20 +78,13 @@ export const RegisterPage = () => {
         <Form.Item
           label="Confirm Password"
           name="confirm-password"
-          dependencies={["new-password"]}
+          dependencies={["password"]}
           hasFeedback
-          rules={[
-            { required: true, message: "Please confirm your password!" },
-            { min: 8, message: "Password must be at least 8 characters!" },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue("password") === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(new Error("The passwords do not match!"));
-              },
-            }),
-          ]}
+          rules={createConfirmPasswordRules({
+            fieldName: "password",
+            requiredMessage: "Please confirm your password!",
+            mismatchMessage: "The passwords do not match!",
+          })}
         >
           <Input.Password
             prefix={<LockOutlined />}
