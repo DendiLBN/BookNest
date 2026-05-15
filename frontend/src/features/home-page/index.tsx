@@ -82,7 +82,7 @@ export const HomeView = () => {
             </span>
           </div>
           <Link
-            className="shrink-0 rounded-m border border-app-border bg-app-surface px-s py-xs font-bold text-app-brand no-underline shadow-app-s transition hover:bg-app-surface-muted hover:text-app-brand"
+            className="shrink-0 rounded-m bg-app-brand px-s py-xs font-bold text-app-text-inverse no-underline shadow-app-s transition hover:bg-app-brand-strong"
             to="/book"
           >
             Browse books

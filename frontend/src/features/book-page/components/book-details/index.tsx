@@ -23,7 +23,7 @@ export const BookDetails = () => {
 
   if (isFetching) {
     return (
-      <div className="book-page__details-state">
+      <div className="grid min-h-90 place-items-center gap-s rounded-m border border-app-border bg-app-surface p-l">
         <Spin size="large" tip="Loading book details..." />
       </div>
     );
@@ -31,7 +31,7 @@ export const BookDetails = () => {
 
   if (isError || !book) {
     return (
-      <div className="book-page__details-state">
+      <div className="grid min-h-90 place-items-center gap-s rounded-m border border-app-border bg-app-surface p-l">
         <Empty description="Book details could not be loaded." />
         <Link to="/book">
           <Button icon={<ArrowLeftOutlined />}>Back to books</Button>
@@ -49,19 +49,19 @@ export const BookDetails = () => {
   ];
 
   return (
-    <div className="book-page book-page__details">
+    <div className="flex max-w-280 flex-col gap-xl">
       <Link to="/book">
         <Button icon={<ArrowLeftOutlined />}>Back to books</Button>
       </Link>
 
-      <section className="book-page__details-hero">
+      <section className="grid gap-l rounded-m border border-app-border bg-app-surface p-m shadow-app-s md:grid-cols-[220px_minmax(0,1fr)]">
         <img
           src={book.coverImageUrl || book.avatar || fallbackCoverImage}
           alt={book.title}
-          className="book-page__details-cover"
+          className="aspect-2/3 w-full rounded-m border border-app-border bg-app-surface-muted object-cover"
         />
 
-        <div className="book-page__details-summary">
+        <div className="flex flex-col items-start gap-xs">
           <p className="book-page__eyebrow">Book details</p>
           <h1 className="book-page__title">{book.title}</h1>
           <p className="book-page__subtitle">{book.author}</p>
@@ -82,7 +82,7 @@ export const BookDetails = () => {
             ))}
           </div>
 
-          <div className="book-page__details-tags">
+          <div className="flex flex-wrap gap-xs">
             {book.category?.map((category) => (
               <Tag color={tagColors[category] || "green"} key={category}>
                 {category}
@@ -90,20 +90,20 @@ export const BookDetails = () => {
             ))}
           </div>
 
-          <div className="book-page__details-actions">
+          <div className="flex flex-wrap gap-xs">
             <Button icon={<ShoppingCartOutlined />} type="primary">
               Add to cart
             </Button>
             <Button icon={<HeartOutlined />}>Save favorite</Button>
           </div>
-          <p className="m-0 max-w-[620px] leading-6 text-app-text-muted">
+          <p className="m-0 max-w-155 leading-6 text-app-text-muted">
             Preview catalog data before adding this title to a basket or saving it to your reading
             list.
           </p>
         </div>
       </section>
 
-      <section className="book-page__details-panel">
+      <section className="rounded-m border border-app-border bg-app-surface p-sm text-app-text">
         <Descriptions
           bordered
           className="[&_.ant-descriptions-item-content]:border-app-border [&_.ant-descriptions-item-content]:bg-app-surface [&_.ant-descriptions-item-content]:text-app-text [&_.ant-descriptions-item-label]:border-app-border [&_.ant-descriptions-item-label]:bg-app-surface-muted [&_.ant-descriptions-item-label]:font-bold [&_.ant-descriptions-item-label]:text-app-text [&_.ant-descriptions-view]:border-app-border"

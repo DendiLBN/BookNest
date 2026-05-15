@@ -110,26 +110,22 @@ export const BookView: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-xl">
-      <section className="relative grid overflow-hidden rounded-m border border-[color-mix(in_srgb,var(--color-brand)_24%,var(--color-border))] bg-[linear-gradient(135deg,color-mix(in_srgb,var(--color-surface)_82%,var(--color-brand-strong)),color-mix(in_srgb,var(--color-brand-strong)_76%,var(--color-accent))),url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center p-sm text-white shadow-app-m md:grid-cols-[minmax(0,1fr)_auto] md:p-l">
+      <section className="relative grid overflow-hidden rounded-m border border-app-border bg-[linear-gradient(135deg,var(--color-brand-soft),var(--color-accent-soft))] p-sm text-app-text shadow-app-m md:grid-cols-[minmax(0,1fr)_auto] md:p-l">
         <div>
-          <p className="mb-1 text-xs font-bold text-app-highlight uppercase">Book catalog</p>
+          <p className="mb-1 text-xs font-bold text-app-brand uppercase">Book catalog</p>
           <h1 className="m-0 text-[1.55rem] leading-tight font-bold">Manage library inventory</h1>
-          <p className="mt-xs mb-0 max-w-[640px] leading-6 text-[color-mix(in_srgb,#ffffff_86%,var(--color-highlight))]">
+          <p className="mt-xs mb-0 max-w-[640px] leading-6 text-app-text-muted">
             Search, filter, review ratings, and prepare selected books for bulk actions.
           </p>
         </div>
         <div className="mt-sm grid grid-cols-2 gap-xs self-stretch md:mt-0">
-          <div className="flex min-w-28 flex-col justify-center rounded-m border border-white/30 bg-white/15 p-xs backdrop-blur">
-            <span className="text-xl font-bold">{bookList.length}</span>
-            <p className="m-0 text-[color-mix(in_srgb,#ffffff_82%,var(--color-highlight))]">
-              Visible books
-            </p>
+          <div className="flex min-w-28 flex-col justify-center rounded-m border border-app-border bg-app-surface p-xs">
+            <span className="text-xl font-bold text-app-brand">{bookList.length}</span>
+            <p className="m-0 text-app-text-muted">Visible books</p>
           </div>
-          <div className="flex min-w-28 flex-col justify-center rounded-m border border-white/30 bg-white/15 p-xs backdrop-blur">
-            <span className="text-xl font-bold">{selectedBookRowKeys.length}</span>
-            <p className="m-0 text-[color-mix(in_srgb,#ffffff_82%,var(--color-highlight))]">
-              Selected
-            </p>
+          <div className="flex min-w-28 flex-col justify-center rounded-m border border-app-border bg-app-surface p-xs">
+            <span className="text-xl font-bold text-app-brand">{selectedBookRowKeys.length}</span>
+            <p className="m-0 text-app-text-muted">Selected</p>
           </div>
         </div>
       </section>
