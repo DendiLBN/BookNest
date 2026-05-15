@@ -3,6 +3,8 @@ import { Key, useEffect } from "react";
 import { Spin, Table, TableProps } from "antd";
 import { useDispatch } from "react-redux";
 
+import "@/assets/layouts-styles/book-styles/book.css";
+
 import { DeleteBooksButton } from "@/features/book-page/components/delete-button";
 import { BookSearch } from "@/features/book-page/components/filters/book-search";
 import { CategorySelect } from "@/features/book-page/components/filters/category-select";
