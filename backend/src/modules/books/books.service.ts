@@ -34,14 +34,13 @@ export class BooksService implements OnModuleInit {
         const bookIndex = i + booksCount;
         const seedBook = this.getSeedBook(bookIndex);
 
-        const createdBook = await this.create({
+        await this.create({
           title: seedBook.title,
           author: seedBook.author,
           rate: Math.floor(Math.random() * 5) + 1,
           category: [category1, category2],
           coverImageUrl: this.getSeededCoverImageUrl(seedBook.title),
         });
-        console.log(createdBook.title);
       }
     }
   }
@@ -122,6 +121,10 @@ export class BooksService implements OnModuleInit {
         { title: { $regex: searchBookDto.searchString, $options: 'i' } },
         { author: { $regex: searchBookDto.searchString, $options: 'i' } },
       ];
+    }
+
+    if (searchBookDto.category?.length) {
+      query.category = { $in: searchBookDto.category };
     }
 
     return query;

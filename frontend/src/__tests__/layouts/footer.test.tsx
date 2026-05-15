@@ -27,18 +27,12 @@ describe("LandingPageFooter", () => {
     expect(screen.getByRole("button", { name: /subscribe/i })).toBeInTheDocument();
   });
 
-  it("renders footer navigation links", () => {
+  it("does not render inactive footer navigation links", () => {
     renderFooter(true);
 
-    expect(screen.getByRole("link", { name: /about us/i })).toHaveAttribute("href", "/about");
-    expect(screen.getByRole("link", { name: /contact/i })).toHaveAttribute("href", "/contact");
-    expect(screen.getByRole("link", { name: /terms of service/i })).toHaveAttribute(
-      "href",
-      "/terms",
-    );
-    expect(screen.getByRole("link", { name: /privacy policy/i })).toHaveAttribute(
-      "href",
-      "/privacy",
-    );
+    expect(screen.queryByRole("link", { name: /about us/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /contact/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /terms of service/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /privacy policy/i })).not.toBeInTheDocument();
   });
 });

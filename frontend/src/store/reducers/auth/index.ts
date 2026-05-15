@@ -2,7 +2,6 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import type { RootState } from "@/common/hooks/redux-toolkit";
 
-import { removeTokens } from "@/common/utils/removeTokens";
 import type { TUser } from "@/features/users/types";
 
 type TAuthReducerState = {
@@ -25,7 +24,6 @@ export const authReducer = createSlice({
     },
 
     logOutUser(state) {
-      removeTokens();
       state.user = null;
       state.isLoggedIn = false;
     },

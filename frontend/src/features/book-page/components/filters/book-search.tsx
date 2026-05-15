@@ -5,7 +5,7 @@ import { Input } from "antd";
 
 import { useControledDebounce } from "@/common/hooks/debounce/useControledDebounce";
 
-import { TBookSearchProps } from "@/types/types";
+import { TBookSearchProps } from "@/features/book-page/types";
 
 export const BookSearch: React.FC<TBookSearchProps> = ({ onSearch }) => {
   const { value, debouncedValue, handleDebouncedValue } = useControledDebounce();

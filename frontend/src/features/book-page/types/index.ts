@@ -1,6 +1,13 @@
-import { Key } from "react";
+import type { Key } from "react";
 
-export type TBookBody = {
+export type TBooksQueryParams = {
+  page: number;
+  perPage: number;
+  searchString: string;
+  category: string[];
+};
+
+export type TBook = {
   _id: string;
   category: string[];
   key: string;
@@ -12,22 +19,17 @@ export type TBookBody = {
   coverImageUrl?: string;
 };
 
-export type IBookSearchProps = {
-  bookSearchText: string;
-  value: string;
+export type TPaginatedBooksResponse = {
+  data: TBook[];
+  page: number;
+  perPage: number;
+  totalItems: number;
 };
 
 export type TDeleteBooksButtonProps = {
   selectedBookRowKeys: Key[];
   loading: boolean;
   onDelete: () => void;
-};
-
-export type TUseFilteredBooksProps = {
-  bookSearchText: string;
-  selectedCategories: string[];
-  fetchBookList: TBookBody[];
-  setBookList: (filteredBookList: TBookBody[]) => void;
 };
 
 export type TCategorySelectProps = {

@@ -17,7 +17,7 @@ import type { TLoginUserRequestBody } from "@/features/auth/types";
 
 export const LoginPage = () => {
   const { isModalVisible, showModal } = useModalContext();
-  const { fetchBodyLoginUser, loading } = useLoginUser();
+  const { submitLogin, loading } = useLoginUser();
 
   const handleShowModal = () => {
     showModal();
@@ -26,13 +26,13 @@ export const LoginPage = () => {
   const themeContext = useThemeContext();
 
   if (!themeContext) {
-    return;
+    return null;
   }
 
   const { isDarkMode } = themeContext;
 
   const handleSubmitLogin = (values: TLoginUserRequestBody) => {
-    fetchBodyLoginUser(values);
+    submitLogin(values);
   };
 
   return (

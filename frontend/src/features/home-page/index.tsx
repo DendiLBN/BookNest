@@ -13,12 +13,13 @@ import {
 import { useFetchBooksQuery } from "@/features/book-page/api";
 
 export const HomeView = () => {
-  const { data: books = [], isFetching } = useFetchBooksQuery({
+  const { data: booksResponse, isFetching } = useFetchBooksQuery({
     page: 1,
     perPage: 8,
     searchString: "",
     category: [],
   });
+  const books = useMemo(() => booksResponse?.data ?? [], [booksResponse]);
 
   const dashboardStats = useMemo(() => {
     const categories = new Set(books.flatMap((book) => book.category));

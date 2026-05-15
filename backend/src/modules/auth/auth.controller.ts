@@ -21,7 +21,7 @@ import { SkipThrottle, Throttle } from '@nestjs/throttler';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @SkipThrottle()
   @Post('register')
@@ -71,7 +71,6 @@ export class AuthController {
 
   @Post('reset-password')
   async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
-    console.log('Received body:', resetPasswordDto);
     return this.authService.resetPassword(
       resetPasswordDto.token,
       resetPasswordDto.newPassword,

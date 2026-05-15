@@ -1,7 +1,4 @@
-import { Key, useEffect } from "react";
-
-import { Spin, Table, TableProps } from "antd";
-import { useDispatch } from "react-redux";
+import { Spin, Table } from "antd";
 
 import "@/assets/layouts-styles/book-styles/book.css";
 
@@ -9,98 +6,39 @@ import { DeleteBooksButton } from "@/features/book-page/components/delete-button
 import { BookSearch } from "@/features/book-page/components/filters/book-search";
 import { CategorySelect } from "@/features/book-page/components/filters/category-select";
 
-import { UsePagination } from "@/common/hooks/pagination/usePagination";
+import { usePagination } from "@/common/hooks/pagination/usePagination";
+import { useBookFavorites } from "@/features/book-page/hooks/useBookFavorites";
+import { useBookSelection } from "@/features/book-page/hooks/useBookSelection";
 import { useDeleteAsArrayBooks } from "@/features/book-page/hooks/useDeleteAsArrayBooks";
-import { UseFetchBodyBooks } from "@/features/book-page/hooks/useFetchBooksList";
-import { useFilteredBooks } from "@/features/book-page/hooks/useFilteredBooks";
+import { useBooksList } from "@/features/book-page/hooks/useFetchBooksList";
 
-import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
 
-import { TBookBody } from "@/types/types";
-
-import useUser from "@/common/users/useUser";
 import { createBookTableColumns } from "@/features/book-page/consts/book-table-columns";
-import { useAddFavoriteBookMutation, useRemoveFavoriteBookMutation } from "@/features/users/api";
-import { setIsLoggedIn } from "@/store/reducers/auth";
 
 export const BookView: React.FC = () => {
-  const { loading, openNotification } = useNotificationContext();
-  const dispatch = useDispatch();
-  const { user } = useUser();
-  const [addFavoriteBook, { isLoading: isAddingFavoriteBook }] = useAddFavoriteBookMutation();
-  const [removeFavoriteBook, { isLoading: isRemovingFavoriteBook }] =
-    useRemoveFavoriteBookMutation();
-
-  const { fetchBooksList } = UseFetchBodyBooks();
+  const { handleChangePagination, currentPage, itemsPerPage } = usePagination();
+  const { bookList, isFetching, totalItems } = useBooksList({
+    currentPage,
+    itemsPerPage,
+  });
 
   const { handleDeleteArray } = useDeleteAsArrayBooks();
-
-  const { handleChangePagination, currentPage, itemsPerPage } = UsePagination();
 
   const {
     selectedCategories,
     selectedBookRowKeys,
-    bookList,
     bookSearchText,
-    fetchBookList,
     setBookSearchText,
-    setBookList,
     setSelectedCategories,
     setSelectedBookRowKeys,
   } = useBooksFormContext();
 
-  useFilteredBooks({
-    bookSearchText,
-    selectedCategories,
-    fetchBookList,
-    setBookList,
+  const { rowSelection } = useBookSelection({
+    selectedBookRowKeys,
+    setSelectedBookRowKeys,
   });
-
-  const onSelectChange = (newSelectedRowKeys: Key[]) => {
-    if (newSelectedRowKeys.length <= 20) {
-      setSelectedBookRowKeys(newSelectedRowKeys);
-    } else {
-      openNotification(
-        "topRight",
-        "error",
-        "An error occurred while selecting books. You can select up to 20 books.",
-        true,
-      );
-    }
-  };
-
-  useEffect(() => {
-    fetchBooksList();
-  }, [fetchBooksList, currentPage, itemsPerPage]);
-
-  const rowSelection: TableProps<TBookBody>["rowSelection"] = {
-    selectedRowKeys: selectedBookRowKeys,
-    onChange: onSelectChange,
-  };
-
-  const favoriteBookIds = user?.favoriteBookIds ?? [];
-  const favoriteActionLoading = isAddingFavoriteBook || isRemovingFavoriteBook;
-
-  const handleToggleFavorite = async (bookId: string) => {
-    const isFavorite = favoriteBookIds.includes(bookId);
-
-    try {
-      const updatedUser = await (isFavorite
-        ? removeFavoriteBook(bookId).unwrap()
-        : addFavoriteBook(bookId).unwrap());
-
-      dispatch(setIsLoggedIn({ isLoggedIn: true, user: updatedUser }));
-      openNotification(
-        "topRight",
-        "success",
-        isFavorite ? "Book removed from favorites." : "Book saved to favorites.",
-        false,
-      );
-    } catch {
-      openNotification("topRight", "error", "Could not update favorite books.", false);
-    }
-  };
+  const { favoriteBookIds, favoriteActionLoading, handleToggleFavorite } = useBookFavorites();
 
   const bookTableColumns = createBookTableColumns({
     favoriteBookIds,
@@ -114,7 +52,7 @@ export const BookView: React.FC = () => {
         <div>
           <p className="mb-1 text-xs font-bold text-app-brand uppercase">Book catalog</p>
           <h1 className="m-0 text-[1.55rem] leading-tight font-bold">Manage library inventory</h1>
-          <p className="mt-xs mb-0 max-w-[640px] leading-6 text-app-text-muted">
+          <p className="mt-xs mb-0 max-w-160 leading-6 text-app-text-muted">
             Search, filter, review ratings, and prepare selected books for bulk actions.
           </p>
         </div>
@@ -139,13 +77,13 @@ export const BookView: React.FC = () => {
         <div className="w-full md:ml-auto md:w-auto">
           <DeleteBooksButton
             selectedBookRowKeys={selectedBookRowKeys}
-            loading={loading}
+            loading={isFetching}
             onDelete={handleDeleteArray}
           />
         </div>
       </section>
 
-      <Spin tip="Loading..." size="large" spinning={loading}>
+      <Spin tip="Loading..." size="large" spinning={isFetching}>
         <Table
           className="book-page__table"
           rowSelection={rowSelection}
@@ -162,6 +100,7 @@ export const BookView: React.FC = () => {
             pageSizeOptions: [10, 20, 50, 100],
             current: currentPage,
             pageSize: itemsPerPage,
+            total: totalItems,
             onChange: handleChangePagination,
           }}
         />

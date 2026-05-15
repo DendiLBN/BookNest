@@ -1,44 +1,28 @@
-import { useCallback } from "react";
+import { useMemo } from "react";
 
-import { UsePagination } from "@/common/hooks/pagination/usePagination";
-
-import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
 
 import { useFetchBooksQuery } from "@/features/book-page/api";
 
-export const UseFetchBodyBooks = () => {
-  const { setLoading, openNotification } = useNotificationContext();
+type TUseBooksListParams = {
+  currentPage: number;
+  itemsPerPage: number;
+};
 
-  const { currentPage, itemsPerPage } = UsePagination();
+export const useBooksList = ({ currentPage, itemsPerPage }: TUseBooksListParams) => {
+  const { selectedCategories, bookSearchText } = useBooksFormContext();
 
-  const { selectedCategories, bookSearchText, setFetchBookList } = useBooksFormContext();
-
-  const { data: fetchedBookList = [] } = useFetchBooksQuery({
+  const { data: fetchedBooksResponse, isFetching } = useFetchBooksQuery({
     page: currentPage,
     perPage: itemsPerPage,
     searchString: bookSearchText,
     category: selectedCategories,
   });
-
-  const fetchBooksList = useCallback(async () => {
-    setLoading(true);
-    try {
-      setFetchBookList(fetchedBookList);
-      setLoading(false);
-    } catch {
-      openNotification(
-        "topRight",
-        "error",
-        "An error occurred while fetching books! Please refresh the page.",
-        false,
-      );
-    }
-  }, [setLoading, setFetchBookList, fetchedBookList, openNotification]);
+  const bookList = useMemo(() => fetchedBooksResponse?.data ?? [], [fetchedBooksResponse]);
 
   return {
-    fetchBooksList,
-    currentPage,
-    itemsPerPage,
+    bookList,
+    isFetching,
+    totalItems: fetchedBooksResponse?.totalItems ?? 0,
   };
 };

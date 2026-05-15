@@ -1,6 +1,6 @@
 import { Button } from "antd";
 
-import { TDeleteBooksButtonProps } from "@/types/types";
+import { TDeleteBooksButtonProps } from "@/features/book-page/types";
 
 export const DeleteBooksButton: React.FC<TDeleteBooksButtonProps> = ({
   selectedBookRowKeys,

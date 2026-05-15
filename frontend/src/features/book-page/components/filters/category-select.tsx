@@ -1,8 +1,7 @@
 import { Select } from "antd";
 
-import { TCategorySelectProps } from "@/types/types";
-
 import { categories } from "@/features/book-page/consts/book-categories";
+import { TCategorySelectProps } from "@/features/book-page/types";
 
 const { Option } = Select;
 

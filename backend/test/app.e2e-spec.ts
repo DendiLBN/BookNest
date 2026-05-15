@@ -39,7 +39,7 @@ describe('AppController (e2e)', () => {
 
     await request(app.getHttpServer())
       .post('/books')
-      .send({ title: 'zzz', author: 'zzz', rate: 2 });
+      .send({ title: 'zzz', author: 'zzz', rate: 2, category: ['Mystery'] });
   });
 
   afterAll(async () => {
@@ -57,6 +57,7 @@ describe('AppController (e2e)', () => {
       title: 'Test Book',
       author: 'Test Author',
       rate: 2,
+      category: ['Science Fiction'],
       coverImageUrl: 'https://example.com/test-book-cover.jpg',
     };
 
@@ -116,6 +117,17 @@ describe('AppController (e2e)', () => {
     expect(response.body.data[0]._id).toEqual(createdBook._id);
     expect(response.body.page).toEqual(1);
     expect(response.body.perPage).toEqual(10);
+    expect(response.body.totalItems).toEqual(1);
+  });
+
+  it('/books (GET) - should return books from selected category', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/books')
+      .query({ page: 1, perPage: 10, category: ['Science Fiction'] });
+
+    expect(response.status).toBe(200);
+    expect(response.body.data.length).toEqual(1);
+    expect(response.body.data[0]._id).toEqual(createdBook._id);
     expect(response.body.totalItems).toEqual(1);
   });
 

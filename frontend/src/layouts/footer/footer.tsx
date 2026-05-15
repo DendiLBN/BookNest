@@ -2,24 +2,17 @@ import { type FC, type FormEvent, useContext } from "react";
 
 import { ThemeContext } from "@/common/contexts/theme-context";
 
-const footerLinks = [
-  { href: "/about", label: "About Us" },
-  { href: "/contact", label: "Contact" },
-  { href: "/terms", label: "Terms of Service" },
-  { href: "/privacy", label: "Privacy Policy" },
-];
-
 const footerStats = [
   { label: "Catalog", value: "100+" },
   { label: "Shelves", value: "12" },
-  { label: "Secure auth", value: "JWT" },
+  { label: "Favorites", value: "Saved" },
 ];
 
 export const LandingPageFooter: FC = () => {
   const themeContext = useContext(ThemeContext);
 
   if (!themeContext) {
-    return;
+    return null;
   }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -36,10 +29,10 @@ export const LandingPageFooter: FC = () => {
           <p className="m-0 text-sm font-semibold tracking-normal text-app-brand uppercase">
             BookNest
           </p>
-          <h2 className="m-0 max-w-[420px] text-2xl leading-tight font-bold">
+          <h2 className="m-0 max-w-105 text-2xl leading-tight font-bold">
             Build your shelf, track favorites, and keep reading organized.
           </h2>
-          <p className="app-muted-text m-0 max-w-[520px] text-sm leading-6">
+          <p className="app-muted-text m-0 max-w-130 text-sm leading-6">
             A practical bookstore dashboard for browsing books, managing your account, and keeping
             personal reading picks close.
           </p>
@@ -57,7 +50,7 @@ export const LandingPageFooter: FC = () => {
         </section>
 
         <section
-          aria-label="BookNest newsletter and navigation"
+          aria-label="BookNest newsletter"
           className="flex flex-col justify-between gap-m rounded-l border border-app-border bg-app-surface p-sm shadow-app-s"
         >
           <div>
@@ -84,21 +77,6 @@ export const LandingPageFooter: FC = () => {
               Subscribe
             </button>
           </form>
-
-          <nav
-            aria-label="Footer navigation"
-            className="flex flex-wrap gap-x-sm gap-y-xs border-t border-app-border pt-sm"
-          >
-            {footerLinks.map(({ href, label }) => (
-              <a
-                className="app-muted-text text-sm font-medium transition hover:text-app-brand"
-                href={href}
-                key={href}
-              >
-                {label}
-              </a>
-            ))}
-          </nav>
         </section>
       </div>
 

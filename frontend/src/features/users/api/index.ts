@@ -1,11 +1,11 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
-import axiosBaseQuery from "@/common/api/axios-base-query";
+import fetchBaseQuery from "@/common/api/fetch-base-query";
 import type { TUserState } from "@/features/users/types";
 
 export const userApi = createApi({
   reducerPath: "userApi",
-  baseQuery: axiosBaseQuery(),
+  baseQuery: fetchBaseQuery(),
   tagTypes: ["users"],
   endpoints: (builder) => ({
     fetchUsers: builder.query<TUserState, void>({

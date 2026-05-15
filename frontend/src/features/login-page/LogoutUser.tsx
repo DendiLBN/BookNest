@@ -29,8 +29,8 @@ export const LogoutButton: React.FC = () => {
         onSuccess: handleSuccess,
         onError: handleError,
       }).unwrap();
-    } catch (error) {
-      console.error("Logout error:", error);
+    } catch {
+      // Mutation callbacks already surface the user-facing error.
     }
   };
 

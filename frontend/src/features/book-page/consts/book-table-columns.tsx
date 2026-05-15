@@ -4,9 +4,8 @@ import { HeartFilled, HeartOutlined, ShoppingCartOutlined } from "@ant-design/ic
 import { Button, Rate, Space, Tag, Typography } from "antd";
 import { ColumnsType } from "antd/es/table";
 
-import { TBookBody } from "@/types/types";
-
 import { tagColors } from "@/features/book-page/consts/book-categories-colors";
+import { TBook } from "@/features/book-page/types";
 
 const fallbackCoverImage = "/book.png";
 
@@ -22,7 +21,7 @@ export const createBookTableColumns = ({
   favoriteBookIds,
   favoriteActionLoading,
   onToggleFavorite,
-}: TCreateBookTableColumnsParams): ColumnsType<TBookBody> => [
+}: TCreateBookTableColumnsParams): ColumnsType<TBook> => [
   {
     title: "Cover",
     dataIndex: "coverImageUrl",

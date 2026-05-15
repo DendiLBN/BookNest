@@ -5,12 +5,15 @@ import { ModalProvider } from "@/common/contexts/modal-context";
 import { ThemeProvider } from "@/common/contexts/theme-context";
 
 import ErrorBoundary from "@/common/error-boundary/error-boundry";
+import { useSyncCurrentUser } from "@/common/users/useSyncCurrentUser";
 import { LandingPageContent } from "@/layouts/content/content";
 import LandingPageFooter from "@/layouts/footer/footer";
 import { LandingPageHeader } from "@/layouts/header/header";
 import { LandingPageSideBar } from "@/layouts/side-bar/sidebar";
 
 const App: React.FC = () => {
+  useSyncCurrentUser();
+
   return (
     <ThemeProvider>
       <ModalProvider>
