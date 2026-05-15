@@ -4,12 +4,12 @@ import "@/assets/layouts-styles/login-styles/change-password-styles/password.css
 
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
-import { useChangePasswordMutation } from "@/features/auth/api";
 import {
   createConfirmPasswordRules,
   createPasswordRules,
 } from "@/features/auth/consts/password-validation";
 import type { TChangePasswordRequestBody } from "@/features/auth/types";
+import { useChangePasswordMutation } from "@/store/api/auth";
 
 const ChangePasswordForm = () => {
   const [form] = Form.useForm<TChangePasswordRequestBody>();

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
 import useUser from "@/common/users/useUser";
-import { useAddFavoriteBookMutation, useRemoveFavoriteBookMutation } from "@/features/users/api";
+import { useAddFavoriteBookMutation, useRemoveFavoriteBookMutation } from "@/store/api/users";
 import { setIsLoggedIn } from "@/store/reducers/auth";
 
 export const useBookFavorites = () => {

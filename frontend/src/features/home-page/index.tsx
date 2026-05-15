@@ -10,7 +10,7 @@ import {
   TagsOutlined,
 } from "@ant-design/icons";
 
-import { useFetchBooksQuery } from "@/features/book-page/api";
+import { useFetchBooksQuery } from "@/store/api/books";
 
 export const HomeView = () => {
   const { data: booksResponse, isFetching } = useFetchBooksQuery({

@@ -17,7 +17,7 @@ import type {
   TResetPasswordParams,
   TResetPasswordResponse,
 } from "@/features/auth/types";
-import { userApi } from "@/features/users/api";
+import { userApi } from "@/store/api/users";
 import { logOutUser, setIsLoggedIn } from "@/store/reducers/auth";
 
 export const authApi = createApi({

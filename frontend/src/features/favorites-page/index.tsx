@@ -7,8 +7,8 @@ import "@/assets/layouts-styles/book-styles/book.css";
 
 import { useBookFavorites } from "@/features/book-page/hooks/useBookFavorites";
 
-import { useFetchBooksQuery } from "@/features/book-page/api";
 import { createBookTableColumns } from "@/features/book-page/consts/book-table-columns";
+import { useFetchBooksQuery } from "@/store/api/books";
 
 export const FavoritesView = () => {
   const { favoriteBookIds, favoriteActionLoading, handleToggleFavorite } = useBookFavorites();

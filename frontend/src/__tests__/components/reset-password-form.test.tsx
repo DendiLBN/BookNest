@@ -15,7 +15,7 @@ vi.mock("@/common/contexts/hooks/use-notification-context", () => ({
   }),
 }));
 
-vi.mock("@/features/auth/api", () => ({
+vi.mock("@/store/api/auth", () => ({
   useResetPasswordMutation: () => [resetPassword, { isLoading: false }],
 }));
 

@@ -10,7 +10,7 @@ vi.mock("@/common/contexts/hooks/use-notification-context", () => ({
   }),
 }));
 
-vi.mock("@/features/auth/api", () => ({
+vi.mock("@/store/api/auth", () => ({
   useChangePasswordMutation: () => [vi.fn(), { isLoading: false }],
 }));
 

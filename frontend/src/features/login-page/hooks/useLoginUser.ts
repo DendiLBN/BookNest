@@ -1,7 +1,7 @@
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
-import { useLoginUserMutation } from "@/features/auth/api";
 import type { TLoginUserRequestBody } from "@/features/auth/types";
+import { useLoginUserMutation } from "@/store/api/auth";
 
 export const useLoginUser = () => {
   const [loginUser, { isLoading }] = useLoginUserMutation();

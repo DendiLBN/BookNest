@@ -5,8 +5,8 @@ import { Button, Descriptions, Empty, Rate, Spin, Tag } from "antd";
 
 import "@/assets/layouts-styles/book-styles/book.css";
 
-import { useFetchBookByIdQuery } from "@/features/book-page/api";
 import { tagColors } from "@/features/book-page/consts/book-categories-colors";
+import { useFetchBookByIdQuery } from "@/store/api/books";
 
 const fallbackCoverImage = "/book.png";
 

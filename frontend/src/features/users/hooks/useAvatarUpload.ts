@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
-import { useUploadAvatarMutation } from "@/features/users/api";
 import {
   ALLOWED_AVATAR_MIME_TYPES,
   MAX_AVATAR_FILE_SIZE_BYTES,
 } from "@/features/users/consts/avatar-upload";
+import { useUploadAvatarMutation } from "@/store/api/users";
 import { setIsLoggedIn } from "@/store/reducers/auth";
 
 export const useAvatarUpload = () => {

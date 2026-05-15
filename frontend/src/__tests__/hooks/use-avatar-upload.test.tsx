@@ -19,7 +19,7 @@ vi.mock("@/common/contexts/hooks/use-notification-context", () => ({
   }),
 }));
 
-vi.mock("@/features/users/api", () => ({
+vi.mock("@/store/api/users", () => ({
   useUploadAvatarMutation: () => [uploadAvatar, { isLoading: false }],
 }));
 

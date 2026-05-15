@@ -6,12 +6,12 @@ import "@/assets/layouts-styles/login-styles/change-password-styles/password.css
 
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
-import { useResetPasswordMutation } from "@/features/auth/api";
 import {
   createConfirmPasswordRules,
   createPasswordRules,
 } from "@/features/auth/consts/password-validation";
 import type { TResetPasswordRequestBody } from "@/features/auth/types";
+import { useResetPasswordMutation } from "@/store/api/auth";
 
 type TResetPasswordFormValues = {
   newPassword: string;

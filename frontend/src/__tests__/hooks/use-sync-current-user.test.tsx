@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/common/consts/local-storage";
 import { useSyncCurrentUser } from "@/common/users/useSyncCurrentUser";
-import { useFetchUsersQuery } from "@/features/users/api";
+import { useFetchUsersQuery } from "@/store/api/users";
 import { setIsLoggedIn } from "@/store/reducers/auth";
 
 const dispatch = vi.fn();
@@ -12,7 +12,7 @@ vi.mock("react-redux", () => ({
   useDispatch: () => dispatch,
 }));
 
-vi.mock("@/features/users/api", () => ({
+vi.mock("@/store/api/users", () => ({
   useFetchUsersQuery: vi.fn(),
 }));
 
