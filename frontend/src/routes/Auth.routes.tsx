@@ -10,7 +10,7 @@ const RegisterPage = lazy(() => import("@/pages/Auth/Register"));
 const AuthRoutes = () => {
   const { loading } = useNotificationContext();
 
-  if (loading) return;
+  if (loading) return null;
 
   return (
     <Suspense fallback={loading}>

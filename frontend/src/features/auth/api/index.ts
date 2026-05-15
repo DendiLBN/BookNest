@@ -1,19 +1,20 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import fetchBaseQuery from "@/common/api/fetch-base-query";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/common/consts/local-storage";
+import { removeTokens } from "@/common/utils/removeTokens";
 import { setTokens } from "@/common/utils/setTokens";
 import type {
   TForgotPasswordParams,
   TLoginUserParams,
   TLoginUserResponse,
   TLogoutUserParams,
-  TLogOutUserResponse,
+  TLogoutUserResponse,
   TRegisterUserParams,
   TRegisterUserResponse,
 } from "@/features/auth/types";
 import { userApi } from "@/features/users/api";
 import { logOutUser, setIsLoggedIn } from "@/store/reducers/auth";
-import { clearUser } from "@/store/reducers/users";
 
 export const authApi = createApi({
   reducerPath: "authApi",
@@ -67,10 +68,10 @@ export const authApi = createApi({
       },
     }),
 
-    logOutUser: builder.mutation<TLogOutUserResponse, TLogoutUserParams>({
+    logOutUser: builder.mutation<TLogoutUserResponse, TLogoutUserParams>({
       query: () => {
-        const accessToken = localStorage.getItem("accessToken");
-        const refreshToken = localStorage.getItem("refreshToken");
+        const accessToken = localStorage.getItem(ACCESS_TOKEN);
+        const refreshToken = localStorage.getItem(REFRESH_TOKEN);
 
         return {
           method: "POST",
@@ -87,12 +88,9 @@ export const authApi = createApi({
           const response = await queryFulfilled;
 
           if (response) {
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
+            removeTokens();
             onSuccess();
-            dispatch(clearUser());
             dispatch(logOutUser());
-            dispatch(setIsLoggedIn({ isLoggedIn: false, user: null }));
           }
         } catch {
           onError();

@@ -4,14 +4,12 @@ import { authApi } from "@/features/auth/api";
 import { bookApi } from "@/features/book-page/api";
 import { userApi } from "@/features/users/api";
 import { authReducer } from "@/store/reducers/auth";
-import { userSlice } from "@/store/reducers/users";
 
 const apiReducers = {
   [userApi.reducerPath]: userApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [bookApi.reducerPath]: bookApi.reducer,
   [authReducer.name]: authReducer.reducer,
-  [userSlice.name]: userSlice.reducer,
 };
 
 export const apiMiddlewares = [authApi.middleware, bookApi.middleware, userApi.middleware];

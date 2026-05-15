@@ -16,19 +16,19 @@ import initialRegisterValues from "@/features/register-page/consts/register-stat
 const { Option } = Select;
 
 export const RegisterPage = () => {
-  const RegistrationUser = useRegistrationUser();
+  const registrationUser = useRegistrationUser();
   const themeContext = useContext(ThemeContext);
 
-  if (!RegistrationUser || !themeContext) {
-    return;
+  if (!registrationUser || !themeContext) {
+    return null;
   }
 
   const { isDarkMode } = themeContext;
 
-  const { RegistrationUserData } = RegistrationUser;
+  const { submitRegistration } = registrationUser;
 
   const handleSubmitRegister = (values: TRegisterUserRequestBody) => {
-    RegistrationUserData(values);
+    submitRegistration(values);
   };
 
   return (

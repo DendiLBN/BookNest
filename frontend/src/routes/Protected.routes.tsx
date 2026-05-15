@@ -8,7 +8,7 @@ import { Home } from "@/pages/Home/Home";
 const ProtectedRoutes = () => {
   const { loading } = useNotificationContext();
 
-  if (loading) return;
+  if (loading) return null;
 
   return (
     <Suspense fallback={loading}>

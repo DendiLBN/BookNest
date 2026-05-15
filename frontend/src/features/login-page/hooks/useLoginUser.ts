@@ -2,12 +2,9 @@ import { useNotificationContext } from "@/common/contexts/hooks/use-notification
 
 import { useLoginUserMutation } from "@/features/auth/api";
 import type { TLoginUserRequestBody } from "@/features/auth/types";
-import { useFetchUsersQuery } from "@/features/users/api";
 
 export const useLoginUser = () => {
   const [loginUser, { isLoading }] = useLoginUserMutation();
-
-  const { refetch } = useFetchUsersQuery(undefined, { skip: true });
 
   const { openNotification } = useNotificationContext();
 
@@ -24,7 +21,7 @@ export const useLoginUser = () => {
     );
   };
 
-  const fetchBodyLoginUser = async ({ email, password }: TLoginUserRequestBody) => {
+  const submitLogin = ({ email, password }: TLoginUserRequestBody) => {
     loginUser({
       data: { email, password },
       onSuccess: handleSuccess,
@@ -32,5 +29,5 @@ export const useLoginUser = () => {
     });
   };
 
-  return { fetchBodyLoginUser, refetch, loading: isLoading };
+  return { submitLogin, loading: isLoading };
 };

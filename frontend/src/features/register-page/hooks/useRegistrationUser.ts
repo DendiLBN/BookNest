@@ -27,7 +27,7 @@ export const useRegistrationUser = () => {
     );
   };
 
-  const RegistrationUserData = async ({
+  const submitRegistration = ({
     email,
     password,
     firstName,
@@ -42,8 +42,8 @@ export const useRegistrationUser = () => {
       },
       onSuccess: handleSuccess,
       onError: handleError,
-    }).unwrap();
+    });
   };
 
-  return { RegistrationUserData, loading: isLoading };
+  return { submitRegistration, loading: isLoading };
 };

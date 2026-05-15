@@ -29,27 +29,12 @@ export type TLoginUserParams = {
   onError: () => void;
 };
 
-export type TLoginUserResponseData = {
-  email: string;
-  firstName: string;
-  favoriteBookIds?: string[];
-  avatarUrl?: string;
-};
-
 export type TLoginUserResponse = {
   accessToken: string;
   refreshToken: string;
 };
 
-export type TLogOutUserResponse = {
-  accessToken: string;
-  refreshToken: string;
-};
-
-export type TLogoutRequestBody = {
-  accessToken: string;
-  refreshToken: string;
-};
+export type TLogoutUserResponse = boolean;
 
 export type TLogoutUserParams = {
   onSuccess: (data: void) => void;
