@@ -109,34 +109,38 @@ export const BookView: React.FC = () => {
   });
 
   return (
-    <div className="book-page">
-      <section className="book-page__header">
+    <div className="flex flex-col gap-xl">
+      <section className="relative grid overflow-hidden rounded-m border border-[color-mix(in_srgb,var(--color-brand)_24%,var(--color-border))] bg-[linear-gradient(135deg,color-mix(in_srgb,var(--color-surface)_82%,var(--color-brand-strong)),color-mix(in_srgb,var(--color-brand-strong)_76%,var(--color-accent))),url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center p-sm text-white shadow-app-m md:grid-cols-[minmax(0,1fr)_auto] md:p-l">
         <div>
-          <p className="book-page__eyebrow">Book catalog</p>
-          <h1 className="book-page__title">Manage library inventory</h1>
-          <p className="book-page__subtitle">
+          <p className="mb-1 text-xs font-bold text-app-highlight uppercase">Book catalog</p>
+          <h1 className="m-0 text-[1.55rem] leading-tight font-bold">Manage library inventory</h1>
+          <p className="mt-xs mb-0 max-w-[640px] leading-6 text-[color-mix(in_srgb,#ffffff_86%,var(--color-highlight))]">
             Search, filter, review ratings, and prepare selected books for bulk actions.
           </p>
         </div>
-        <div className="book-page__stats">
-          <div className="book-page__stat">
-            <span>{bookList.length}</span>
-            <p>Visible books</p>
+        <div className="mt-sm grid grid-cols-2 gap-xs self-stretch md:mt-0">
+          <div className="flex min-w-28 flex-col justify-center rounded-m border border-white/30 bg-white/15 p-xs backdrop-blur">
+            <span className="text-xl font-bold">{bookList.length}</span>
+            <p className="m-0 text-[color-mix(in_srgb,#ffffff_82%,var(--color-highlight))]">
+              Visible books
+            </p>
           </div>
-          <div className="book-page__stat">
-            <span>{selectedBookRowKeys.length}</span>
-            <p>Selected</p>
+          <div className="flex min-w-28 flex-col justify-center rounded-m border border-white/30 bg-white/15 p-xs backdrop-blur">
+            <span className="text-xl font-bold">{selectedBookRowKeys.length}</span>
+            <p className="m-0 text-[color-mix(in_srgb,#ffffff_82%,var(--color-highlight))]">
+              Selected
+            </p>
           </div>
         </div>
       </section>
 
-      <section className="book-page__toolbar">
+      <section className="flex flex-col items-start gap-xs rounded-m border border-app-border bg-[linear-gradient(180deg,var(--color-surface),var(--color-surface-muted))] p-s text-app-text shadow-app-s md:flex-row">
         <BookSearch bookSearchText={bookSearchText} onSearch={setBookSearchText} />
         <CategorySelect
           selectedCategories={selectedCategories}
           onChangeCategories={setSelectedCategories}
         />
-        <div className="book-page__delete-action">
+        <div className="w-full md:ml-auto md:w-auto">
           <DeleteBooksButton
             selectedBookRowKeys={selectedBookRowKeys}
             loading={loading}
