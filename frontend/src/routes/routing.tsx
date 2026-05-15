@@ -87,7 +87,10 @@ export const LandingPageRouting = () => {
           }
         />
       )}
-      <Route path="auth/change-password" element={<ChangePasswordForm />} />
+      <Route
+        path="auth/change-password"
+        element={isLoggedIn ? <ChangePasswordForm /> : <Navigate to="/auth/login" replace />}
+      />
     </Routes>
   );
 };

@@ -12,15 +12,17 @@ import type { TForgotPasswordFormProps } from "@/features/login-page/types";
 export const ForgotPasswordForm = ({ visible }: TForgotPasswordFormProps) => {
   const { openNotification } = useNotificationContext();
 
-  const [forgotPassword] = useForgotPasswordMutation();
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
 
   const { hideModal } = useModalContext();
 
   const [form] = Form.useForm();
 
   const handleSuccess = useCallback(() => {
-    openNotification("topRight", "success", "Email has been send follow the instructions", true);
-  }, [openNotification]);
+    openNotification("topRight", "success", "Email has been sent. Follow the instructions.", true);
+    hideModal();
+    form.resetFields();
+  }, [form, hideModal, openNotification]);
 
   const handleError = useCallback(() => {
     openNotification(
@@ -43,9 +45,8 @@ export const ForgotPasswordForm = ({ visible }: TForgotPasswordFormProps) => {
         onSuccess: handleSuccess,
         onError: handleError,
       });
-      handleCancelModal();
     },
-    [forgotPassword, handleCancelModal, handleError, handleSuccess],
+    [forgotPassword, handleError, handleSuccess],
   );
 
   return (
@@ -72,7 +73,7 @@ export const ForgotPasswordForm = ({ visible }: TForgotPasswordFormProps) => {
         </Form.Item>
 
         <Form.Item>
-          <Button block type="primary" htmlType="submit">
+          <Button block disabled={isLoading} loading={isLoading} type="primary" htmlType="submit">
             Send reset password link
           </Button>
         </Form.Item>

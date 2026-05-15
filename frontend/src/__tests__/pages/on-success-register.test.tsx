@@ -37,4 +37,17 @@ describe("OnSuccessRegister", () => {
 
     expect(screen.getByText("/auth/login")).toBeInTheDocument();
   });
+
+  it("renders a safe fallback when opened without route state", () => {
+    render(
+      <MemoryRouter initialEntries={["/success"]}>
+        <Routes>
+          <Route path="/success" element={<OnSuccessRegister />} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByText(/registration completed/i)).toBeInTheDocument();
+    expect(screen.getByText(/you can now log in/i)).toBeInTheDocument();
+  });
 });

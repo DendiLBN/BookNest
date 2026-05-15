@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Select } from "antd";
+import { Button, Form, Input } from "antd";
 
 import "@/assets/layouts-styles/register-styles/register.css";
 
@@ -16,8 +16,7 @@ import {
 } from "@/features/auth/consts/password-validation";
 import type { TRegisterUserRequestBody } from "@/features/auth/types";
 import initialRegisterValues from "@/features/register-page/consts/register-state-values";
-
-const { Option } = Select;
+import type { TRegisterFormValues } from "@/features/register-page/types";
 
 export const RegisterPage = () => {
   const registrationUser = useRegistrationUser();
@@ -29,15 +28,21 @@ export const RegisterPage = () => {
 
   const { isDarkMode } = themeContext;
 
-  const { submitRegistration } = registrationUser;
+  const { submitRegistration, loading } = registrationUser;
 
-  const handleSubmitRegister = (values: TRegisterUserRequestBody) => {
-    submitRegistration(values);
+  const handleSubmitRegister = ({ email, firstName, lastName, password }: TRegisterFormValues) => {
+    const requestBody: TRegisterUserRequestBody = {
+      email,
+      firstName,
+      lastName,
+      password,
+    };
+
+    submitRegistration(requestBody);
   };
 
   return (
     <div className="register__container">
-      {" "}
       <img className="register__image" src={AUTH_IMAGE_URLS.register} alt="Books on a shelf" />
       <Form
         name="register"
@@ -77,7 +82,7 @@ export const RegisterPage = () => {
 
         <Form.Item
           label="Confirm Password"
-          name="confirm-password"
+          name="confirmPassword"
           dependencies={["password"]}
           hasFeedback
           rules={createConfirmPasswordRules({
@@ -121,42 +126,15 @@ export const RegisterPage = () => {
           <Input prefix={<UserOutlined />} placeholder="Last Name" />
         </Form.Item>
 
-        <Form.Item
-          label="Gender"
-          name="gender"
-          rules={[
-            {
-              required: true,
-              message: "Please select your gender!",
-            },
-          ]}
-        >
-          <Select placeholder="Select your gender">
-            <Option value="male">Male</Option>
-            <Option value="female">Female</Option>
-          </Select>
-        </Form.Item>
-
-        <Form.Item
-          wrapperCol={{ span: 14, offset: 6 }}
-          className="register__agreement-checkbox"
-          name="agreement"
-          valuePropName="checked"
-          rules={[
-            {
-              validator: (_, value) =>
-                value ? Promise.resolve() : Promise.reject(new Error("Should accept agreement")),
-            },
-          ]}
-        >
-          <Checkbox>
-            I have read the <a href="">agreement</a>
-          </Checkbox>
-        </Form.Item>
         <Form.Item wrapperCol={{ span: 14, offset: 6 }}>
-          {" "}
-          <Button className="register__submit-button" type="primary" htmlType="submit">
-            click here to register account!
+          <Button
+            className="register__submit-button"
+            disabled={loading}
+            loading={loading}
+            type="primary"
+            htmlType="submit"
+          >
+            Create account
           </Button>
         </Form.Item>
       </Form>
