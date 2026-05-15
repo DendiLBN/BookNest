@@ -36,10 +36,11 @@ export class AuthService {
     );
     if (isUserExists) throw new BadRequestException('Email occupied');
 
-    const hashedPsssword = await hashData(createUserDto.password);
-    createUserDto.password = hashedPsssword;
-
-    const newUser = await this.usersService.createUser(createUserDto);
+    const hashedPassword = await hashData(createUserDto.password);
+    const newUser = await this.usersService.createUser({
+      ...createUserDto,
+      password: hashedPassword,
+    });
 
     return {
       firstName: newUser.firstName,
@@ -74,7 +75,7 @@ export class AuthService {
     await this.usersService.update(userId, user);
 
     return {
-      message: `Password has been changed '${oldPassword}' for '${newPassword}'`,
+      message: 'Password has been changed successfully',
     };
   }
 
@@ -131,8 +132,6 @@ export class AuthService {
     }
 
     const hashedPassword = await hashData(newPassword);
-
-    user.password = hashedPassword;
 
     await this.usersService.update(user._id, {
       password: hashedPassword,

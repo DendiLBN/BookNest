@@ -17,7 +17,7 @@ import { APP_GUARD } from '@nestjs/core';
     ]),
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: [' .env', '.env'],
+      envFilePath: ['.env'],
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
