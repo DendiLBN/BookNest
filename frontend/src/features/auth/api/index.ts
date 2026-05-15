@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
-import axiosBaseQuery from "@/common/api/axios-base-query";
+import fetchBaseQuery from "@/common/api/fetch-base-query";
 import { setTokens } from "@/common/utils/setTokens";
 import type {
   TForgotPasswordParams,
@@ -17,7 +17,7 @@ import { clearUser } from "@/store/reducers/users";
 
 export const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: axiosBaseQuery(),
+  baseQuery: fetchBaseQuery(),
   endpoints: (builder) => ({
     registerUser: builder.mutation<TRegisterUserResponse, TRegisterUserParams>({
       query: ({ data }) => ({

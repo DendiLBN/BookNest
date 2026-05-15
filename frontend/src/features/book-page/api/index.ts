@@ -4,11 +4,11 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 import { TBookBodyParams, TBookBodyResponse, TPaginatedBooksResponse } from "@/types/api/books";
 
-import axiosBaseQuery from "@/common/api/axios-base-query";
+import fetchBaseQuery from "@/common/api/fetch-base-query";
 
 export const bookApi = createApi({
   reducerPath: "bookApi",
-  baseQuery: axiosBaseQuery(),
+  baseQuery: fetchBaseQuery(),
   tagTypes: ["books"],
   endpoints: (builder) => ({
     fetchBooks: builder.query<TPaginatedBooksResponse, TBookBodyParams>({
