@@ -5,6 +5,8 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/common/consts/local-storage";
 import { removeTokens } from "@/common/utils/removeTokens";
 import { setTokens } from "@/common/utils/setTokens";
 import type {
+  TChangePasswordParams,
+  TChangePasswordResponse,
   TForgotPasswordParams,
   TLoginUserParams,
   TLoginUserResponse,
@@ -98,6 +100,22 @@ export const authApi = createApi({
       },
     }),
 
+    changePassword: builder.mutation<TChangePasswordResponse, TChangePasswordParams>({
+      query: ({ data }) => ({
+        method: "PUT",
+        url: "auth/change-password",
+        data,
+      }),
+      async onQueryStarted({ onSuccess, onError }, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          onSuccess();
+        } catch {
+          onError();
+        }
+      },
+    }),
+
     forgotPassword: builder.mutation<void, TForgotPasswordParams>({
       query: ({ data }) => ({
         method: "POST",
@@ -120,5 +138,6 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useLogOutUserMutation,
+  useChangePasswordMutation,
   useForgotPasswordMutation,
 } = authApi;

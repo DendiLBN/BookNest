@@ -41,6 +41,21 @@ export type TLogoutUserParams = {
   onError: () => void;
 };
 
+export type TChangePasswordRequestBody = {
+  oldPassword: string;
+  newPassword: string;
+};
+
+export type TChangePasswordParams = {
+  data: TChangePasswordRequestBody;
+  onSuccess: () => void;
+  onError: () => void;
+};
+
+export type TChangePasswordResponse = {
+  message: string;
+};
+
 export type TForgotPasswordEmail = {
   email: string;
 };
