@@ -17,10 +17,45 @@ import { SkipThrottle } from '@nestjs/throttler';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
-import { mkdirSync } from 'fs';
+import { mkdirSync, readFileSync, unlinkSync } from 'fs';
 import { randomUUID } from 'crypto';
 
 const avatarUploadPath = join(process.cwd(), 'uploads', 'avatars');
+const allowedAvatarMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
+const allowedAvatarExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+const avatarExtensionByMimeType: Record<string, string> = {
+  'image/jpeg': '.jpg',
+  'image/png': '.png',
+  'image/webp': '.webp',
+};
+
+const isValidAvatarSignature = (
+  filePath: string,
+  mimetype: string,
+): boolean => {
+  const fileHeader = readFileSync(filePath).subarray(0, 12);
+
+  if (mimetype === 'image/jpeg') {
+    return (
+      fileHeader[0] === 0xff && fileHeader[1] === 0xd8 && fileHeader[2] === 0xff
+    );
+  }
+
+  if (mimetype === 'image/png') {
+    return fileHeader
+      .subarray(0, 8)
+      .equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
+  }
+
+  if (mimetype === 'image/webp') {
+    return (
+      fileHeader.subarray(0, 4).toString() === 'RIFF' &&
+      fileHeader.subarray(8, 12).toString() === 'WEBP'
+    );
+  }
+
+  return false;
+};
 
 @SkipThrottle()
 @Controller('users')
@@ -43,13 +78,17 @@ export class UsersController {
           callback(null, avatarUploadPath);
         },
         filename: (_req, file, callback) => {
-          callback(null, `${randomUUID()}${extname(file.originalname)}`);
+          callback(
+            null,
+            `${randomUUID()}${avatarExtensionByMimeType[file.mimetype]}`,
+          );
         },
       }),
       fileFilter: (_req, file, callback) => {
-        const isImage = ['image/jpeg', 'image/png', 'image/webp'].includes(
-          file.mimetype,
-        );
+        const fileExtension = extname(file.originalname).toLowerCase();
+        const isImage =
+          allowedAvatarMimeTypes.includes(file.mimetype) &&
+          allowedAvatarExtensions.includes(fileExtension);
 
         if (!isImage) {
           callback(
@@ -72,6 +111,13 @@ export class UsersController {
   ) {
     if (!file) {
       throw new BadRequestException('Avatar file is required');
+    }
+
+    if (!isValidAvatarSignature(file.path, file.mimetype)) {
+      unlinkSync(file.path);
+      throw new BadRequestException(
+        'Avatar file content is not a supported image',
+      );
     }
 
     return this.usersService.updateAvatar(

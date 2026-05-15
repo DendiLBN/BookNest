@@ -17,7 +17,7 @@ const App: React.FC = () => {
         <AntdNotificationProvider>
           <BrowserRouter>
             <ErrorBoundary>
-              <div className="min-h-screen bg-[var(--color-page)] text-[var(--color-text)]">
+              <div className="min-h-screen bg-app-page text-app-text">
                 <LandingPageHeader />
                 <div className="flex min-h-[calc(100vh-64px)] w-full items-stretch">
                   <LandingPageSideBar />

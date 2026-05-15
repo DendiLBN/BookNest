@@ -5,17 +5,17 @@ import { useDispatch } from "react-redux";
 
 import "@/assets/layouts-styles/book-styles/book.css";
 
-import { DeleteBooksButton } from "./components/delete-button";
-import { BookSearch } from "./components/filters/book-search";
-import { CategorySelect } from "./components/filters/category-select";
+import { DeleteBooksButton } from "@/features/book-page/components/delete-button";
+import { BookSearch } from "@/features/book-page/components/filters/book-search";
+import { CategorySelect } from "@/features/book-page/components/filters/category-select";
 
-import { useDeleteAsArrayBooks } from "./hooks/useDeleteAsArrayBooks";
-import { UseFetchBodyBooks } from "./hooks/useFetchBooksList";
-import { useFilteredBooks } from "./hooks/useFilteredBooks";
 import { UsePagination } from "@/common/hooks/pagination/usePagination";
+import { useDeleteAsArrayBooks } from "@/features/book-page/hooks/useDeleteAsArrayBooks";
+import { UseFetchBodyBooks } from "@/features/book-page/hooks/useFetchBooksList";
+import { useFilteredBooks } from "@/features/book-page/hooks/useFilteredBooks";
 
-import { useBooksFormContext } from "./contexts/hooks/use-form-book-context";
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
+import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
 
 import { TBookBody } from "@/types/types";
 
@@ -109,34 +109,34 @@ export const BookView: React.FC = () => {
   });
 
   return (
-    <div className="book-page">
-      <section className="book-page__header">
+    <div className="flex flex-col gap-xl">
+      <section className="relative grid overflow-hidden rounded-m border border-app-border bg-[linear-gradient(135deg,var(--color-brand-soft),var(--color-accent-soft))] p-sm text-app-text shadow-app-m md:grid-cols-[minmax(0,1fr)_auto] md:p-l">
         <div>
-          <p className="book-page__eyebrow">Book catalog</p>
-          <h1 className="book-page__title">Manage library inventory</h1>
-          <p className="book-page__subtitle">
+          <p className="mb-1 text-xs font-bold text-app-brand uppercase">Book catalog</p>
+          <h1 className="m-0 text-[1.55rem] leading-tight font-bold">Manage library inventory</h1>
+          <p className="mt-xs mb-0 max-w-[640px] leading-6 text-app-text-muted">
             Search, filter, review ratings, and prepare selected books for bulk actions.
           </p>
         </div>
-        <div className="book-page__stats">
-          <div className="book-page__stat">
-            <span>{bookList.length}</span>
-            <p>Visible books</p>
+        <div className="mt-sm grid grid-cols-2 gap-xs self-stretch md:mt-0">
+          <div className="flex min-w-28 flex-col justify-center rounded-m border border-app-border bg-app-surface p-xs">
+            <span className="text-xl font-bold text-app-brand">{bookList.length}</span>
+            <p className="m-0 text-app-text-muted">Visible books</p>
           </div>
-          <div className="book-page__stat">
-            <span>{selectedBookRowKeys.length}</span>
-            <p>Selected</p>
+          <div className="flex min-w-28 flex-col justify-center rounded-m border border-app-border bg-app-surface p-xs">
+            <span className="text-xl font-bold text-app-brand">{selectedBookRowKeys.length}</span>
+            <p className="m-0 text-app-text-muted">Selected</p>
           </div>
         </div>
       </section>
 
-      <section className="book-page__toolbar">
+      <section className="flex flex-col items-start gap-xs rounded-m border border-app-border bg-[linear-gradient(180deg,var(--color-surface),var(--color-surface-muted))] p-s text-app-text shadow-app-s md:flex-row">
         <BookSearch bookSearchText={bookSearchText} onSearch={setBookSearchText} />
         <CategorySelect
           selectedCategories={selectedCategories}
           onChangeCategories={setSelectedCategories}
         />
-        <div className="book-page__delete-action">
+        <div className="w-full md:ml-auto md:w-auto">
           <DeleteBooksButton
             selectedBookRowKeys={selectedBookRowKeys}
             loading={loading}

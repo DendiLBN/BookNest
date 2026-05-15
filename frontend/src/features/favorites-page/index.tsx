@@ -77,29 +77,29 @@ export const FavoritesView = () => {
   });
 
   return (
-    <div className="book-page">
-      <section className="book-page__header">
+    <div className="flex flex-col gap-xl">
+      <section className="relative grid overflow-hidden rounded-m border border-app-border bg-[linear-gradient(135deg,var(--color-brand-soft),var(--color-accent-soft))] p-sm text-app-text shadow-app-m md:grid-cols-[minmax(0,1fr)_auto] md:p-l">
         <div>
-          <p className="book-page__eyebrow">Saved collection</p>
-          <h1 className="book-page__title">Favorite books</h1>
-          <p className="book-page__subtitle">
+          <p className="mb-1 text-xs font-bold text-app-brand uppercase">Saved collection</p>
+          <h1 className="m-0 text-[1.55rem] leading-tight font-bold">Favorite books</h1>
+          <p className="mt-xs mb-0 max-w-[640px] leading-6 text-app-text-muted">
             Keep books you want to revisit, compare, or add to your cart later.
           </p>
         </div>
-        <div className="book-page__stats">
-          <div className="book-page__stat">
-            <span>{favoriteBooks.length}</span>
-            <p>Saved books</p>
+        <div className="mt-sm grid grid-cols-2 gap-xs self-stretch md:mt-0">
+          <div className="flex min-w-28 flex-col justify-center rounded-m border border-app-border bg-app-surface p-xs">
+            <span className="text-xl font-bold text-app-brand">{favoriteBooks.length}</span>
+            <p className="m-0 text-app-text-muted">Saved books</p>
           </div>
-          <div className="book-page__stat">
-            <span>{averageFavoriteRating}</span>
-            <p>Average rating</p>
+          <div className="flex min-w-28 flex-col justify-center rounded-m border border-app-border bg-app-surface p-xs">
+            <span className="text-xl font-bold text-app-brand">{averageFavoriteRating}</span>
+            <p className="m-0 text-app-text-muted">Average rating</p>
           </div>
         </div>
       </section>
 
       {hasFavoriteBooks ? (
-        <section className="book-page__toolbar">
+        <section className="rounded-m border border-app-border bg-[linear-gradient(180deg,var(--color-surface),var(--color-surface-muted))] p-s text-app-text shadow-app-s">
           <Space direction="vertical" size={8}>
             <strong>Saved categories</strong>
             <Space wrap>
