@@ -4,7 +4,7 @@ import type { TableProps } from "antd";
 
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
-import type { TBookBody } from "@/types/types";
+import type { TBook } from "@/features/book-page/types";
 
 const MAX_SELECTED_BOOKS = 20;
 
@@ -33,7 +33,7 @@ export const useBookSelection = ({
     );
   };
 
-  const rowSelection: TableProps<TBookBody>["rowSelection"] = {
+  const rowSelection: TableProps<TBook>["rowSelection"] = {
     selectedRowKeys: selectedBookRowKeys,
     onChange: handleSelectChange,
   };

@@ -2,23 +2,16 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import { Button, Empty, Space, Spin, Table, Tag } from "antd";
-import { useDispatch } from "react-redux";
 
 import "@/assets/layouts-styles/book-styles/book.css";
 
-import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
+import { useBookFavorites } from "@/features/book-page/hooks/useBookFavorites";
 
-import useUser from "@/common/users/useUser";
 import { useFetchBooksQuery } from "@/features/book-page/api";
 import { createBookTableColumns } from "@/features/book-page/consts/book-table-columns";
-import { useAddFavoriteBookMutation, useRemoveFavoriteBookMutation } from "@/features/users/api";
-import { setIsLoggedIn } from "@/store/reducers/auth";
 
 export const FavoritesView = () => {
-  const dispatch = useDispatch();
-  const { openNotification } = useNotificationContext();
-  const { user } = useUser();
-  const favoriteBookIds = user?.favoriteBookIds ?? [];
+  const { favoriteBookIds, favoriteActionLoading, handleToggleFavorite } = useBookFavorites();
   const { data: booksResponse, isFetching } = useFetchBooksQuery({
     page: 1,
     perPage: 100,
@@ -26,9 +19,6 @@ export const FavoritesView = () => {
     category: [],
   });
   const books = useMemo(() => booksResponse?.data ?? [], [booksResponse]);
-  const [addFavoriteBook, { isLoading: isAddingFavoriteBook }] = useAddFavoriteBookMutation();
-  const [removeFavoriteBook, { isLoading: isRemovingFavoriteBook }] =
-    useRemoveFavoriteBookMutation();
 
   const favoriteBooks = books.filter((book) => favoriteBookIds.includes(book._id));
   const hasFavoriteBooks = favoriteBooks.length > 0;
@@ -51,29 +41,9 @@ export const FavoritesView = () => {
     return (ratingSum / favoriteBooks.length).toFixed(1);
   }, [favoriteBooks, hasFavoriteBooks]);
 
-  const handleToggleFavorite = async (bookId: string) => {
-    const isFavorite = favoriteBookIds.includes(bookId);
-
-    try {
-      const updatedUser = await (isFavorite
-        ? removeFavoriteBook(bookId).unwrap()
-        : addFavoriteBook(bookId).unwrap());
-
-      dispatch(setIsLoggedIn({ isLoggedIn: true, user: updatedUser }));
-      openNotification(
-        "topRight",
-        "success",
-        isFavorite ? "Book removed from favorites." : "Book saved to favorites.",
-        false,
-      );
-    } catch {
-      openNotification("topRight", "error", "Could not update favorite books.", false);
-    }
-  };
-
   const columns = createBookTableColumns({
     favoriteBookIds,
-    favoriteActionLoading: isAddingFavoriteBook || isRemovingFavoriteBook,
+    favoriteActionLoading,
     onToggleFavorite: handleToggleFavorite,
   });
 

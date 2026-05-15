@@ -4,12 +4,12 @@ import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-for
 
 import { useFetchBooksQuery } from "@/features/book-page/api";
 
-type TUseFetchBodyBooksParams = {
+type TUseBooksListParams = {
   currentPage: number;
   itemsPerPage: number;
 };
 
-export const UseFetchBodyBooks = ({ currentPage, itemsPerPage }: TUseFetchBodyBooksParams) => {
+export const useBooksList = ({ currentPage, itemsPerPage }: TUseBooksListParams) => {
   const { selectedCategories, bookSearchText } = useBooksFormContext();
 
   const { data: fetchedBooksResponse, isFetching } = useFetchBooksQuery({

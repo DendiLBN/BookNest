@@ -6,19 +6,19 @@ import { DeleteBooksButton } from "@/features/book-page/components/delete-button
 import { BookSearch } from "@/features/book-page/components/filters/book-search";
 import { CategorySelect } from "@/features/book-page/components/filters/category-select";
 
-import { UsePagination } from "@/common/hooks/pagination/usePagination";
+import { usePagination } from "@/common/hooks/pagination/usePagination";
 import { useBookFavorites } from "@/features/book-page/hooks/useBookFavorites";
 import { useBookSelection } from "@/features/book-page/hooks/useBookSelection";
 import { useDeleteAsArrayBooks } from "@/features/book-page/hooks/useDeleteAsArrayBooks";
-import { UseFetchBodyBooks } from "@/features/book-page/hooks/useFetchBooksList";
+import { useBooksList } from "@/features/book-page/hooks/useFetchBooksList";
 
 import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
 
 import { createBookTableColumns } from "@/features/book-page/consts/book-table-columns";
 
 export const BookView: React.FC = () => {
-  const { handleChangePagination, currentPage, itemsPerPage } = UsePagination();
-  const { bookList, isFetching, totalItems } = UseFetchBodyBooks({
+  const { handleChangePagination, currentPage, itemsPerPage } = usePagination();
+  const { bookList, isFetching, totalItems } = useBooksList({
     currentPage,
     itemsPerPage,
   });

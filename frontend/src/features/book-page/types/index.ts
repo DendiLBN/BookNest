@@ -1,5 +1,31 @@
 import type { Key } from "react";
 
+export type TBooksQueryParams = {
+  page: number;
+  perPage: number;
+  searchString: string;
+  category: string[];
+};
+
+export type TBook = {
+  _id: string;
+  category: string[];
+  key: string;
+  title: string;
+  rate: number;
+  author: string;
+  tags: string[];
+  avatar?: string;
+  coverImageUrl?: string;
+};
+
+export type TPaginatedBooksResponse = {
+  data: TBook[];
+  page: number;
+  perPage: number;
+  totalItems: number;
+};
+
 export type TDeleteBooksButtonProps = {
   selectedBookRowKeys: Key[];
   loading: boolean;
