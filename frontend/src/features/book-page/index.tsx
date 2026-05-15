@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import { Spin, Table } from "antd";
 
 import "@/assets/layouts-styles/book-styles/book.css";
@@ -13,17 +11,14 @@ import { useBookFavorites } from "@/features/book-page/hooks/useBookFavorites";
 import { useBookSelection } from "@/features/book-page/hooks/useBookSelection";
 import { useDeleteAsArrayBooks } from "@/features/book-page/hooks/useDeleteAsArrayBooks";
 import { UseFetchBodyBooks } from "@/features/book-page/hooks/useFetchBooksList";
-import { useFilteredBooks } from "@/features/book-page/hooks/useFilteredBooks";
 
-import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
 
 import { createBookTableColumns } from "@/features/book-page/consts/book-table-columns";
 
 export const BookView: React.FC = () => {
-  const { loading } = useNotificationContext();
   const { handleChangePagination, currentPage, itemsPerPage } = UsePagination();
-  const { fetchBooksList, totalItems } = UseFetchBodyBooks({
+  const { bookList, isFetching, totalItems } = UseFetchBodyBooks({
     currentPage,
     itemsPerPage,
   });
@@ -33,25 +28,11 @@ export const BookView: React.FC = () => {
   const {
     selectedCategories,
     selectedBookRowKeys,
-    bookList,
     bookSearchText,
-    fetchBookList,
     setBookSearchText,
-    setBookList,
     setSelectedCategories,
     setSelectedBookRowKeys,
   } = useBooksFormContext();
-
-  useFilteredBooks({
-    bookSearchText,
-    selectedCategories,
-    fetchBookList,
-    setBookList,
-  });
-
-  useEffect(() => {
-    fetchBooksList();
-  }, [fetchBooksList, currentPage, itemsPerPage]);
 
   const { rowSelection } = useBookSelection({
     selectedBookRowKeys,
@@ -96,13 +77,13 @@ export const BookView: React.FC = () => {
         <div className="w-full md:ml-auto md:w-auto">
           <DeleteBooksButton
             selectedBookRowKeys={selectedBookRowKeys}
-            loading={loading}
+            loading={isFetching}
             onDelete={handleDeleteArray}
           />
         </div>
       </section>
 
-      <Spin tip="Loading..." size="large" spinning={loading}>
+      <Spin tip="Loading..." size="large" spinning={isFetching}>
         <Table
           className="book-page__table"
           rowSelection={rowSelection}

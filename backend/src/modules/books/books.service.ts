@@ -124,6 +124,10 @@ export class BooksService implements OnModuleInit {
       ];
     }
 
+    if (searchBookDto.category?.length) {
+      query.category = { $in: searchBookDto.category };
+    }
+
     return query;
   }
 

@@ -23,13 +23,6 @@ export type TDeleteBooksButtonProps = {
   onDelete: () => void;
 };
 
-export type TUseFilteredBooksProps = {
-  bookSearchText: string;
-  selectedCategories: string[];
-  fetchBookList: TBookBody[];
-  setBookList: (filteredBookList: TBookBody[]) => void;
-};
-
 export type TCategorySelectProps = {
   selectedCategories: string[];
   onChangeCategories: (select: string[]) => void;
