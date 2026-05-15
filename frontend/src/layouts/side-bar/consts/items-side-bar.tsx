@@ -27,11 +27,10 @@ export const itemsSideBar: MenuProps["items"] = [
     label: "Profile",
     children: [
       {
-        key: "order-history",
+        key: "profile-overview",
         style: { paddingLeft: "10px" },
-        label: "Order History",
-        icon: <BookFilled />,
-        disabled: true,
+        label: <Link to="/profile">Overview</Link>,
+        icon: <UserOutlined />,
       },
 
       {

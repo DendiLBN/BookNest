@@ -13,6 +13,7 @@ import { Book } from "@/pages/Book/Books";
 import { BookDetails } from "@/pages/BookDetails/BookDetails";
 import { Favorites } from "@/pages/Favorites/Favorites";
 import { Home } from "@/pages/Home/Home";
+import { Profile } from "@/pages/Profile/Profile";
 import { selectIsLoggedIn } from "@/store/reducers/auth";
 
 const AuthRoutes = lazy(() => import("@/routes/Auth.routes"));
@@ -83,6 +84,16 @@ export const LandingPageRouting = () => {
           element={
             <Suspense fallback={loading}>
               <Favorites />
+            </Suspense>
+          }
+        />
+      )}
+      {isLoggedIn && (
+        <Route
+          path="/profile"
+          element={
+            <Suspense fallback={loading}>
+              <Profile />
             </Suspense>
           }
         />

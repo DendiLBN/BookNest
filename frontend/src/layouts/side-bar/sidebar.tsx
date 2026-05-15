@@ -1,14 +1,11 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import {
-  CameraOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import { Avatar, Menu } from "antd";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { Menu } from "antd";
 import { useSelector } from "react-redux";
+
+import { AvatarUploadButton } from "@/features/users/components/avatar-upload-button";
 
 import { useAvatarUpload } from "@/features/users/hooks/useAvatarUpload";
 
@@ -46,9 +43,11 @@ export const LandingPageSideBar = () => {
     ? "books"
     : pathname.startsWith("/favorites")
       ? "favorites"
-      : pathname.startsWith("/auth/change-password")
-        ? "change-password"
-        : "dashboard";
+      : pathname.startsWith("/profile")
+        ? "profile-overview"
+        : pathname.startsWith("/auth/change-password")
+          ? "change-password"
+          : "dashboard";
 
   return (
     <aside
@@ -57,23 +56,11 @@ export const LandingPageSideBar = () => {
       }`}
     >
       <div className="m-3 flex flex-col items-center gap-3 overflow-hidden rounded-lg border border-app-border bg-[linear-gradient(180deg,var(--color-surface-muted),var(--color-surface))] px-3 py-5 shadow-app-s">
-        <button
-          aria-label="Change avatar"
-          className="group relative rounded-full transition hover:opacity-90 focus:ring-2 focus:ring-app-brand/30 focus:outline-none disabled:cursor-progress"
-          disabled={isUploadingAvatar}
+        <AvatarUploadButton
+          avatarSrc={avatarSrc}
+          isUploading={isUploadingAvatar}
           onClick={openAvatarPicker}
-          type="button"
-        >
-          <Avatar
-            className="border border-app-border bg-app-accent-soft text-app-accent"
-            size={64}
-            icon={<UserOutlined />}
-            src={avatarSrc}
-          />
-          <span className="absolute right-0 bottom-0 grid h-6 w-6 place-items-center rounded-full border border-app-border bg-app-surface text-xs text-app-brand shadow-sm">
-            <CameraOutlined />
-          </span>
-        </button>
+        />
         <input
           accept="image/png,image/jpeg,image/webp"
           hidden
