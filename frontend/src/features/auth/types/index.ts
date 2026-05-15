@@ -56,6 +56,21 @@ export type TChangePasswordResponse = {
   message: string;
 };
 
+export type TResetPasswordRequestBody = {
+  token: string;
+  newPassword: string;
+};
+
+export type TResetPasswordParams = {
+  data: TResetPasswordRequestBody;
+  onSuccess: () => void;
+  onError: () => void;
+};
+
+export type TResetPasswordResponse = {
+  message: string;
+};
+
 export type TForgotPasswordEmail = {
   email: string;
 };

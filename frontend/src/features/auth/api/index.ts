@@ -14,6 +14,8 @@ import type {
   TLogoutUserResponse,
   TRegisterUserParams,
   TRegisterUserResponse,
+  TResetPasswordParams,
+  TResetPasswordResponse,
 } from "@/features/auth/types";
 import { userApi } from "@/features/users/api";
 import { logOutUser, setIsLoggedIn } from "@/store/reducers/auth";
@@ -116,6 +118,22 @@ export const authApi = createApi({
       },
     }),
 
+    resetPassword: builder.mutation<TResetPasswordResponse, TResetPasswordParams>({
+      query: ({ data }) => ({
+        method: "POST",
+        url: "auth/reset-password",
+        data,
+      }),
+      async onQueryStarted({ onSuccess, onError }, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          onSuccess();
+        } catch {
+          onError();
+        }
+      },
+    }),
+
     forgotPassword: builder.mutation<void, TForgotPasswordParams>({
       query: ({ data }) => ({
         method: "POST",
@@ -139,5 +157,6 @@ export const {
   useLoginUserMutation,
   useLogOutUserMutation,
   useChangePasswordMutation,
+  useResetPasswordMutation,
   useForgotPasswordMutation,
 } = authApi;
