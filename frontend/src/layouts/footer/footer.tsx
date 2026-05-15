@@ -2,17 +2,10 @@ import { type FC, type FormEvent, useContext } from "react";
 
 import { ThemeContext } from "@/common/contexts/theme-context";
 
-const footerLinks = [
-  { href: "/about", label: "About Us" },
-  { href: "/contact", label: "Contact" },
-  { href: "/terms", label: "Terms of Service" },
-  { href: "/privacy", label: "Privacy Policy" },
-];
-
 const footerStats = [
   { label: "Catalog", value: "100+" },
   { label: "Shelves", value: "12" },
-  { label: "Secure auth", value: "JWT" },
+  { label: "Favorites", value: "Saved" },
 ];
 
 export const LandingPageFooter: FC = () => {
@@ -57,7 +50,7 @@ export const LandingPageFooter: FC = () => {
         </section>
 
         <section
-          aria-label="BookNest newsletter and navigation"
+          aria-label="BookNest newsletter"
           className="flex flex-col justify-between gap-m rounded-l border border-app-border bg-app-surface p-sm shadow-app-s"
         >
           <div>
@@ -84,21 +77,6 @@ export const LandingPageFooter: FC = () => {
               Subscribe
             </button>
           </form>
-
-          <nav
-            aria-label="Footer navigation"
-            className="flex flex-wrap gap-x-sm gap-y-xs border-t border-app-border pt-sm"
-          >
-            {footerLinks.map(({ href, label }) => (
-              <a
-                className="app-muted-text text-sm font-medium transition hover:text-app-brand"
-                href={href}
-                key={href}
-              >
-                {label}
-              </a>
-            ))}
-          </nav>
         </section>
       </div>
 

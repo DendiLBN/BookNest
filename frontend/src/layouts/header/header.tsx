@@ -21,7 +21,7 @@ export const LandingPageHeader = () => {
 
   return (
     <Header className="app-header app-layout-surface sticky top-0 z-20 border-b px-0 shadow-app-s">
-      <div className="mx-auto grid min-h-16 w-full max-w-content grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-s px-s sm:px-sm lg:px-l 3xl:px-22">
+      <div className="grid min-h-16 w-full grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-s px-s sm:px-sm lg:px-l 3xl:px-22">
         <nav aria-label="Primary navigation" className="flex shrink-0 items-center gap-xs">
           <Link className={headerLinkClassName} to="/home">
             <HomeOutlined />
