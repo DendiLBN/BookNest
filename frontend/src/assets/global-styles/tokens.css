@@ -79,7 +79,7 @@
   --page-padding-x: var(--space-s);
   --page-padding-y: var(--space-l);
   --section-gap: var(--space-l);
-  --content-max-width: 1980px;
+  --content-max-width: 2240px;
 }
 
 [data-theme="dark"] {

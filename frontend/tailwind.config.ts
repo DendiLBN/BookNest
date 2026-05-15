@@ -46,7 +46,7 @@ const config = {
         },
       },
       maxWidth: {
-        content: "1980px",
+        content: "2240px",
       },
       spacing,
     },
@@ -56,6 +56,7 @@ const config = {
       lg: "1024px",
       xl: "1280px",
       "2xl": "1536px",
+      "3xl": "1980px",
     },
   },
 } satisfies Config;

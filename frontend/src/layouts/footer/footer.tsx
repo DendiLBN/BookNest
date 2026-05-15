@@ -28,7 +28,7 @@ export const LandingPageFooter: FC = () => {
 
   return (
     <footer className="app-layout-surface border-t">
-      <div className="mx-auto grid w-full max-w-content gap-l px-s py-l sm:px-sm lg:grid-cols-[1fr_1.15fr] lg:px-l">
+      <div className="mx-auto grid w-full max-w-content gap-l px-s py-l sm:px-sm lg:grid-cols-[1fr_1.15fr] lg:px-l 3xl:px-22">
         <section
           aria-label="BookNest footer summary"
           className="rounded-l border border-app-border bg-[linear-gradient(135deg,var(--color-surface-muted),var(--color-surface))] p-sm shadow-app-s"
@@ -102,7 +102,7 @@ export const LandingPageFooter: FC = () => {
         </section>
       </div>
 
-      <div className="app-muted-text mx-auto flex w-full max-w-content flex-col gap-xs border-t border-app-border px-s py-s text-xs sm:flex-row sm:items-center sm:justify-between sm:px-sm lg:px-l">
+      <div className="app-muted-text mx-auto flex w-full max-w-content flex-col gap-xs border-t border-app-border px-s py-s text-xs sm:flex-row sm:items-center sm:justify-between sm:px-sm lg:px-l 3xl:px-22">
         <span>Copyright 2024 BookNest. All rights reserved.</span>
         <span>Designed for readers and bookstore workflows.</span>
       </div>
