@@ -1,21 +1,21 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import fetchBaseQuery from "@/common/api/fetch-base-query";
-import type { TUserState } from "@/features/users/types";
+import type { TUser } from "@/features/users/types";
 
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery(),
   tagTypes: ["users"],
   endpoints: (builder) => ({
-    fetchUsers: builder.query<TUserState, void>({
+    fetchUsers: builder.query<TUser, void>({
       query: () => ({
         method: "GET",
         url: "users/me",
       }),
       providesTags: ["users"],
     }),
-    uploadAvatar: builder.mutation<TUserState, FormData>({
+    uploadAvatar: builder.mutation<TUser, FormData>({
       query: (data) => ({
         method: "PATCH",
         url: "users/me/avatar",
@@ -23,14 +23,14 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["users"],
     }),
-    addFavoriteBook: builder.mutation<TUserState, string>({
+    addFavoriteBook: builder.mutation<TUser, string>({
       query: (bookId) => ({
         method: "PATCH",
         url: `users/me/favorites/${bookId}`,
       }),
       invalidatesTags: ["users"],
     }),
-    removeFavoriteBook: builder.mutation<TUserState, string>({
+    removeFavoriteBook: builder.mutation<TUser, string>({
       query: (bookId) => ({
         method: "DELETE",
         url: `users/me/favorites/${bookId}`,

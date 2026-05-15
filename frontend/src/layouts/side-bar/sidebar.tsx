@@ -1,4 +1,4 @@
-import { type ChangeEvent, useRef, useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import {
@@ -8,28 +8,26 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Avatar, Menu } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
+import { useAvatarUpload } from "@/features/users/hooks/useAvatarUpload";
+
 import { useThemeContext } from "@/common/contexts/hooks/use-theme-context";
 
 import { getApiAssetUrl } from "@/common/config/api";
 import useUser from "@/common/users/useUser";
-import { useUploadAvatarMutation } from "@/features/users/api";
 import { itemsSideBar } from "@/layouts/side-bar/consts/items-side-bar";
-import { selectIsLoggedIn, setIsLoggedIn } from "@/store/reducers/auth";
+import { selectIsLoggedIn } from "@/store/reducers/auth";
 
 export const LandingPageSideBar = () => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [uploadAvatar, { isLoading: isUploadingAvatar }] = useUploadAvatarMutation();
-  const dispatch = useDispatch();
   const { pathname } = useLocation();
+  const { fileInputRef, handleAvatarChange, isUploadingAvatar, openAvatarPicker } =
+    useAvatarUpload();
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const { user } = useUser();
-  const { openNotification } = useNotificationContext();
 
   const themeContext = useThemeContext();
 
@@ -52,31 +50,6 @@ export const LandingPageSideBar = () => {
         ? "change-password"
         : "dashboard";
 
-  const handleAvatarClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleAvatarChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-
-    if (!file) {
-      return;
-    }
-
-    const avatarFormData = new FormData();
-    avatarFormData.append("avatar", file);
-
-    try {
-      const updatedUser = await uploadAvatar(avatarFormData).unwrap();
-      dispatch(setIsLoggedIn({ isLoggedIn: true, user: updatedUser }));
-      openNotification("topRight", "success", "Avatar updated successfully.", false);
-    } catch {
-      openNotification("topRight", "error", "Could not update avatar.", false);
-    } finally {
-      event.target.value = "";
-    }
-  };
-
   return (
     <aside
       className={`app-sidebar app-layout-surface relative hidden min-h-[calc(100vh-64px)] shrink-0 border-r transition-[width] duration-200 md:block ${
@@ -88,7 +61,7 @@ export const LandingPageSideBar = () => {
           aria-label="Change avatar"
           className="group relative rounded-full transition hover:opacity-90 focus:ring-2 focus:ring-app-brand/30 focus:outline-none disabled:cursor-progress"
           disabled={isUploadingAvatar}
-          onClick={handleAvatarClick}
+          onClick={openAvatarPicker}
           type="button"
         >
           <Avatar
