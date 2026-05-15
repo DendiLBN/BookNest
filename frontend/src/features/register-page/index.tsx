@@ -38,10 +38,9 @@ export const RegisterPage = () => {
       <Form
         name="register"
         initialValues={initialRegisterValues}
-        style={{
-          background: isDarkMode ? "#708090" : "#D3D3D3",
-        }}
-        className="register__form"
+        className={`register__form border border-app-border shadow-app-s ${
+          isDarkMode ? "bg-app-surface-muted" : "bg-app-surface"
+        }`}
         onFinish={handleSubmitRegister}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}

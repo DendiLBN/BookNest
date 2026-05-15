@@ -2,14 +2,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { Button, Result } from "antd";
 
-import type { TOnSuccessRegisterProps } from "@/features/auth/types";
+import type { TRegistrationSuccessState } from "@/features/register-page/types";
 
 export const OnSuccessRegister = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
 
-  const { firstName, email }: TOnSuccessRegisterProps = location.state;
+  const { firstName, email }: TRegistrationSuccessState = location.state;
 
   const handleLoginRedirect = () => {
     navigate("/auth/login", { replace: true });

@@ -6,9 +6,10 @@ import { useModalContext } from "@/common/contexts/hooks/use-modal-context";
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
 import { useForgotPasswordMutation } from "@/features/auth/api";
-import type { TForgotPasswordEmail, TForgotPasswordProps } from "@/features/auth/types";
+import type { TForgotPasswordEmail } from "@/features/auth/types";
+import type { TForgotPasswordFormProps } from "@/features/login-page/types";
 
-export const ForgotPasswordForm = ({ visible }: TForgotPasswordProps) => {
+export const ForgotPasswordForm = ({ visible }: TForgotPasswordFormProps) => {
   const { openNotification } = useNotificationContext();
 
   const [forgotPassword] = useForgotPasswordMutation();
@@ -49,15 +50,11 @@ export const ForgotPasswordForm = ({ visible }: TForgotPasswordProps) => {
 
   return (
     <Modal
+      centered
       title="Forgot Password"
       open={visible}
       onCancel={handleCancelModal}
       footer={null}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
     >
       <Form form={form} onFinish={handleSendEmail}>
         <Form.Item
@@ -75,7 +72,7 @@ export const ForgotPasswordForm = ({ visible }: TForgotPasswordProps) => {
         </Form.Item>
 
         <Form.Item>
-          <Button style={{ width: 300, justifyContent: "center" }} type="primary" htmlType="submit">
+          <Button block type="primary" htmlType="submit">
             Send reset password link
           </Button>
         </Form.Item>

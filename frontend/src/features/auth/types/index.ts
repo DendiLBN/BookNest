@@ -51,21 +51,7 @@ export type TForgotPasswordParams = {
   onError: () => void;
 };
 
-export type TForgotPasswordProps = {
-  visible: boolean;
-};
-
-export type TResetPasswordParams = {
-  oldPassword: string;
-  newPassword: string;
-};
-
 export type TTokens = {
   accessToken: string;
   refreshToken: string;
-};
-
-export type TOnSuccessRegisterProps = {
-  firstName: string;
-  email: string;
 };
