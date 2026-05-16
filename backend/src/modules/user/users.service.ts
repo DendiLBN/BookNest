@@ -1,9 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UsersDocument } from './schema/user.schema';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class UsersService {
@@ -49,6 +54,24 @@ export class UsersService {
     avatarUrl: string,
   ): Promise<UsersDocument | null> {
     return this.update(userId, { avatarUrl });
+  }
+
+  async updateProfile(
+    userId: string,
+    updateProfileDto: UpdateProfileDto,
+  ): Promise<UsersDocument | null> {
+    try {
+      return await this.update(userId, {
+        ...updateProfileDto,
+        email: updateProfileDto.email.toLowerCase(),
+      });
+    } catch (error) {
+      if (error instanceof Error && 'code' in error && error.code === 11000) {
+        throw new ConflictException('Email is already in use');
+      }
+
+      throw error;
+    }
   }
 
   async addFavoriteBook(

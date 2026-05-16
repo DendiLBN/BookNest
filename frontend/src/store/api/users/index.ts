@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import fetchBaseQuery from "@/common/api/fetch-base-query";
-import type { TUser } from "@/features/users/types";
+import type { TUpdateProfilePayload, TUser } from "@/features/users/types";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -19,6 +19,14 @@ export const userApi = createApi({
       query: (data) => ({
         method: "PATCH",
         url: "users/me/avatar",
+        data,
+      }),
+      invalidatesTags: ["users"],
+    }),
+    updateProfile: builder.mutation<TUser, TUpdateProfilePayload>({
+      query: (data) => ({
+        method: "PATCH",
+        url: "users/me/profile",
         data,
       }),
       invalidatesTags: ["users"],
@@ -43,6 +51,7 @@ export const userApi = createApi({
 export const {
   useFetchUsersQuery,
   useUploadAvatarMutation,
+  useUpdateProfileMutation,
   useAddFavoriteBookMutation,
   useRemoveFavoriteBookMutation,
 } = userApi;

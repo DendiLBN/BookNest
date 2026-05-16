@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Body,
   Controller,
   Delete,
   Get,
@@ -19,6 +20,7 @@ import { diskStorage } from 'multer';
 import { extname, join } from 'path';
 import { mkdirSync, readFileSync, unlinkSync } from 'fs';
 import { randomUUID } from 'crypto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 const avatarUploadPath = join(process.cwd(), 'uploads', 'avatars');
 const allowedAvatarMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
@@ -66,6 +68,15 @@ export class UsersController {
   @Get('me')
   getMe(@GetUserFromToken() user: JwtPayload) {
     return this.usersService.getUserById(user.id);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Patch('me/profile')
+  updateProfile(
+    @GetUserFromToken() user: JwtPayload,
+    @Body() updateProfileDto: UpdateProfileDto,
+  ) {
+    return this.usersService.updateProfile(user.id, updateProfileDto);
   }
 
   @UseGuards(AccessTokenGuard)

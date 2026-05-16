@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 
 import { BookOutlined, HeartFilled, LockOutlined } from "@ant-design/icons";
+import { Button, Input } from "antd";
 
 import { AvatarUploadButton } from "@/features/users/components/avatar-upload-button";
 
+import { useProfileForm } from "@/features/profile-page/hooks/useProfileForm";
 import { useAvatarUpload } from "@/features/users/hooks/useAvatarUpload";
 
 import { getApiAssetUrl } from "@/common/config/api";
@@ -13,6 +15,7 @@ export const ProfileView = () => {
   const { user } = useUser();
   const { fileInputRef, handleAvatarChange, isUploadingAvatar, openAvatarPicker } =
     useAvatarUpload();
+  const { handleFieldChange, handleSubmit, isUpdatingProfile, values } = useProfileForm({ user });
 
   if (!user) {
     return null;
@@ -65,6 +68,44 @@ export const ProfileView = () => {
       </section>
 
       <section className="grid gap-s lg:grid-cols-2">
+        <article className="rounded-l border border-app-border bg-app-surface p-s shadow-app-s">
+          <h2 className="mt-0 mb-xs text-lg font-bold text-app-text">Account details</h2>
+          <div className="grid gap-xs sm:grid-cols-2">
+            <label className="flex flex-col gap-1 text-sm font-semibold text-app-text">
+              First name
+              <Input
+                maxLength={20}
+                onChange={(event) => handleFieldChange("firstName", event.target.value)}
+                value={values.firstName}
+              />
+            </label>
+            <label className="flex flex-col gap-1 text-sm font-semibold text-app-text">
+              Last name
+              <Input
+                maxLength={20}
+                onChange={(event) => handleFieldChange("lastName", event.target.value)}
+                value={values.lastName}
+              />
+            </label>
+          </div>
+          <label className="mt-xs flex flex-col gap-1 text-sm font-semibold text-app-text">
+            Email
+            <Input
+              onChange={(event) => handleFieldChange("email", event.target.value)}
+              type="email"
+              value={values.email}
+            />
+          </label>
+          <Button
+            className="mt-s"
+            loading={isUpdatingProfile}
+            onClick={handleSubmit}
+            type="primary"
+          >
+            Save profile
+          </Button>
+        </article>
+
         <article className="rounded-l border border-app-border bg-app-surface p-s shadow-app-s">
           <h2 className="mt-0 mb-xs text-lg font-bold text-app-text">Reading profile</h2>
           <p className="mt-0 text-app-text-muted">

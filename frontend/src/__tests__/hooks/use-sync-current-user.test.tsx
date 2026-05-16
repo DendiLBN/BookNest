@@ -38,6 +38,7 @@ describe("useSyncCurrentUser", () => {
       _id: "user-1",
       email: "reader@booknest.dev",
       firstName: "Reader",
+      lastName: "Booker",
       favoriteBookIds: [],
     };
 
