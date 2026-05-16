@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/common/consts/local-storage";
-import { useFetchUsersQuery } from "@/features/users/api";
+import { useFetchUsersQuery } from "@/store/api/users";
 import { setIsLoggedIn } from "@/store/reducers/auth";
 
 export const useSyncCurrentUser = () => {

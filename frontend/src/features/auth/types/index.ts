@@ -41,6 +41,36 @@ export type TLogoutUserParams = {
   onError: () => void;
 };
 
+export type TChangePasswordRequestBody = {
+  oldPassword: string;
+  newPassword: string;
+};
+
+export type TChangePasswordParams = {
+  data: TChangePasswordRequestBody;
+  onSuccess: () => void;
+  onError: () => void;
+};
+
+export type TChangePasswordResponse = {
+  message: string;
+};
+
+export type TResetPasswordRequestBody = {
+  token: string;
+  newPassword: string;
+};
+
+export type TResetPasswordParams = {
+  data: TResetPasswordRequestBody;
+  onSuccess: () => void;
+  onError: () => void;
+};
+
+export type TResetPasswordResponse = {
+  message: string;
+};
+
 export type TForgotPasswordEmail = {
   email: string;
 };
@@ -51,21 +81,7 @@ export type TForgotPasswordParams = {
   onError: () => void;
 };
 
-export type TForgotPasswordProps = {
-  visible: boolean;
-};
-
-export type TResetPasswordParams = {
-  oldPassword: string;
-  newPassword: string;
-};
-
 export type TTokens = {
   accessToken: string;
   refreshToken: string;
-};
-
-export type TOnSuccessRegisterProps = {
-  firstName: string;
-  email: string;
 };

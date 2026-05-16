@@ -1,25 +1,28 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 
 @Injectable()
 export class MailService {
   private transporter: nodemailer.Transporter;
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
     this.transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.MAIL_USERNAME,
-        pass: process.env.MAIL_PASSWORD,
+        user: this.configService.get<string>('MAIL_USERNAME'),
+        pass: this.configService.get<string>('MAIL_PASSWORD'),
       },
     });
   }
 
   async nodeSendEmail(to: string, token: string) {
-    const resetLink = `http://localhost:5173/auth/reset-password?token=${token}`;
+    const frontendUrl =
+      this.configService.get<string>('FRONTEND_URL') ?? 'http://localhost:5173';
+    const resetLink = `${frontendUrl}/auth/reset-password?token=${token}`;
 
     const mailOptions = {
-      from: process.env.MAIL_USERNAME,
+      from: this.configService.get<string>('MAIL_USERNAME'),
       to: to,
       subject: 'Password Reset Request BookNest',
       html: `

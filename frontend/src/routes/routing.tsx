@@ -13,6 +13,7 @@ import { Book } from "@/pages/Book/Books";
 import { BookDetails } from "@/pages/BookDetails/BookDetails";
 import { Favorites } from "@/pages/Favorites/Favorites";
 import { Home } from "@/pages/Home/Home";
+import { Profile } from "@/pages/Profile/Profile";
 import { selectIsLoggedIn } from "@/store/reducers/auth";
 
 const AuthRoutes = lazy(() => import("@/routes/Auth.routes"));
@@ -87,7 +88,20 @@ export const LandingPageRouting = () => {
           }
         />
       )}
-      <Route path="auth/change-password" element={<ChangePasswordForm />} />
+      {isLoggedIn && (
+        <Route
+          path="/profile"
+          element={
+            <Suspense fallback={loading}>
+              <Profile />
+            </Suspense>
+          }
+        />
+      )}
+      <Route
+        path="auth/change-password"
+        element={isLoggedIn ? <ChangePasswordForm /> : <Navigate to="/auth/login" replace />}
+      />
     </Routes>
   );
 };

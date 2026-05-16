@@ -42,10 +42,9 @@ export const LoginPage = () => {
         initialValues={{
           remember: true,
         }}
-        className="login__form"
-        style={{
-          background: isDarkMode ? "#708090" : "#D3D3D3",
-        }}
+        className={`login__form border border-app-border shadow-app-s ${
+          isDarkMode ? "bg-app-surface-muted" : "bg-app-surface"
+        }`}
         onFinish={handleSubmitLogin}
       >
         <h1 className="login__title">Please login!</h1>
@@ -79,18 +78,11 @@ export const LoginPage = () => {
         </Form.Item>
 
         <Form.Item className="login__remember">
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
+          <div className="flex w-full items-center justify-between">
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
-            <Button type="text" onClick={handleShowModal} style={{ marginLeft: "auto" }}>
+            <Button className="ml-auto" type="text" onClick={handleShowModal}>
               Forgot password
             </Button>
             <ForgotPasswordForm visible={isModalVisible} />

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 
 import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
 
-import { useFetchBooksQuery } from "@/features/book-page/api";
+import { useFetchBooksQuery } from "@/store/api/books";
 
 type TUseBooksListParams = {
   currentPage: number;

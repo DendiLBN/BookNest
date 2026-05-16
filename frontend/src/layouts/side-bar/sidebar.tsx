@@ -1,35 +1,30 @@
-import { type ChangeEvent, useRef, useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import {
-  CameraOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import { Avatar, Menu } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { Menu } from "antd";
+import { useSelector } from "react-redux";
 
-import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
+import { AvatarUploadButton } from "@/features/users/components/avatar-upload-button";
+
+import { useAvatarUpload } from "@/features/users/hooks/useAvatarUpload";
+
 import { useThemeContext } from "@/common/contexts/hooks/use-theme-context";
 
 import { getApiAssetUrl } from "@/common/config/api";
 import useUser from "@/common/users/useUser";
-import { useUploadAvatarMutation } from "@/features/users/api";
 import { itemsSideBar } from "@/layouts/side-bar/consts/items-side-bar";
-import { selectIsLoggedIn, setIsLoggedIn } from "@/store/reducers/auth";
+import { selectIsLoggedIn } from "@/store/reducers/auth";
 
 export const LandingPageSideBar = () => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [uploadAvatar, { isLoading: isUploadingAvatar }] = useUploadAvatarMutation();
-  const dispatch = useDispatch();
   const { pathname } = useLocation();
+  const { fileInputRef, handleAvatarChange, isUploadingAvatar, openAvatarPicker } =
+    useAvatarUpload();
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const { user } = useUser();
-  const { openNotification } = useNotificationContext();
 
   const themeContext = useThemeContext();
 
@@ -48,34 +43,11 @@ export const LandingPageSideBar = () => {
     ? "books"
     : pathname.startsWith("/favorites")
       ? "favorites"
-      : pathname.startsWith("/auth/change-password")
-        ? "change-password"
-        : "dashboard";
-
-  const handleAvatarClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleAvatarChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-
-    if (!file) {
-      return;
-    }
-
-    const avatarFormData = new FormData();
-    avatarFormData.append("avatar", file);
-
-    try {
-      const updatedUser = await uploadAvatar(avatarFormData).unwrap();
-      dispatch(setIsLoggedIn({ isLoggedIn: true, user: updatedUser }));
-      openNotification("topRight", "success", "Avatar updated successfully.", false);
-    } catch {
-      openNotification("topRight", "error", "Could not update avatar.", false);
-    } finally {
-      event.target.value = "";
-    }
-  };
+      : pathname.startsWith("/profile")
+        ? "profile-overview"
+        : pathname.startsWith("/auth/change-password")
+          ? "change-password"
+          : "dashboard";
 
   return (
     <aside
@@ -84,23 +56,11 @@ export const LandingPageSideBar = () => {
       }`}
     >
       <div className="m-3 flex flex-col items-center gap-3 overflow-hidden rounded-lg border border-app-border bg-[linear-gradient(180deg,var(--color-surface-muted),var(--color-surface))] px-3 py-5 shadow-app-s">
-        <button
-          aria-label="Change avatar"
-          className="group relative rounded-full transition hover:opacity-90 focus:ring-2 focus:ring-app-brand/30 focus:outline-none disabled:cursor-progress"
-          disabled={isUploadingAvatar}
-          onClick={handleAvatarClick}
-          type="button"
-        >
-          <Avatar
-            className="border border-app-border bg-app-accent-soft text-app-accent"
-            size={64}
-            icon={<UserOutlined />}
-            src={avatarSrc}
-          />
-          <span className="absolute right-0 bottom-0 grid h-6 w-6 place-items-center rounded-full border border-app-border bg-app-surface text-xs text-app-brand shadow-sm">
-            <CameraOutlined />
-          </span>
-        </button>
+        <AvatarUploadButton
+          avatarSrc={avatarSrc}
+          isUploading={isUploadingAvatar}
+          onClick={openAvatarPicker}
+        />
         <input
           accept="image/png,image/jpeg,image/webp"
           hidden

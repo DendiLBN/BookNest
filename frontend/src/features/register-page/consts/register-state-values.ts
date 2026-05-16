@@ -4,8 +4,6 @@ export const initialRegisterValues = {
   email: "",
   password: "",
   confirmPassword: "",
-  gender: "",
-  remember: true,
 };
 
 export default initialRegisterValues;

@@ -5,7 +5,7 @@ import { Button } from "antd";
 
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
-import { useLogOutUserMutation } from "@/features/auth/api";
+import { useLogOutUserMutation } from "@/store/api/auth";
 
 export const LogoutButton: React.FC = () => {
   const { openNotification } = useNotificationContext();

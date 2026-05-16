@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Select } from "antd";
+import { Button, Form, Input } from "antd";
 
 import "@/assets/layouts-styles/register-styles/register.css";
 
@@ -10,10 +10,13 @@ import { useRegistrationUser } from "@/features/register-page/hooks/useRegistrat
 import { ThemeContext } from "@/common/contexts/theme-context";
 
 import { AUTH_IMAGE_URLS } from "@/features/auth/consts/auth-images";
+import {
+  createConfirmPasswordRules,
+  createPasswordRules,
+} from "@/features/auth/consts/password-validation";
 import type { TRegisterUserRequestBody } from "@/features/auth/types";
 import initialRegisterValues from "@/features/register-page/consts/register-state-values";
-
-const { Option } = Select;
+import type { TRegisterFormValues } from "@/features/register-page/types";
 
 export const RegisterPage = () => {
   const registrationUser = useRegistrationUser();
@@ -25,23 +28,28 @@ export const RegisterPage = () => {
 
   const { isDarkMode } = themeContext;
 
-  const { submitRegistration } = registrationUser;
+  const { submitRegistration, loading } = registrationUser;
 
-  const handleSubmitRegister = (values: TRegisterUserRequestBody) => {
-    submitRegistration(values);
+  const handleSubmitRegister = ({ email, firstName, lastName, password }: TRegisterFormValues) => {
+    const requestBody: TRegisterUserRequestBody = {
+      email,
+      firstName,
+      lastName,
+      password,
+    };
+
+    submitRegistration(requestBody);
   };
 
   return (
     <div className="register__container">
-      {" "}
       <img className="register__image" src={AUTH_IMAGE_URLS.register} alt="Books on a shelf" />
       <Form
         name="register"
         initialValues={initialRegisterValues}
-        style={{
-          background: isDarkMode ? "#708090" : "#D3D3D3",
-        }}
-        className="register__form"
+        className={`register__form border border-app-border shadow-app-s ${
+          isDarkMode ? "bg-app-surface-muted" : "bg-app-surface"
+        }`}
         onFinish={handleSubmitRegister}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
@@ -62,10 +70,7 @@ export const RegisterPage = () => {
         <Form.Item
           label="Password"
           name="password"
-          rules={[
-            { required: true, message: "Please input your password!" },
-            { min: 8, message: "Password must be at least 8 characters!" },
-          ]}
+          rules={createPasswordRules("Please input your password!")}
           hasFeedback
         >
           <Input.Password
@@ -77,21 +82,14 @@ export const RegisterPage = () => {
 
         <Form.Item
           label="Confirm Password"
-          name="confirm-password"
-          dependencies={["new-password"]}
+          name="confirmPassword"
+          dependencies={["password"]}
           hasFeedback
-          rules={[
-            { required: true, message: "Please confirm your password!" },
-            { min: 8, message: "Password must be at least 8 characters!" },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue("password") === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(new Error("The passwords do not match!"));
-              },
-            }),
-          ]}
+          rules={createConfirmPasswordRules({
+            fieldName: "password",
+            requiredMessage: "Please confirm your password!",
+            mismatchMessage: "The passwords do not match!",
+          })}
         >
           <Input.Password
             prefix={<LockOutlined />}
@@ -128,42 +126,15 @@ export const RegisterPage = () => {
           <Input prefix={<UserOutlined />} placeholder="Last Name" />
         </Form.Item>
 
-        <Form.Item
-          label="Gender"
-          name="gender"
-          rules={[
-            {
-              required: true,
-              message: "Please select your gender!",
-            },
-          ]}
-        >
-          <Select placeholder="Select your gender">
-            <Option value="male">Male</Option>
-            <Option value="female">Female</Option>
-          </Select>
-        </Form.Item>
-
-        <Form.Item
-          wrapperCol={{ span: 14, offset: 6 }}
-          className="register__agreement-checkbox"
-          name="agreement"
-          valuePropName="checked"
-          rules={[
-            {
-              validator: (_, value) =>
-                value ? Promise.resolve() : Promise.reject(new Error("Should accept agreement")),
-            },
-          ]}
-        >
-          <Checkbox>
-            I have read the <a href="">agreement</a>
-          </Checkbox>
-        </Form.Item>
         <Form.Item wrapperCol={{ span: 14, offset: 6 }}>
-          {" "}
-          <Button className="register__submit-button" type="primary" htmlType="submit">
-            click here to register account!
+          <Button
+            className="register__submit-button"
+            disabled={loading}
+            loading={loading}
+            type="primary"
+            htmlType="submit"
+          >
+            Create account
           </Button>
         </Form.Item>
       </Form>

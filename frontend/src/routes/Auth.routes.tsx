@@ -7,6 +7,10 @@ const LoginPage = lazy(() => import("@/pages/Auth/Login"));
 
 const RegisterPage = lazy(() => import("@/pages/Auth/Register"));
 
+const ResetPasswordForm = lazy(
+  () => import("@/features/login-page/components/forms/reset-password-form"),
+);
+
 const AuthRoutes = () => {
   const { loading } = useNotificationContext();
 
@@ -17,6 +21,7 @@ const AuthRoutes = () => {
       <Routes>
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="reset-password" element={<ResetPasswordForm />} />
       </Routes>
     </Suspense>
   );

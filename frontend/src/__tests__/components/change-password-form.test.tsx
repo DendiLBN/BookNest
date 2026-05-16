@@ -1,8 +1,18 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import ChangePasswordForm from "@/features/login-page/components/forms/change-password-form";
+
+vi.mock("@/common/contexts/hooks/use-notification-context", () => ({
+  useNotificationContext: () => ({
+    openNotification: vi.fn(),
+  }),
+}));
+
+vi.mock("@/store/api/auth", () => ({
+  useChangePasswordMutation: () => [vi.fn(), { isLoading: false }],
+}));
 
 describe("ChangePasswordForm", () => {
   it("renders password fields and submit button", () => {

@@ -5,6 +5,8 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/common/consts/local-storage";
 import { removeTokens } from "@/common/utils/removeTokens";
 import { setTokens } from "@/common/utils/setTokens";
 import type {
+  TChangePasswordParams,
+  TChangePasswordResponse,
   TForgotPasswordParams,
   TLoginUserParams,
   TLoginUserResponse,
@@ -12,8 +14,10 @@ import type {
   TLogoutUserResponse,
   TRegisterUserParams,
   TRegisterUserResponse,
+  TResetPasswordParams,
+  TResetPasswordResponse,
 } from "@/features/auth/types";
-import { userApi } from "@/features/users/api";
+import { userApi } from "@/store/api/users";
 import { logOutUser, setIsLoggedIn } from "@/store/reducers/auth";
 
 export const authApi = createApi({
@@ -98,6 +102,38 @@ export const authApi = createApi({
       },
     }),
 
+    changePassword: builder.mutation<TChangePasswordResponse, TChangePasswordParams>({
+      query: ({ data }) => ({
+        method: "PUT",
+        url: "auth/change-password",
+        data,
+      }),
+      async onQueryStarted({ onSuccess, onError }, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          onSuccess();
+        } catch {
+          onError();
+        }
+      },
+    }),
+
+    resetPassword: builder.mutation<TResetPasswordResponse, TResetPasswordParams>({
+      query: ({ data }) => ({
+        method: "POST",
+        url: "auth/reset-password",
+        data,
+      }),
+      async onQueryStarted({ onSuccess, onError }, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          onSuccess();
+        } catch {
+          onError();
+        }
+      },
+    }),
+
     forgotPassword: builder.mutation<void, TForgotPasswordParams>({
       query: ({ data }) => ({
         method: "POST",
@@ -120,5 +156,7 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useLogOutUserMutation,
+  useChangePasswordMutation,
+  useResetPasswordMutation,
   useForgotPasswordMutation,
 } = authApi;

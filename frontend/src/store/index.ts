@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { authApi } from "@/features/auth/api";
-import { bookApi } from "@/features/book-page/api";
-import { userApi } from "@/features/users/api";
+import { authApi } from "@/store/api/auth";
+import { bookApi } from "@/store/api/books";
+import { userApi } from "@/store/api/users";
 import { authReducer } from "@/store/reducers/auth";
 
 const apiReducers = {

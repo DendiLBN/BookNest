@@ -33,7 +33,6 @@
 .register__form {
   flex: 1 1 50%;
   max-width: 480px;
-  background: #d3d3d3;
   padding: 40px;
   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
