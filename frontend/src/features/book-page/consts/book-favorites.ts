@@ -1,0 +1,1 @@
+export const FAVORITE_ACTION_COOLDOWN_MS = 5000;

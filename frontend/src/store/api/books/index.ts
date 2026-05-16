@@ -3,6 +3,7 @@ import type { Key } from "react";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import fetchBaseQuery from "@/common/api/fetch-base-query";
+import { FULL_CATALOG_PAGE_SIZE } from "@/features/book-page/consts/book-query";
 import {
   TBook,
   TBookDashboardSummary,
@@ -16,7 +17,7 @@ export const bookApi = createApi({
   tagTypes: ["books"],
   endpoints: (builder) => ({
     fetchBooks: builder.query<TPaginatedBooksResponse, TBooksQueryParams>({
-      query: ({ page = 1, perPage = 100, category = [], searchString }) => ({
+      query: ({ page = 1, perPage = FULL_CATALOG_PAGE_SIZE, category = [], searchString }) => ({
         method: "GET",
         url: "books",
         params: {

@@ -1,0 +1,1 @@
+export const FULL_CATALOG_PAGE_SIZE = 100;

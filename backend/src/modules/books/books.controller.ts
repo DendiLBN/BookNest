@@ -23,46 +23,18 @@ import { AccessTokenGuard } from '../../common/guards/access-token-guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { randomUUID } from 'crypto';
-import { mkdirSync, readFileSync, unlinkSync } from 'fs';
+import { mkdirSync, unlinkSync } from 'fs';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
+import {
+  ALLOWED_IMAGE_EXTENSIONS,
+  ALLOWED_IMAGE_MIME_TYPES,
+  IMAGE_EXTENSION_BY_MIME_TYPE,
+} from '../../common/consts/image-upload';
+import { MAX_IMAGE_UPLOAD_SIZE_BYTES } from '../../common/consts/upload-limits';
+import { isValidImageFileSignature } from '../../common/utils/is-valid-image-file';
 
 const bookCoverUploadPath = join(process.cwd(), 'uploads', 'book-covers');
-const allowedBookCoverMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
-const allowedBookCoverExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
-const bookCoverExtensionByMimeType: Record<string, string> = {
-  'image/jpeg': '.jpg',
-  'image/png': '.png',
-  'image/webp': '.webp',
-};
-
-const isValidBookCoverSignature = (
-  filePath: string,
-  mimetype: string,
-): boolean => {
-  const fileHeader = readFileSync(filePath).subarray(0, 12);
-
-  if (mimetype === 'image/jpeg') {
-    return (
-      fileHeader[0] === 0xff && fileHeader[1] === 0xd8 && fileHeader[2] === 0xff
-    );
-  }
-
-  if (mimetype === 'image/png') {
-    return fileHeader
-      .subarray(0, 8)
-      .equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
-  }
-
-  if (mimetype === 'image/webp') {
-    return (
-      fileHeader.subarray(0, 4).toString() === 'RIFF' &&
-      fileHeader.subarray(8, 12).toString() === 'WEBP'
-    );
-  }
-
-  return false;
-};
 
 @Controller('books')
 export class BooksController {
@@ -112,15 +84,15 @@ export class BooksController {
         filename: (_req, file, callback) => {
           callback(
             null,
-            `${randomUUID()}${bookCoverExtensionByMimeType[file.mimetype]}`,
+            `${randomUUID()}${IMAGE_EXTENSION_BY_MIME_TYPE[file.mimetype]}`,
           );
         },
       }),
       fileFilter: (_req, file, callback) => {
         const fileExtension = extname(file.originalname).toLowerCase();
         const isImage =
-          allowedBookCoverMimeTypes.includes(file.mimetype) &&
-          allowedBookCoverExtensions.includes(fileExtension);
+          ALLOWED_IMAGE_MIME_TYPES.includes(file.mimetype) &&
+          ALLOWED_IMAGE_EXTENSIONS.includes(fileExtension);
 
         if (!isImage) {
           callback(
@@ -135,7 +107,7 @@ export class BooksController {
         callback(null, true);
       },
       limits: {
-        fileSize: 2 * 1024 * 1024,
+        fileSize: MAX_IMAGE_UPLOAD_SIZE_BYTES,
       },
     }),
   )
@@ -147,7 +119,7 @@ export class BooksController {
       throw new BadRequestException('Book cover file is required');
     }
 
-    if (!isValidBookCoverSignature(file.path, file.mimetype)) {
+    if (!isValidImageFileSignature(file.path, file.mimetype)) {
       unlinkSync(file.path);
       throw new BadRequestException(
         'Book cover file content is not a supported image',

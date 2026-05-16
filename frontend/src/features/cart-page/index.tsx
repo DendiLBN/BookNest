@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Button, Empty, InputNumber } from "antd";
 
 import useUser from "@/common/users/useUser";
+import { FULL_CATALOG_PAGE_SIZE } from "@/features/book-page/consts/book-query";
+import { MAX_CART_ITEM_QUANTITY, MIN_CART_ITEM_QUANTITY } from "@/features/cart-page/consts/cart";
 import { useFetchBooksQuery } from "@/store/api/books";
 import { useRemoveCartItemMutation, useUpdateCartItemMutation } from "@/store/api/users";
 
@@ -14,7 +16,7 @@ export const CartView = ({ compact = false }: TCartViewProps) => {
   const { user } = useUser();
   const { data: booksResponse } = useFetchBooksQuery({
     page: 1,
-    perPage: 100,
+    perPage: FULL_CATALOG_PAGE_SIZE,
     searchString: "",
     category: [],
   });
@@ -60,8 +62,8 @@ export const CartView = ({ compact = false }: TCartViewProps) => {
           </div>
           <div className="flex items-center gap-xs">
             <InputNumber
-              max={99}
-              min={1}
+              max={MAX_CART_ITEM_QUANTITY}
+              min={MIN_CART_ITEM_QUANTITY}
               onChange={(value) =>
                 updateCartItem({
                   bookId,

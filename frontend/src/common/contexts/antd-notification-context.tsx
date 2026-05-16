@@ -12,6 +12,11 @@ import {
 import { notification } from "antd";
 import { IconType, NotificationPlacement } from "antd/es/notification/interface";
 
+import { createNotificationHistoryItem } from "@/common/contexts/utils/create-notification-history-item";
+import { mergeNotificationHistory } from "@/common/contexts/utils/merge-notification-history";
+
+import { NOTIFICATION_VISIBLE_DURATION_MS } from "@/common/consts/notifications";
+
 export type TNotificationHistoryItem = {
   id: string;
   message: string;
@@ -62,36 +67,14 @@ export const AntdNotificationProvider: FC<{ children: ReactNode }> = ({ children
 
   const openNotification = useCallback(
     (placement: NotificationPlacement, type: IconType, message: string, pauseOnHover: boolean) => {
-      const notificationHistoryItem: TNotificationHistoryItem = {
-        id: `${Date.now()}-${message}`,
-        message,
-        type,
-        createdAt: new Date().toLocaleString(),
-        read: false,
-        count: 1,
-      };
+      const notificationHistoryItem = createNotificationHistoryItem({ message, type });
 
-      setNotifications((currentNotifications) => {
-        const latestMatchingNotification = currentNotifications.find(
-          (currentNotification) =>
-            currentNotification.message === message && currentNotification.type === type,
-        );
-
-        if (latestMatchingNotification) {
-          return currentNotifications.map((currentNotification) =>
-            currentNotification.id === latestMatchingNotification.id
-              ? {
-                  ...currentNotification,
-                  count: currentNotification.count + 1,
-                  createdAt: notificationHistoryItem.createdAt,
-                  read: false,
-                }
-              : currentNotification,
-          );
-        }
-
-        return [notificationHistoryItem, ...currentNotifications.slice(0, 19)];
-      });
+      setNotifications((currentNotifications) =>
+        mergeNotificationHistory({
+          currentNotifications,
+          notificationHistoryItem,
+        }),
+      );
 
       if (isNotificationOpen) {
         return;
@@ -114,7 +97,7 @@ export const AntdNotificationProvider: FC<{ children: ReactNode }> = ({ children
 
       setTimeout(() => {
         setIsNotificationOpen(false);
-      }, 3000);
+      }, NOTIFICATION_VISIBLE_DURATION_MS);
     },
     [isNotificationOpen, api],
   );
