@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { HomeOutlined, SnippetsFilled, UserOutlined } from "@ant-design/icons";
 import { Layout } from "antd";
 
+import { CartDrawer } from "@/layouts/header/components/cart-drawer";
 import { NotificationCenter } from "@/layouts/header/components/notification-center";
 import { ThemeButton } from "@/layouts/header/components/theme-button/index.tsx";
 
@@ -42,6 +43,7 @@ export const LandingPageHeader = () => {
         <div className="flex shrink-0 items-center justify-end gap-xs">
           {isLoggedIn ? (
             <>
+              <CartDrawer />
               <NotificationCenter />
               <LogoutButton />
             </>

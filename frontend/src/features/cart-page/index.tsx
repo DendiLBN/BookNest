@@ -6,7 +6,11 @@ import useUser from "@/common/users/useUser";
 import { useFetchBooksQuery } from "@/store/api/books";
 import { useRemoveCartItemMutation, useUpdateCartItemMutation } from "@/store/api/users";
 
-export const CartView = () => {
+type TCartViewProps = {
+  compact?: boolean;
+};
+
+export const CartView = ({ compact = false }: TCartViewProps) => {
   const { user } = useUser();
   const { data: booksResponse } = useFetchBooksQuery({
     page: 1,
@@ -38,7 +42,9 @@ export const CartView = () => {
     <div className="flex flex-col gap-s">
       {resolvedCartItems.map(({ bookId, quantity, book }) => (
         <article
-          className="grid gap-s rounded-l border border-app-border bg-app-surface p-s shadow-app-s sm:grid-cols-[72px_minmax(0,1fr)_auto]"
+          className={`grid gap-s rounded-l border border-app-border bg-app-surface p-s shadow-app-s ${
+            compact ? "" : "sm:grid-cols-[72px_minmax(0,1fr)_auto]"
+          }`}
           key={bookId}
         >
           <img

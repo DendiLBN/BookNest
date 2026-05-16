@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 
+import { useCartDrawerContext } from "@/common/contexts/hooks/use-cart-drawer-context";
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
 import useUser from "@/common/users/useUser";
@@ -10,6 +11,7 @@ export const useBookCart = () => {
   const dispatch = useDispatch();
   const { user } = useUser();
   const { openNotification } = useNotificationContext();
+  const { openCartDrawer } = useCartDrawerContext();
   const [updateCartItem, { isLoading: isUpdatingCart }] = useUpdateCartItemMutation();
 
   const handleAddToCart = async (bookId: string) => {
@@ -22,6 +24,7 @@ export const useBookCart = () => {
       }).unwrap();
 
       dispatch(setIsLoggedIn({ isLoggedIn: true, user: updatedUser }));
+      openCartDrawer();
       openNotification("topRight", "success", "Book added to cart.", false);
     } catch {
       openNotification("topRight", "error", "Could not update cart.", false);
