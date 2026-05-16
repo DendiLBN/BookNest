@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import fetchBaseQuery from "@/common/api/fetch-base-query";
-import type { TUpdateProfilePayload, TUser } from "@/features/users/types";
+import type { TCartItem, TUpdateProfilePayload, TUser } from "@/features/users/types";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -52,6 +52,21 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["users"],
     }),
+    updateCartItem: builder.mutation<TUser, TCartItem>({
+      query: ({ bookId, quantity }) => ({
+        method: "PATCH",
+        url: `users/me/cart/${bookId}`,
+        data: { quantity },
+      }),
+      invalidatesTags: ["users"],
+    }),
+    removeCartItem: builder.mutation<TUser, string>({
+      query: (bookId) => ({
+        method: "DELETE",
+        url: `users/me/cart/${bookId}`,
+      }),
+      invalidatesTags: ["users"],
+    }),
   }),
 });
 
@@ -62,4 +77,6 @@ export const {
   useDeleteAccountMutation,
   useAddFavoriteBookMutation,
   useRemoveFavoriteBookMutation,
+  useUpdateCartItemMutation,
+  useRemoveCartItemMutation,
 } = userApi;

@@ -41,11 +41,13 @@ export const LandingPageSideBar = () => {
   const menuTheme = isDarkMode ? "dark" : "light";
   const selectedMenuKey = pathname.startsWith("/book")
     ? "books"
-    : pathname.startsWith("/favorites")
-      ? "favorites"
-      : pathname.startsWith("/profile")
-        ? "profile-overview"
-        : "dashboard";
+    : pathname.startsWith("/cart")
+      ? "cart"
+      : pathname.startsWith("/favorites")
+        ? "favorites"
+        : pathname.startsWith("/profile")
+          ? "profile-overview"
+          : "dashboard";
 
   return (
     <aside

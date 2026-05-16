@@ -27,6 +27,7 @@ const user: TUser = {
   firstName: "Reader",
   lastName: "Booker",
   favoriteBookIds: [],
+  cartItems: [],
   role: "customer",
 };
 

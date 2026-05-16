@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 
-import { BookFilled, BookOutlined, HeartFilled, UserOutlined } from "@ant-design/icons";
+import {
+  BookFilled,
+  BookOutlined,
+  HeartFilled,
+  ShoppingCartOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { MenuProps } from "antd";
 
 export const itemsSideBar: MenuProps["items"] = [
@@ -13,6 +19,11 @@ export const itemsSideBar: MenuProps["items"] = [
     key: "books",
     icon: <BookFilled />,
     label: <Link to="/book">Books</Link>,
+  },
+  {
+    key: "cart",
+    icon: <ShoppingCartOutlined />,
+    label: <Link to="/cart">Cart</Link>,
   },
   {
     key: "profile",

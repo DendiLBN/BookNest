@@ -8,6 +8,7 @@ import { BookSearch } from "@/features/book-page/components/filters/book-search"
 import { CategorySelect } from "@/features/book-page/components/filters/category-select";
 
 import { usePagination } from "@/common/hooks/pagination/usePagination";
+import { useBookCart } from "@/features/book-page/hooks/useBookCart";
 import { useBookFavorites } from "@/features/book-page/hooks/useBookFavorites";
 import { useBookSelection } from "@/features/book-page/hooks/useBookSelection";
 import { useDeleteAsArrayBooks } from "@/features/book-page/hooks/useDeleteAsArrayBooks";
@@ -42,6 +43,7 @@ export const BookView: React.FC = () => {
     setSelectedBookRowKeys,
   });
   const { favoriteBookIds, favoriteActionLoading, handleToggleFavorite } = useBookFavorites();
+  const { handleAddToCart, isUpdatingCart } = useBookCart();
 
   const bookTableColumns = createBookTableColumns({
     favoriteBookIds,
@@ -117,8 +119,10 @@ export const BookView: React.FC = () => {
           <div className="flex flex-col gap-s">
             <BookCatalogGrid
               books={bookList}
+              cartActionLoading={isUpdatingCart}
               favoriteBookIds={favoriteBookIds}
               favoriteActionLoading={favoriteActionLoading}
+              onAddToCart={handleAddToCart}
               onToggleFavorite={handleToggleFavorite}
             />
             <Pagination

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { HeartFilled, HeartOutlined, StarFilled } from "@ant-design/icons";
+import { HeartFilled, HeartOutlined, ShoppingCartOutlined, StarFilled } from "@ant-design/icons";
 import { Button } from "antd";
 
 import type { TBook } from "@/features/book-page/types";
@@ -9,13 +9,17 @@ type TBookCatalogGridProps = {
   books: TBook[];
   favoriteBookIds: string[];
   favoriteActionLoading: boolean;
+  cartActionLoading: boolean;
   onToggleFavorite: (bookId: string) => void;
+  onAddToCart: (bookId: string) => void;
 };
 
 export const BookCatalogGrid = ({
   books,
+  cartActionLoading,
   favoriteBookIds,
   favoriteActionLoading,
+  onAddToCart,
   onToggleFavorite,
 }: TBookCatalogGridProps) => (
   <section className="grid gap-s sm:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4">
@@ -53,12 +57,20 @@ export const BookCatalogGrid = ({
               <span className="font-bold text-app-warning">
                 <StarFilled /> {book.rate}
               </span>
-              <Button
-                aria-label={isFavorite ? "Remove favorite" : "Add favorite"}
-                disabled={favoriteActionLoading}
-                icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
-                onClick={() => onToggleFavorite(book._id)}
-              />
+              <div className="flex items-center gap-1">
+                <Button
+                  aria-label="Add to cart"
+                  disabled={cartActionLoading}
+                  icon={<ShoppingCartOutlined />}
+                  onClick={() => onAddToCart(book._id)}
+                />
+                <Button
+                  aria-label={isFavorite ? "Remove favorite" : "Add favorite"}
+                  disabled={favoriteActionLoading}
+                  icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
+                  onClick={() => onToggleFavorite(book._id)}
+                />
+              </div>
             </div>
           </div>
         </article>

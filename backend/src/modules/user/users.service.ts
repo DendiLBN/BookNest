@@ -100,6 +100,42 @@ export class UsersService {
       .exec();
   }
 
+  async updateCartItem(
+    userId: string,
+    bookId: string,
+    quantity: number,
+  ): Promise<UsersDocument | null> {
+    const user = await this.findOne(userId);
+
+    if (!user) {
+      throw new NotFoundException(`User with id ${userId} not found`);
+    }
+
+    const existingCartItem = user.cartItems.find(
+      (item) => item.bookId === bookId,
+    );
+    const cartItems = existingCartItem
+      ? user.cartItems.map((item) =>
+          item.bookId === bookId ? { bookId, quantity } : item,
+        )
+      : [...user.cartItems, { bookId, quantity }];
+
+    return this.update(userId, { cartItems });
+  }
+
+  async removeCartItem(
+    userId: string,
+    bookId: string,
+  ): Promise<UsersDocument | null> {
+    return this.userModel
+      .findByIdAndUpdate(
+        userId,
+        { $pull: { cartItems: { bookId } } },
+        { new: true },
+      )
+      .exec();
+  }
+
   async findOne(userId: string): Promise<UsersDocument | null> {
     return this.userModel.findById(userId).exec();
   }

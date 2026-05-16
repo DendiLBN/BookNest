@@ -5,6 +5,8 @@ import { Button, Descriptions, Empty, Rate, Spin, Tag } from "antd";
 
 import "@/assets/layouts-styles/book-styles/book.css";
 
+import { useBookCart } from "@/features/book-page/hooks/useBookCart";
+
 import { tagColors } from "@/features/book-page/consts/book-categories-colors";
 import { useFetchBookByIdQuery } from "@/store/api/books";
 
@@ -12,6 +14,7 @@ const fallbackCoverImage = "/book.png";
 
 export const BookDetails = () => {
   const { bookId = "" } = useParams();
+  const { handleAddToCart, isUpdatingCart } = useBookCart();
 
   const {
     data: book,
@@ -91,7 +94,12 @@ export const BookDetails = () => {
           </div>
 
           <div className="flex flex-wrap gap-xs">
-            <Button icon={<ShoppingCartOutlined />} type="primary">
+            <Button
+              icon={<ShoppingCartOutlined />}
+              loading={isUpdatingCart}
+              onClick={() => handleAddToCart(book._id)}
+              type="primary"
+            >
               Add to cart
             </Button>
             <Button icon={<HeartOutlined />}>Save favorite</Button>
