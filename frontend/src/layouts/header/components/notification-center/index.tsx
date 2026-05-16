@@ -31,6 +31,7 @@ export const NotificationCenter = () => {
       <Badge count={unreadNotificationsCount} size="small">
         <Button
           aria-label="Open notifications"
+          className="min-h-10 min-w-10 border border-app-border bg-app-surface text-app-text shadow-sm hover:border-app-brand hover:text-app-brand"
           icon={<BellOutlined />}
           onClick={handleOpen}
           shape="circle"
@@ -61,7 +62,10 @@ export const NotificationCenter = () => {
                   description={notificationItem.createdAt}
                   title={
                     <div className="flex items-start justify-between gap-3">
-                      <span>{notificationItem.message}</span>
+                      <span>
+                        {notificationItem.message}
+                        {notificationItem.count > 1 ? ` x${notificationItem.count}` : ""}
+                      </span>
                       <Tag color={notificationTypeColor[notificationItem.type]}>
                         {notificationItem.type}
                       </Tag>

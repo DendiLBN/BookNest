@@ -8,6 +8,7 @@ import type { TBook } from "@/features/book-page/types";
 type TBookCatalogGridProps = {
   books: TBook[];
   favoriteBookIds: string[];
+  favoriteCooldownBookIds: string[];
   favoriteActionLoading: boolean;
   cartActionLoading: boolean;
   onToggleFavorite: (bookId: string) => void;
@@ -17,6 +18,7 @@ type TBookCatalogGridProps = {
 export const BookCatalogGrid = ({
   books,
   cartActionLoading,
+  favoriteCooldownBookIds,
   favoriteBookIds,
   favoriteActionLoading,
   onAddToCart,
@@ -66,7 +68,7 @@ export const BookCatalogGrid = ({
                 />
                 <Button
                   aria-label={isFavorite ? "Remove favorite" : "Add favorite"}
-                  disabled={favoriteActionLoading}
+                  disabled={favoriteActionLoading || favoriteCooldownBookIds.includes(book._id)}
                   icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
                   onClick={() => onToggleFavorite(book._id)}
                 />

@@ -1,3 +1,5 @@
+import { useRef, useState } from "react";
+
 import { useDispatch } from "react-redux";
 
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
@@ -16,8 +18,27 @@ export const useBookFavorites = () => {
 
   const favoriteBookIds = user?.favoriteBookIds ?? [];
   const favoriteActionLoading = isAddingFavoriteBook || isRemovingFavoriteBook;
+  const favoriteCooldownsRef = useRef<Record<string, number>>({});
+  const [cooldownBookIds, setCooldownBookIds] = useState<string[]>([]);
 
   const handleToggleFavorite = async (bookId: string) => {
+    const now = Date.now();
+    const cooldownExpiresAt = favoriteCooldownsRef.current[bookId] ?? 0;
+
+    if (favoriteActionLoading || cooldownExpiresAt > now) {
+      return;
+    }
+
+    favoriteCooldownsRef.current[bookId] = now + 5000;
+    setCooldownBookIds((currentBookIds) => [...currentBookIds, bookId]);
+
+    window.setTimeout(() => {
+      setCooldownBookIds((currentBookIds) =>
+        currentBookIds.filter((currentBookId) => currentBookId !== bookId),
+      );
+      delete favoriteCooldownsRef.current[bookId];
+    }, 5000);
+
     const isFavorite = favoriteBookIds.includes(bookId);
 
     try {
@@ -38,6 +59,7 @@ export const useBookFavorites = () => {
   };
 
   return {
+    cooldownBookIds,
     favoriteBookIds,
     favoriteActionLoading,
     handleToggleFavorite,

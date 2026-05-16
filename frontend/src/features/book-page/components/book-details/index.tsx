@@ -1,6 +1,11 @@
 import { Link, useParams } from "react-router-dom";
 
-import { ArrowLeftOutlined, HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import {
+  ArrowLeftOutlined,
+  HeartFilled,
+  HeartOutlined,
+  ShoppingCartOutlined,
+} from "@ant-design/icons";
 import { Button, Descriptions, Empty, Rate, Spin, Tag } from "antd";
 
 import "@/assets/layouts-styles/book-styles/book.css";
@@ -11,6 +16,8 @@ import { useBookCoverUpload } from "@/features/book-page/hooks/useBookCoverUploa
 import useUser from "@/common/users/useUser";
 import { tagColors } from "@/features/book-page/consts/book-categories-colors";
 import { useFetchBookByIdQuery } from "@/store/api/books";
+
+import { useBookFavorites } from "../../hooks/useBookFavorites";
 
 const fallbackCoverImage = "/book.png";
 
@@ -28,6 +35,9 @@ export const BookDetails = () => {
   } = useFetchBookByIdQuery(bookId, {
     skip: !bookId,
   });
+
+  const { cooldownBookIds, favoriteActionLoading, favoriteBookIds, handleToggleFavorite } =
+    useBookFavorites();
 
   if (isFetching) {
     return (
@@ -49,6 +59,7 @@ export const BookDetails = () => {
   }
 
   const categoryCount = book.category?.length ?? 0;
+  const isFavorite = favoriteBookIds.includes(book._id);
   const primaryCategory = book.category?.[0] ?? "General";
   const bookMetrics = [
     { label: "Rating", value: `${book.rate}/5` },
@@ -123,7 +134,14 @@ export const BookDetails = () => {
             >
               Add to cart
             </Button>
-            <Button icon={<HeartOutlined />}>Save favorite</Button>
+            <Button
+              disabled={cooldownBookIds.includes(book._id)}
+              icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
+              loading={favoriteActionLoading}
+              onClick={() => handleToggleFavorite(book._id)}
+            >
+              {isFavorite ? "Saved favorite" : "Save favorite"}
+            </Button>
           </div>
           <p className="m-0 max-w-155 leading-6 text-app-text-muted">
             Preview catalog data before adding this title to a basket or saving it to your reading

@@ -42,7 +42,8 @@ export const BookView: React.FC = () => {
     selectedBookRowKeys,
     setSelectedBookRowKeys,
   });
-  const { favoriteBookIds, favoriteActionLoading, handleToggleFavorite } = useBookFavorites();
+  const { cooldownBookIds, favoriteBookIds, favoriteActionLoading, handleToggleFavorite } =
+    useBookFavorites();
   const { handleAddToCart, isUpdatingCart } = useBookCart();
 
   const bookTableColumns = createBookTableColumns({
@@ -120,6 +121,7 @@ export const BookView: React.FC = () => {
             <BookCatalogGrid
               books={bookList}
               cartActionLoading={isUpdatingCart}
+              favoriteCooldownBookIds={cooldownBookIds}
               favoriteBookIds={favoriteBookIds}
               favoriteActionLoading={favoriteActionLoading}
               onAddToCart={handleAddToCart}
