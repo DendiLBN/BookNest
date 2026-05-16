@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
-
 import { BookOutlined, HeartFilled, LockOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
 
+import ChangePasswordForm from "@/features/login-page/components/forms/change-password-form";
 import { AvatarUploadButton } from "@/features/users/components/avatar-upload-button";
 
 import { useDeleteAccount } from "@/features/profile-page/hooks/useDeleteAccount";
@@ -122,29 +121,7 @@ export const ProfileView = () => {
         </article>
 
         <article className="rounded-l border border-app-border bg-app-surface p-s shadow-app-s">
-          <h2 className="mt-0 mb-xs text-lg font-bold text-app-text">Reading profile</h2>
-          <p className="mt-0 text-app-text-muted">
-            Keep your favorite books close and return to saved titles from one place.
-          </p>
-          <Link
-            className="font-semibold text-app-accent no-underline hover:underline"
-            to="/favorites"
-          >
-            Open favorites
-          </Link>
-        </article>
-
-        <article className="rounded-l border border-app-border bg-app-surface p-s shadow-app-s">
-          <h2 className="mt-0 mb-xs text-lg font-bold text-app-text">Account security</h2>
-          <p className="mt-0 text-app-text-muted">
-            Refresh your password regularly and keep your account protected.
-          </p>
-          <Link
-            className="font-semibold text-app-accent no-underline hover:underline"
-            to="/auth/change-password"
-          >
-            Change password
-          </Link>
+          <ChangePasswordForm embedded />
         </article>
       </section>
 

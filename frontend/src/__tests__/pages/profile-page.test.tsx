@@ -48,6 +48,10 @@ vi.mock("@/features/profile-page/hooks/useDeleteAccount", () => ({
   }),
 }));
 
+vi.mock("@/features/login-page/components/forms/change-password-form", () => ({
+  default: () => <div>Embedded change password form</div>,
+}));
+
 describe("ProfileView", () => {
   it("renders account details, favorite count, and profile actions", () => {
     render(
@@ -62,13 +66,6 @@ describe("ProfileView", () => {
     expect(screen.getByDisplayValue("Booker")).toBeInTheDocument();
     expect(screen.getByDisplayValue("reader@booknest.dev")).toBeInTheDocument();
     expect(screen.getByText("2")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /open favorites/i })).toHaveAttribute(
-      "href",
-      "/favorites",
-    );
-    expect(screen.getByRole("link", { name: /change password/i })).toHaveAttribute(
-      "href",
-      "/auth/change-password",
-    );
+    expect(screen.getByText("Embedded change password form")).toBeInTheDocument();
   });
 });

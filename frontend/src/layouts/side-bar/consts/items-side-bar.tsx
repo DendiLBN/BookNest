@@ -1,13 +1,6 @@
 import { Link } from "react-router-dom";
 
-import {
-  BookFilled,
-  BookOutlined,
-  HeartFilled,
-  LockOutlined,
-  SettingOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { BookFilled, BookOutlined, HeartFilled, UserOutlined } from "@ant-design/icons";
 import { MenuProps } from "antd";
 
 export const itemsSideBar: MenuProps["items"] = [
@@ -38,19 +31,6 @@ export const itemsSideBar: MenuProps["items"] = [
         style: { paddingLeft: "10px" },
         label: <Link to="/favorites">Favorites</Link>,
         icon: <HeartFilled />,
-      },
-    ],
-  },
-  {
-    key: "settings",
-    icon: <SettingOutlined />,
-    label: "Account Settings",
-    children: [
-      {
-        key: "change-password",
-        style: { paddingLeft: "10px" },
-        label: <Link to="/auth/change-password">Change Password</Link>,
-        icon: <LockOutlined />,
       },
     ],
   },
