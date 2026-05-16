@@ -15,7 +15,7 @@ export const useBookCart = () => {
   const [updateCartItem, { isLoading: isUpdatingCart }] = useUpdateCartItemMutation();
 
   const handleAddToCart = async (bookId: string) => {
-    const existingCartItem = user?.cartItems.find((item) => item.bookId === bookId);
+    const existingCartItem = user?.cartItems?.find((item) => item.bookId === bookId);
 
     try {
       const updatedUser = await updateCartItem({

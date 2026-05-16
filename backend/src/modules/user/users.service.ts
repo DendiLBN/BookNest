@@ -7,6 +7,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { UserRole } from '../../common/enums/user-role.enum';
 import { User, UsersDocument } from './schema/user.schema';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 
@@ -32,12 +33,12 @@ export class UsersService {
       .exec();
 
     if (!user) throw new NotFoundException(`User with id ${userId} not found`);
-    return user as UsersDocument;
+    return this.withUserDefaults(user as UsersDocument);
   }
 
   async getUserByEmail(email: string): Promise<UsersDocument | null> {
     const user = await this.userModel.findOne({ email }).lean().exec();
-    return user as UsersDocument;
+    return user ? this.withUserDefaults(user as UsersDocument) : null;
   }
 
   async update(
@@ -137,10 +138,20 @@ export class UsersService {
   }
 
   async findOne(userId: string): Promise<UsersDocument | null> {
-    return this.userModel.findById(userId).exec();
+    const user = await this.userModel.findById(userId).exec();
+
+    return user ? this.withUserDefaults(user as UsersDocument) : null;
   }
 
   async remove(userId: string): Promise<UsersDocument | null> {
     return this.userModel.findByIdAndDelete(userId).exec();
+  }
+
+  private withUserDefaults(user: UsersDocument): UsersDocument {
+    user.favoriteBookIds ??= [];
+    user.cartItems ??= [];
+    user.role ??= UserRole.Customer;
+
+    return user;
   }
 }

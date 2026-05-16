@@ -25,7 +25,7 @@ export const ProfileView = () => {
     return null;
   }
 
-  const favoriteBooksCount = user.favoriteBookIds.length;
+  const favoriteBooksCount = user.favoriteBookIds?.length ?? 0;
   const avatarSrc = getApiAssetUrl(user.avatarUrl);
 
   return (

@@ -11,7 +11,7 @@ import { CartView } from "@/features/cart-page";
 export const CartDrawer = () => {
   const { user } = useUser();
   const { closeCartDrawer, isCartDrawerOpen, openCartDrawer } = useCartDrawerContext();
-  const cartItemsCount = user?.cartItems.reduce((total, item) => total + item.quantity, 0) ?? 0;
+  const cartItemsCount = (user?.cartItems ?? []).reduce((total, item) => total + item.quantity, 0);
 
   return (
     <>
