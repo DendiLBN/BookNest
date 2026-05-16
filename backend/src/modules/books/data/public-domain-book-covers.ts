@@ -12,7 +12,7 @@ export const publicDomainBookCovers: Record<string, string> = {
   Krzyzacy: wikimediaFileUrl(
     'Krzyzacy - powiesc historyczna 1900 (94014839)..jpg',
   ),
-  'Pan Tadeusz': wikimediaFileUrl('Pan Tadeusz 1834.jpeg'),
+  'Pan Tadeusz': wikimediaFileUrl('Pan Tadeusz 1882 (21148682).jpg'),
   'Quo Vadis': wikimediaFileUrl(
     'Quo vadis - a narrative of the time of Nero. Vol. 1 1897 (60752999).jpg',
   ),

@@ -224,7 +224,6 @@ export class BooksService implements OnModuleInit {
           ),
         ]),
       },
-      coverImageUrl: /picsum\.photos/,
     });
 
     await Promise.all(
