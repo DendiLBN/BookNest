@@ -9,8 +9,8 @@ import { categories } from 'src/shared/data/categories';
 import { BookDashboardSummary } from './interfaces/book-dashboard-summary.interface';
 
 const MIN_BOOKS_NUMBER = 100;
-const BOOK_COVER_WIDTH = 120;
-const BOOK_COVER_HEIGHT = 180;
+const BOOK_COVER_WIDTH = 480;
+const BOOK_COVER_HEIGHT = 720;
 
 @Injectable()
 export class BooksService implements OnModuleInit {
@@ -23,6 +23,7 @@ export class BooksService implements OnModuleInit {
 
     await this.replaceGeneratedBookNames();
     await this.addMissingCoverImages();
+    await this.upgradeSeededCoverImages();
 
     if (booksCount < MIN_BOOKS_NUMBER) {
       for (let i = 0; i < MIN_BOOKS_NUMBER - booksCount; i++) {
@@ -189,6 +190,20 @@ export class BooksService implements OnModuleInit {
 
     await Promise.all(
       booksWithoutCover.map((book) =>
+        this.bookModel.findByIdAndUpdate(book._id, {
+          coverImageUrl: this.getSeededCoverImageUrl(book.title),
+        }),
+      ),
+    );
+  }
+
+  private async upgradeSeededCoverImages() {
+    const seededCoverBooks = await this.bookModel.find({
+      coverImageUrl: /picsum\.photos\/seed\/.+\/120\/180$/,
+    });
+
+    await Promise.all(
+      seededCoverBooks.map((book) =>
         this.bookModel.findByIdAndUpdate(book._id, {
           coverImageUrl: this.getSeededCoverImageUrl(book.title),
         }),

@@ -44,6 +44,14 @@ export const bookApi = createApi({
         url: "books/dashboard/summary",
       }),
     }),
+    uploadBookCover: builder.mutation<TBook, { bookId: string; data: FormData }>({
+      query: ({ bookId, data }) => ({
+        method: "PATCH",
+        url: `books/${bookId}/cover`,
+        data,
+      }),
+      invalidatesTags: (_response, _error, { bookId }) => [{ type: "books", id: bookId }],
+    }),
     deleteManyBooks: builder.mutation<void, Key[]>({
       query: (ids) => ({
         method: "POST",
@@ -59,5 +67,6 @@ export const {
   useFetchBooksQuery,
   useFetchBookByIdQuery,
   useFetchBookDashboardSummaryQuery,
+  useUploadBookCoverMutation,
   useDeleteManyBooksMutation,
 } = bookApi;
