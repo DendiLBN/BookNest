@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { configureStore } from "@reduxjs/toolkit";
 import { act, renderHook } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { useProfileForm } from "@/features/profile-page/hooks/useProfileForm";
 
@@ -27,9 +27,15 @@ const user: TUser = {
   firstName: "Reader",
   lastName: "Booker",
   favoriteBookIds: [],
+  cartItems: [],
+  role: "customer",
 };
 
 describe("useProfileForm", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it("updates the authenticated user after a successful save", async () => {
     const updatedUser = {
       ...user,
@@ -70,5 +76,28 @@ describe("useProfileForm", () => {
     });
     expect(store.getState().authReducer.user).toEqual(updatedUser);
     expect(openNotification).toHaveBeenCalledWith("topRight", "success", "Profile updated.", false);
+  });
+
+  it("does not submit invalid profile values", async () => {
+    const store = configureStore({
+      reducer: {
+        authReducer: authReducer.reducer,
+      },
+    });
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <Provider store={store}>{children}</Provider>
+    );
+    const { result } = renderHook(() => useProfileForm({ user }), { wrapper });
+
+    act(() => {
+      result.current.handleFieldChange("email", "invalid-email");
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(updateProfile).not.toHaveBeenCalled();
+    expect(result.current.errors.email).toBe("Enter a valid email address.");
   });
 });

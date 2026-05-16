@@ -18,6 +18,7 @@ export type TNotificationHistoryItem = {
   type: IconType;
   createdAt: string;
   read: boolean;
+  count: number;
 };
 
 export type TNotificationContext = {
@@ -67,12 +68,30 @@ export const AntdNotificationProvider: FC<{ children: ReactNode }> = ({ children
         type,
         createdAt: new Date().toLocaleString(),
         read: false,
+        count: 1,
       };
 
-      setNotifications((currentNotifications) => [
-        notificationHistoryItem,
-        ...currentNotifications.slice(0, 19),
-      ]);
+      setNotifications((currentNotifications) => {
+        const latestMatchingNotification = currentNotifications.find(
+          (currentNotification) =>
+            currentNotification.message === message && currentNotification.type === type,
+        );
+
+        if (latestMatchingNotification) {
+          return currentNotifications.map((currentNotification) =>
+            currentNotification.id === latestMatchingNotification.id
+              ? {
+                  ...currentNotification,
+                  count: currentNotification.count + 1,
+                  createdAt: notificationHistoryItem.createdAt,
+                  read: false,
+                }
+              : currentNotification,
+          );
+        }
+
+        return [notificationHistoryItem, ...currentNotifications.slice(0, 19)];
+      });
 
       if (isNotificationOpen) {
         return;

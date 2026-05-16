@@ -13,6 +13,8 @@ vi.mock("@/common/users/useUser", () => ({
       firstName: "Reader",
       lastName: "Booker",
       favoriteBookIds: ["book-1", "book-2"],
+      cartItems: [],
+      role: "customer",
       avatarUrl: "/uploads/avatars/reader.png",
     },
   }),
@@ -29,6 +31,7 @@ vi.mock("@/features/users/hooks/useAvatarUpload", () => ({
 
 vi.mock("@/features/profile-page/hooks/useProfileForm", () => ({
   useProfileForm: () => ({
+    errors: {},
     values: {
       email: "reader@booknest.dev",
       firstName: "Reader",
@@ -38,6 +41,17 @@ vi.mock("@/features/profile-page/hooks/useProfileForm", () => ({
     handleFieldChange: vi.fn(),
     handleSubmit: vi.fn(),
   }),
+}));
+
+vi.mock("@/features/profile-page/hooks/useDeleteAccount", () => ({
+  useDeleteAccount: () => ({
+    isDeletingAccount: false,
+    handleDeleteAccount: vi.fn(),
+  }),
+}));
+
+vi.mock("@/features/login-page/components/forms/change-password-form", () => ({
+  default: () => <div>Embedded change password form</div>,
 }));
 
 describe("ProfileView", () => {
@@ -54,13 +68,6 @@ describe("ProfileView", () => {
     expect(screen.getByDisplayValue("Booker")).toBeInTheDocument();
     expect(screen.getByDisplayValue("reader@booknest.dev")).toBeInTheDocument();
     expect(screen.getByText("2")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /open favorites/i })).toHaveAttribute(
-      "href",
-      "/favorites",
-    );
-    expect(screen.getByRole("link", { name: /change password/i })).toHaveAttribute(
-      "href",
-      "/auth/change-password",
-    );
+    expect(screen.getByText("Embedded change password form")).toBeInTheDocument();
   });
 });

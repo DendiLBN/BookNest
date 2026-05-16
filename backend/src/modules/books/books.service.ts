@@ -6,10 +6,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Book, BookDocument } from './schema/book.schema';
 import { FilterQuery, Model } from 'mongoose';
 import { categories } from 'src/shared/data/categories';
+import { BookDashboardSummary } from './interfaces/book-dashboard-summary.interface';
+import { publicDomainBookCovers } from './data/public-domain-book-covers';
 
 const MIN_BOOKS_NUMBER = 100;
-const BOOK_COVER_WIDTH = 120;
-const BOOK_COVER_HEIGHT = 180;
+const BOOK_COVER_WIDTH = 480;
+const BOOK_COVER_HEIGHT = 720;
 
 @Injectable()
 export class BooksService implements OnModuleInit {
@@ -22,6 +24,8 @@ export class BooksService implements OnModuleInit {
 
     await this.replaceGeneratedBookNames();
     await this.addMissingCoverImages();
+    await this.upgradeSeededCoverImages();
+    await this.applyPublicDomainCoverImages();
 
     if (booksCount < MIN_BOOKS_NUMBER) {
       for (let i = 0; i < MIN_BOOKS_NUMBER - booksCount; i++) {
@@ -39,7 +43,7 @@ export class BooksService implements OnModuleInit {
           author: seedBook.author,
           rate: Math.floor(Math.random() * 5) + 1,
           category: [category1, category2],
-          coverImageUrl: this.getSeededCoverImageUrl(seedBook.title),
+          coverImageUrl: this.getBookCoverImageUrl(seedBook.title),
         });
       }
     }
@@ -113,6 +117,45 @@ export class BooksService implements OnModuleInit {
     return { deletedCount: resultDeleted.deletedCount };
   }
 
+  async getDashboardSummary(): Promise<BookDashboardSummary> {
+    const [summary] = await this.bookModel.aggregate<{
+      totalBooks: number;
+      categories: string[];
+      averageRating: number;
+    }>([
+      {
+        $group: {
+          _id: null,
+          totalBooks: { $sum: 1 },
+          categories: { $push: '$category' },
+          averageRating: { $avg: '$rate' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalBooks: 1,
+          categories: {
+            $setUnion: {
+              $reduce: {
+                input: '$categories',
+                initialValue: [],
+                in: { $concatArrays: ['$$value', '$$this'] },
+              },
+            },
+          },
+          averageRating: 1,
+        },
+      },
+    ]);
+
+    return {
+      totalBooks: summary?.totalBooks ?? 0,
+      totalCategories: summary?.categories.length ?? 0,
+      averageRating: Number((summary?.averageRating ?? 0).toFixed(1)),
+    };
+  }
+
   private buildSearchQuery(searchBookDto: SearchBookDto) {
     const query: FilterQuery<Book> = {};
 
@@ -150,7 +193,43 @@ export class BooksService implements OnModuleInit {
     await Promise.all(
       booksWithoutCover.map((book) =>
         this.bookModel.findByIdAndUpdate(book._id, {
-          coverImageUrl: this.getSeededCoverImageUrl(book.title),
+          coverImageUrl: this.getBookCoverImageUrl(book.title),
+        }),
+      ),
+    );
+  }
+
+  private async upgradeSeededCoverImages() {
+    const seededCoverBooks = await this.bookModel.find({
+      coverImageUrl: /picsum\.photos\/seed\/.+\/120\/180$/,
+    });
+
+    await Promise.all(
+      seededCoverBooks.map((book) =>
+        this.bookModel.findByIdAndUpdate(book._id, {
+          coverImageUrl: this.getBookCoverImageUrl(book.title),
+        }),
+      ),
+    );
+  }
+
+  private async applyPublicDomainCoverImages() {
+    const coveredBookTitles = Object.keys(publicDomainBookCovers);
+    const booksWithPublicDomainCovers = await this.bookModel.find({
+      title: {
+        $in: coveredBookTitles.flatMap((title) => [
+          title,
+          new RegExp(
+            `^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} \\(\\d+\\)$`,
+          ),
+        ]),
+      },
+    });
+
+    await Promise.all(
+      booksWithPublicDomainCovers.map((book) =>
+        this.bookModel.findByIdAndUpdate(book._id, {
+          coverImageUrl: this.getBookCoverImageUrl(book.title),
         }),
       ),
     );
@@ -170,7 +249,7 @@ export class BooksService implements OnModuleInit {
         return this.bookModel.findByIdAndUpdate(book._id, {
           title: seedBook.title,
           author: seedBook.author,
-          coverImageUrl: this.getSeededCoverImageUrl(seedBook.title),
+          coverImageUrl: this.getBookCoverImageUrl(seedBook.title),
         });
       }),
     );
@@ -194,5 +273,13 @@ export class BooksService implements OnModuleInit {
     return `https://picsum.photos/seed/${encodeURIComponent(
       title,
     )}/${BOOK_COVER_WIDTH}/${BOOK_COVER_HEIGHT}`;
+  }
+
+  private getBookCoverImageUrl(title: string) {
+    const baseTitle = title.replace(/\s\(\d+\)$/, '');
+
+    return (
+      publicDomainBookCovers[baseTitle] ?? this.getSeededCoverImageUrl(title)
+    );
   }
 }

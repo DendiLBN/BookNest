@@ -21,6 +21,7 @@ import { extname, join } from 'path';
 import { mkdirSync, readFileSync, unlinkSync } from 'fs';
 import { randomUUID } from 'crypto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { UpdateCartItemDto } from './dto/update-cart-item.dto';
 
 const avatarUploadPath = join(process.cwd(), 'uploads', 'avatars');
 const allowedAvatarMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
@@ -153,6 +154,29 @@ export class UsersController {
     @Param('bookId') bookId: string,
   ) {
     return this.usersService.removeFavoriteBook(user.id, bookId);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Patch('me/cart/:bookId')
+  updateCartItem(
+    @GetUserFromToken() user: JwtPayload,
+    @Param('bookId') bookId: string,
+    @Body() updateCartItemDto: UpdateCartItemDto,
+  ) {
+    return this.usersService.updateCartItem(
+      user.id,
+      bookId,
+      updateCartItemDto.quantity,
+    );
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Delete('me/cart/:bookId')
+  removeCartItem(
+    @GetUserFromToken() user: JwtPayload,
+    @Param('bookId') bookId: string,
+  ) {
+    return this.usersService.removeCartItem(user.id, bookId);
   }
 
   @UseGuards(AccessTokenGuard)

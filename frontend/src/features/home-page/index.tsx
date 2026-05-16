@@ -10,7 +10,7 @@ import {
   TagsOutlined,
 } from "@ant-design/icons";
 
-import { useFetchBooksQuery } from "@/store/api/books";
+import { useFetchBookDashboardSummaryQuery, useFetchBooksQuery } from "@/store/api/books";
 
 export const HomeView = () => {
   const { data: booksResponse, isFetching } = useFetchBooksQuery({
@@ -20,32 +20,27 @@ export const HomeView = () => {
     category: [],
   });
   const books = useMemo(() => booksResponse?.data ?? [], [booksResponse]);
+  const { data: dashboardSummary } = useFetchBookDashboardSummaryQuery();
 
   const dashboardStats = useMemo(() => {
-    const categories = new Set(books.flatMap((book) => book.category));
-    const averageRating =
-      books.length > 0
-        ? (books.reduce((total, book) => total + book.rate, 0) / books.length).toFixed(1)
-        : "0.0";
-
     return [
       {
         label: "Catalog titles",
-        value: books.length,
+        value: dashboardSummary?.totalBooks ?? 0,
         helper: isFetching ? "Refreshing catalog" : "Ready to browse",
       },
       {
         label: "Categories",
-        value: categories.size,
+        value: dashboardSummary?.totalCategories ?? 0,
         helper: "Available shelves",
       },
       {
         label: "Average rating",
-        value: averageRating,
+        value: (dashboardSummary?.averageRating ?? 0).toFixed(1),
         helper: "Across visible titles",
       },
     ];
-  }, [books, isFetching]);
+  }, [dashboardSummary, isFetching]);
 
   const featuredBooks = books.slice(0, 4);
   const catalogStatus = isFetching ? "Syncing catalog data" : "Catalog ready";
@@ -65,25 +60,25 @@ export const HomeView = () => {
 
   return (
     <div className="flex flex-col gap-l">
-      <section className="relative overflow-hidden rounded-l border border-app-border bg-[linear-gradient(110deg,color-mix(in_srgb,var(--color-brand-strong)_88%,black),color-mix(in_srgb,var(--color-accent)_72%,black)),url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1400&q=80')] bg-cover bg-center p-m text-app-text-inverse shadow-app-m lg:p-l">
-        <div className="absolute inset-y-0 right-0 hidden w-1/3 bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--color-highlight)_16%,transparent))] lg:block" />
+      <section className="relative overflow-hidden rounded-l border border-app-border bg-[linear-gradient(135deg,var(--color-surface),color-mix(in_srgb,var(--color-brand-soft)_72%,var(--color-surface)),color-mix(in_srgb,var(--color-accent-soft)_62%,var(--color-surface)))] p-m text-app-text shadow-app-m lg:p-l">
+        <div className="absolute top-0 right-0 hidden h-full w-1/3 bg-[radial-gradient(circle_at_top_right,color-mix(in_srgb,var(--color-brand)_14%,transparent),transparent_68%)] lg:block" />
         <div className="relative flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
           <div>
-            <p className="mb-xs font-semibold tracking-normal text-app-highlight uppercase">
+            <p className="mb-xs font-semibold tracking-normal text-app-brand uppercase">
               BookNest dashboard
             </p>
             <h1 className="m-0 text-[1.55rem] leading-tight font-bold md:text-[2.1rem]">
               Your BookNest command center
             </h1>
-            <p className="mt-3 max-w-[760px] text-base text-[color-mix(in_srgb,#ffffff_84%,var(--color-highlight))]">
+            <p className="mt-3 max-w-[760px] text-base text-app-text-muted">
               Track catalog activity, review featured shelves, and keep the store ready for readers.
             </p>
-            <span className="mt-5 inline-flex items-center rounded-md border border-white/25 bg-white/10 px-3 py-2 text-sm font-semibold backdrop-blur">
+            <span className="mt-5 inline-flex items-center rounded-md border border-app-border bg-app-surface px-3 py-2 text-sm font-semibold text-app-brand shadow-app-s">
               {catalogStatus}
             </span>
           </div>
           <Link
-            className="shrink-0 rounded-m bg-app-brand px-s py-xs font-bold text-app-text-inverse no-underline shadow-app-s transition hover:bg-app-brand-strong"
+            className="shrink-0 rounded-m border border-app-border bg-app-surface px-s py-xs font-bold text-app-brand no-underline shadow-app-s transition hover:border-app-brand hover:bg-app-brand-soft"
             to="/book"
           >
             Browse books

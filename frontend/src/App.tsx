@@ -1,6 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 
 import { AntdNotificationProvider } from "@/common/contexts/antd-notification-context";
+import { CartDrawerProvider } from "@/common/contexts/cart-drawer-context";
 import { ModalProvider } from "@/common/contexts/modal-context";
 import { ThemeProvider } from "@/common/contexts/theme-context";
 
@@ -18,18 +19,20 @@ const App: React.FC = () => {
     <ThemeProvider>
       <ModalProvider>
         <AntdNotificationProvider>
-          <BrowserRouter>
-            <ErrorBoundary>
-              <div className="min-h-screen bg-app-page text-app-text">
-                <LandingPageHeader />
-                <div className="flex min-h-[calc(100vh-64px)] w-full items-stretch">
-                  <LandingPageSideBar />
-                  <LandingPageContent />
+          <CartDrawerProvider>
+            <BrowserRouter>
+              <ErrorBoundary>
+                <div className="min-h-screen bg-app-page text-app-text">
+                  <LandingPageHeader />
+                  <div className="flex min-h-[calc(100vh-64px)] w-full items-stretch">
+                    <LandingPageSideBar />
+                    <LandingPageContent />
+                  </div>
+                  <LandingPageFooter />
                 </div>
-                <LandingPageFooter />
-              </div>
-            </ErrorBoundary>
-          </BrowserRouter>
+              </ErrorBoundary>
+            </BrowserRouter>
+          </CartDrawerProvider>
         </AntdNotificationProvider>
       </ModalProvider>
     </ThemeProvider>

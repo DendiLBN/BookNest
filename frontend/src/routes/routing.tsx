@@ -11,6 +11,7 @@ import { Error404 } from "@/common/error-boundary/error/404";
 import OnSuccessRegister from "@/features/register-page/results";
 import { Book } from "@/pages/Book/Books";
 import { BookDetails } from "@/pages/BookDetails/BookDetails";
+import { Cart } from "@/pages/Cart/Cart";
 import { Favorites } from "@/pages/Favorites/Favorites";
 import { Home } from "@/pages/Home/Home";
 import { Profile } from "@/pages/Profile/Profile";
@@ -48,6 +49,16 @@ export const LandingPageRouting = () => {
         />
       )}
       {isLoggedIn && <Route path="/auth/*" element={<Navigate to="/home" replace />} />}
+      {isLoggedIn && (
+        <Route
+          path="/cart"
+          element={
+            <Suspense fallback={loading}>
+              <Cart />
+            </Suspense>
+          }
+        />
+      )}
       {isLoggedIn && (
         <Route
           path="/protected/*"

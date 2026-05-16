@@ -3,7 +3,12 @@ import type { Key } from "react";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import fetchBaseQuery from "@/common/api/fetch-base-query";
-import { TBook, TBooksQueryParams, TPaginatedBooksResponse } from "@/features/book-page/types";
+import {
+  TBook,
+  TBookDashboardSummary,
+  TBooksQueryParams,
+  TPaginatedBooksResponse,
+} from "@/features/book-page/types";
 
 export const bookApi = createApi({
   reducerPath: "bookApi",
@@ -33,6 +38,20 @@ export const bookApi = createApi({
       }),
       providesTags: (response) => (response ? [{ type: "books", id: response._id }] : []),
     }),
+    fetchBookDashboardSummary: builder.query<TBookDashboardSummary, void>({
+      query: () => ({
+        method: "GET",
+        url: "books/dashboard/summary",
+      }),
+    }),
+    uploadBookCover: builder.mutation<TBook, { bookId: string; data: FormData }>({
+      query: ({ bookId, data }) => ({
+        method: "PATCH",
+        url: `books/${bookId}/cover`,
+        data,
+      }),
+      invalidatesTags: (_response, _error, { bookId }) => [{ type: "books", id: bookId }],
+    }),
     deleteManyBooks: builder.mutation<void, Key[]>({
       query: (ids) => ({
         method: "POST",
@@ -44,4 +63,10 @@ export const bookApi = createApi({
   }),
 });
 
-export const { useFetchBooksQuery, useFetchBookByIdQuery, useDeleteManyBooksMutation } = bookApi;
+export const {
+  useFetchBooksQuery,
+  useFetchBookByIdQuery,
+  useFetchBookDashboardSummaryQuery,
+  useUploadBookCoverMutation,
+  useDeleteManyBooksMutation,
+} = bookApi;

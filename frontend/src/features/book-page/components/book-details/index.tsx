@@ -1,17 +1,32 @@
 import { Link, useParams } from "react-router-dom";
 
-import { ArrowLeftOutlined, HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import {
+  ArrowLeftOutlined,
+  HeartFilled,
+  HeartOutlined,
+  ShoppingCartOutlined,
+} from "@ant-design/icons";
 import { Button, Descriptions, Empty, Rate, Spin, Tag } from "antd";
 
 import "@/assets/layouts-styles/book-styles/book.css";
 
+import { useBookCart } from "@/features/book-page/hooks/useBookCart";
+import { useBookCoverUpload } from "@/features/book-page/hooks/useBookCoverUpload";
+
+import useUser from "@/common/users/useUser";
 import { tagColors } from "@/features/book-page/consts/book-categories-colors";
 import { useFetchBookByIdQuery } from "@/store/api/books";
+
+import { useBookFavorites } from "../../hooks/useBookFavorites";
 
 const fallbackCoverImage = "/book.png";
 
 export const BookDetails = () => {
   const { bookId = "" } = useParams();
+  const { handleAddToCart, isUpdatingCart } = useBookCart();
+  const { user } = useUser();
+  const { fileInputRef, handleCoverChange, isUploadingCover, openCoverPicker } =
+    useBookCoverUpload(bookId);
 
   const {
     data: book,
@@ -20,6 +35,9 @@ export const BookDetails = () => {
   } = useFetchBookByIdQuery(bookId, {
     skip: !bookId,
   });
+
+  const { cooldownBookIds, favoriteActionLoading, favoriteBookIds, handleToggleFavorite } =
+    useBookFavorites();
 
   if (isFetching) {
     return (
@@ -41,6 +59,7 @@ export const BookDetails = () => {
   }
 
   const categoryCount = book.category?.length ?? 0;
+  const isFavorite = favoriteBookIds.includes(book._id);
   const primaryCategory = book.category?.[0] ?? "General";
   const bookMetrics = [
     { label: "Rating", value: `${book.rate}/5` },
@@ -55,11 +74,27 @@ export const BookDetails = () => {
       </Link>
 
       <section className="grid gap-l rounded-m border border-app-border bg-app-surface p-m shadow-app-s md:grid-cols-[220px_minmax(0,1fr)]">
-        <img
-          src={book.coverImageUrl || book.avatar || fallbackCoverImage}
-          alt={book.title}
-          className="aspect-2/3 w-full rounded-m border border-app-border bg-app-surface-muted object-cover"
-        />
+        <div className="flex flex-col gap-xs">
+          <img
+            src={book.coverImageUrl || book.avatar || fallbackCoverImage}
+            alt={book.title}
+            className="aspect-2/3 w-full rounded-m border border-app-border bg-app-surface-muted object-cover"
+          />
+          {user?.role === "admin" ? (
+            <>
+              <input
+                accept="image/png,image/jpeg,image/webp"
+                hidden
+                onChange={handleCoverChange}
+                ref={fileInputRef}
+                type="file"
+              />
+              <Button loading={isUploadingCover} onClick={openCoverPicker}>
+                Change cover
+              </Button>
+            </>
+          ) : null}
+        </div>
 
         <div className="flex flex-col items-start gap-xs">
           <p className="book-page__eyebrow">Book details</p>
@@ -91,10 +126,22 @@ export const BookDetails = () => {
           </div>
 
           <div className="flex flex-wrap gap-xs">
-            <Button icon={<ShoppingCartOutlined />} type="primary">
+            <Button
+              icon={<ShoppingCartOutlined />}
+              loading={isUpdatingCart}
+              onClick={() => handleAddToCart(book._id)}
+              type="primary"
+            >
               Add to cart
             </Button>
-            <Button icon={<HeartOutlined />}>Save favorite</Button>
+            <Button
+              disabled={cooldownBookIds.includes(book._id)}
+              icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
+              loading={favoriteActionLoading}
+              onClick={() => handleToggleFavorite(book._id)}
+            >
+              {isFavorite ? "Saved favorite" : "Save favorite"}
+            </Button>
           </div>
           <p className="m-0 max-w-155 leading-6 text-app-text-muted">
             Preview catalog data before adding this title to a basket or saving it to your reading

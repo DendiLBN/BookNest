@@ -41,12 +41,12 @@ export const LandingPageSideBar = () => {
   const menuTheme = isDarkMode ? "dark" : "light";
   const selectedMenuKey = pathname.startsWith("/book")
     ? "books"
-    : pathname.startsWith("/favorites")
-      ? "favorites"
-      : pathname.startsWith("/profile")
-        ? "profile-overview"
-        : pathname.startsWith("/auth/change-password")
-          ? "change-password"
+    : pathname.startsWith("/cart")
+      ? "cart"
+      : pathname.startsWith("/favorites")
+        ? "favorites"
+        : pathname.startsWith("/profile")
+          ? "profile-overview"
           : "dashboard";
 
   return (
@@ -78,7 +78,7 @@ export const LandingPageSideBar = () => {
 
       <Menu
         className="border-0 px-2"
-        defaultOpenKeys={collapsed ? [] : ["profile", "settings"]}
+        defaultOpenKeys={collapsed ? [] : ["profile"]}
         inlineCollapsed={collapsed}
         items={itemsSideBar}
         mode="inline"

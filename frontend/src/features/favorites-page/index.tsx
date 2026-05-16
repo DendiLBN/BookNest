@@ -53,7 +53,7 @@ export const FavoritesView = () => {
         <div>
           <p className="mb-1 text-xs font-bold text-app-brand uppercase">Saved collection</p>
           <h1 className="m-0 text-[1.55rem] leading-tight font-bold">Favorite books</h1>
-          <p className="mt-xs mb-0 max-w-[640px] leading-6 text-app-text-muted">
+          <p className="mt-xs mb-0 max-w-160 leading-6 text-app-text-muted">
             Keep books you want to revisit, compare, or add to your cart later.
           </p>
         </div>

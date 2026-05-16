@@ -1,21 +1,25 @@
-import { Link } from "react-router-dom";
-
 import { BookOutlined, HeartFilled, LockOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
 
+import ChangePasswordForm from "@/features/login-page/components/forms/change-password-form";
 import { AvatarUploadButton } from "@/features/users/components/avatar-upload-button";
 
+import { useDeleteAccount } from "@/features/profile-page/hooks/useDeleteAccount";
 import { useProfileForm } from "@/features/profile-page/hooks/useProfileForm";
 import { useAvatarUpload } from "@/features/users/hooks/useAvatarUpload";
 
 import { getApiAssetUrl } from "@/common/config/api";
 import useUser from "@/common/users/useUser";
+import { profileFormLimits } from "@/features/profile-page/consts/profile-form";
 
 export const ProfileView = () => {
   const { user } = useUser();
   const { fileInputRef, handleAvatarChange, isUploadingAvatar, openAvatarPicker } =
     useAvatarUpload();
-  const { handleFieldChange, handleSubmit, isUpdatingProfile, values } = useProfileForm({ user });
+  const { errors, handleFieldChange, handleSubmit, isUpdatingProfile, values } = useProfileForm({
+    user,
+  });
+  const { handleDeleteAccount, isDeletingAccount } = useDeleteAccount();
 
   if (!user) {
     return null;
@@ -74,27 +78,37 @@ export const ProfileView = () => {
             <label className="flex flex-col gap-1 text-sm font-semibold text-app-text">
               First name
               <Input
-                maxLength={20}
+                maxLength={profileFormLimits.nameMaxLength}
                 onChange={(event) => handleFieldChange("firstName", event.target.value)}
+                status={errors.firstName ? "error" : undefined}
                 value={values.firstName}
               />
+              {errors.firstName && (
+                <span className="text-xs text-app-danger">{errors.firstName}</span>
+              )}
             </label>
             <label className="flex flex-col gap-1 text-sm font-semibold text-app-text">
               Last name
               <Input
-                maxLength={20}
+                maxLength={profileFormLimits.nameMaxLength}
                 onChange={(event) => handleFieldChange("lastName", event.target.value)}
+                status={errors.lastName ? "error" : undefined}
                 value={values.lastName}
               />
+              {errors.lastName && (
+                <span className="text-xs text-app-danger">{errors.lastName}</span>
+              )}
             </label>
           </div>
           <label className="mt-xs flex flex-col gap-1 text-sm font-semibold text-app-text">
             Email
             <Input
               onChange={(event) => handleFieldChange("email", event.target.value)}
+              status={errors.email ? "error" : undefined}
               type="email"
               value={values.email}
             />
+            {errors.email && <span className="text-xs text-app-danger">{errors.email}</span>}
           </label>
           <Button
             className="mt-s"
@@ -107,30 +121,18 @@ export const ProfileView = () => {
         </article>
 
         <article className="rounded-l border border-app-border bg-app-surface p-s shadow-app-s">
-          <h2 className="mt-0 mb-xs text-lg font-bold text-app-text">Reading profile</h2>
-          <p className="mt-0 text-app-text-muted">
-            Keep your favorite books close and return to saved titles from one place.
-          </p>
-          <Link
-            className="font-semibold text-app-accent no-underline hover:underline"
-            to="/favorites"
-          >
-            Open favorites
-          </Link>
+          <ChangePasswordForm embedded />
         </article>
+      </section>
 
-        <article className="rounded-l border border-app-border bg-app-surface p-s shadow-app-s">
-          <h2 className="mt-0 mb-xs text-lg font-bold text-app-text">Account security</h2>
-          <p className="mt-0 text-app-text-muted">
-            Refresh your password regularly and keep your account protected.
-          </p>
-          <Link
-            className="font-semibold text-app-accent no-underline hover:underline"
-            to="/auth/change-password"
-          >
-            Change password
-          </Link>
-        </article>
+      <section className="rounded-l border border-app-danger/30 bg-app-surface p-s shadow-app-s">
+        <h2 className="mt-0 mb-xs text-lg font-bold text-app-text">Danger zone</h2>
+        <p className="mt-0 text-app-text-muted">
+          Permanently remove your account and saved profile data.
+        </p>
+        <Button danger loading={isDeletingAccount} onClick={handleDeleteAccount}>
+          Delete account
+        </Button>
       </section>
     </div>
   );

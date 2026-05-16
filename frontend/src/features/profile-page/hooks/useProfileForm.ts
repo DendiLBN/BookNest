@@ -4,6 +4,11 @@ import { useDispatch } from "react-redux";
 
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
+import { profileFormSchema } from "@/features/profile-page/consts/profile-form-schema";
+import {
+  getProfileFormErrors,
+  type TProfileFormErrors,
+} from "@/features/profile-page/utils/get-profile-form-errors";
 import type { TUser } from "@/features/users/types";
 import { useUpdateProfileMutation } from "@/store/api/users";
 import { setIsLoggedIn } from "@/store/reducers/auth";
@@ -34,6 +39,7 @@ export const useProfileForm = ({ user }: TUseProfileFormParams) => {
   const { openNotification } = useNotificationContext();
   const [updateProfile, { isLoading: isUpdatingProfile }] = useUpdateProfileMutation();
   const [values, setValues] = useState<TProfileFormValues>(() => getProfileFormValues(user));
+  const [errors, setErrors] = useState<TProfileFormErrors>({});
 
   useEffect(() => {
     setValues(getProfileFormValues(user));
@@ -44,10 +50,21 @@ export const useProfileForm = ({ user }: TUseProfileFormParams) => {
       ...currentValues,
       [field]: value,
     }));
+    setErrors((currentErrors) => ({
+      ...currentErrors,
+      [field]: undefined,
+    }));
   };
 
   const handleSubmit = async () => {
     if (!user) {
+      return;
+    }
+
+    try {
+      await profileFormSchema.validate(values, { abortEarly: false });
+    } catch (error) {
+      setErrors(getProfileFormErrors(error));
       return;
     }
 
@@ -62,6 +79,7 @@ export const useProfileForm = ({ user }: TUseProfileFormParams) => {
   };
 
   return {
+    errors,
     isUpdatingProfile,
     values,
     handleFieldChange,

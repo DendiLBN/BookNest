@@ -31,4 +31,11 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsArray()
   @IsString({ each: true })
   favoriteBookIds?: string[];
+
+  @IsOptional()
+  @IsArray()
+  cartItems?: {
+    bookId: string;
+    quantity: number;
+  }[];
 }

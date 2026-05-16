@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/common/consts/local-storage";
 import { useSyncCurrentUser } from "@/common/users/useSyncCurrentUser";
+import type { TUser } from "@/features/users/types";
 import { useFetchUsersQuery } from "@/store/api/users";
 import { setIsLoggedIn } from "@/store/reducers/auth";
 
@@ -34,12 +35,14 @@ describe("useSyncCurrentUser", () => {
   });
 
   it("stores the current user when a stored session is valid", () => {
-    const user = {
+    const user: TUser = {
       _id: "user-1",
       email: "reader@booknest.dev",
       firstName: "Reader",
       lastName: "Booker",
       favoriteBookIds: [],
+      cartItems: [],
+      role: "customer",
     };
 
     localStorage.setItem(ACCESS_TOKEN, "access-token");
