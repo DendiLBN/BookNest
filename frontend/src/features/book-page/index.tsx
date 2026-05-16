@@ -1,7 +1,8 @@
-import { Spin, Table } from "antd";
+import { Pagination, Spin, Table } from "antd";
 
 import "@/assets/layouts-styles/book-styles/book.css";
 
+import { BookCatalogGrid } from "@/features/book-page/components/book-catalog-grid";
 import { DeleteBooksButton } from "@/features/book-page/components/delete-button";
 import { BookSearch } from "@/features/book-page/components/filters/book-search";
 import { CategorySelect } from "@/features/book-page/components/filters/category-select";
@@ -14,10 +15,12 @@ import { useBooksList } from "@/features/book-page/hooks/useFetchBooksList";
 
 import { useBooksFormContext } from "@/features/book-page/contexts/hooks/use-form-book-context";
 
+import useUser from "@/common/users/useUser";
 import { createBookTableColumns } from "@/features/book-page/consts/book-table-columns";
 
 export const BookView: React.FC = () => {
   const { handleChangePagination, currentPage, itemsPerPage } = usePagination();
+  const { user } = useUser();
   const { bookList, isFetching, totalItems } = useBooksList({
     currentPage,
     itemsPerPage,
@@ -45,6 +48,7 @@ export const BookView: React.FC = () => {
     favoriteActionLoading,
     onToggleFavorite: handleToggleFavorite,
   });
+  const isAdmin = user?.role === "admin";
 
   return (
     <div className="flex flex-col gap-xl">
@@ -62,8 +66,10 @@ export const BookView: React.FC = () => {
             <p className="m-0 text-app-text-muted">Visible books</p>
           </div>
           <div className="flex min-w-28 flex-col justify-center rounded-m border border-app-border bg-app-surface p-xs">
-            <span className="text-xl font-bold text-app-brand">{selectedBookRowKeys.length}</span>
-            <p className="m-0 text-app-text-muted">Selected</p>
+            <span className="text-xl font-bold text-app-brand">
+              {isAdmin ? selectedBookRowKeys.length : favoriteBookIds.length}
+            </span>
+            <p className="m-0 text-app-text-muted">{isAdmin ? "Selected" : "Favorites"}</p>
           </div>
         </div>
       </section>
@@ -74,36 +80,58 @@ export const BookView: React.FC = () => {
           selectedCategories={selectedCategories}
           onChangeCategories={setSelectedCategories}
         />
-        <div className="w-full md:ml-auto md:w-auto">
-          <DeleteBooksButton
-            selectedBookRowKeys={selectedBookRowKeys}
-            loading={isFetching}
-            onDelete={handleDeleteArray}
-          />
-        </div>
+        {isAdmin ? (
+          <div className="w-full md:ml-auto md:w-auto">
+            <DeleteBooksButton
+              selectedBookRowKeys={selectedBookRowKeys}
+              loading={isFetching}
+              onDelete={handleDeleteArray}
+            />
+          </div>
+        ) : null}
       </section>
 
       <Spin tip="Loading..." size="large" spinning={isFetching}>
-        <Table
-          className="book-page__table"
-          rowSelection={rowSelection}
-          columns={bookTableColumns}
-          dataSource={bookList.map((book) => ({
-            ...book,
-            key: book._id,
-          }))}
-          scroll={{ x: 900 }}
-          pagination={{
-            position: ["bottomCenter"],
-            showSizeChanger: true,
-            defaultPageSize: 10,
-            pageSizeOptions: [10, 20, 50, 100],
-            current: currentPage,
-            pageSize: itemsPerPage,
-            total: totalItems,
-            onChange: handleChangePagination,
-          }}
-        />
+        {isAdmin ? (
+          <Table
+            className="book-page__table"
+            rowSelection={rowSelection}
+            columns={bookTableColumns}
+            dataSource={bookList.map((book) => ({
+              ...book,
+              key: book._id,
+            }))}
+            scroll={{ x: 900 }}
+            pagination={{
+              position: ["bottomCenter"],
+              showSizeChanger: true,
+              defaultPageSize: 10,
+              pageSizeOptions: [10, 20, 50, 100],
+              current: currentPage,
+              pageSize: itemsPerPage,
+              total: totalItems,
+              onChange: handleChangePagination,
+            }}
+          />
+        ) : (
+          <div className="flex flex-col gap-s">
+            <BookCatalogGrid
+              books={bookList}
+              favoriteBookIds={favoriteBookIds}
+              favoriteActionLoading={favoriteActionLoading}
+              onToggleFavorite={handleToggleFavorite}
+            />
+            <Pagination
+              className="self-center"
+              current={currentPage}
+              pageSize={itemsPerPage}
+              pageSizeOptions={[10, 20, 50, 100]}
+              showSizeChanger
+              total={totalItems}
+              onChange={handleChangePagination}
+            />
+          </div>
+        )}
       </Spin>
     </div>
   );
