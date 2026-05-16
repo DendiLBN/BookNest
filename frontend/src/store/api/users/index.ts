@@ -31,6 +31,13 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["users"],
     }),
+    deleteAccount: builder.mutation<void, void>({
+      query: () => ({
+        method: "DELETE",
+        url: "users/me",
+      }),
+      invalidatesTags: ["users"],
+    }),
     addFavoriteBook: builder.mutation<TUser, string>({
       query: (bookId) => ({
         method: "PATCH",
@@ -52,6 +59,7 @@ export const {
   useFetchUsersQuery,
   useUploadAvatarMutation,
   useUpdateProfileMutation,
+  useDeleteAccountMutation,
   useAddFavoriteBookMutation,
   useRemoveFavoriteBookMutation,
 } = userApi;

@@ -29,6 +29,7 @@ vi.mock("@/features/users/hooks/useAvatarUpload", () => ({
 
 vi.mock("@/features/profile-page/hooks/useProfileForm", () => ({
   useProfileForm: () => ({
+    errors: {},
     values: {
       email: "reader@booknest.dev",
       firstName: "Reader",
@@ -37,6 +38,13 @@ vi.mock("@/features/profile-page/hooks/useProfileForm", () => ({
     isUpdatingProfile: false,
     handleFieldChange: vi.fn(),
     handleSubmit: vi.fn(),
+  }),
+}));
+
+vi.mock("@/features/profile-page/hooks/useDeleteAccount", () => ({
+  useDeleteAccount: () => ({
+    isDeletingAccount: false,
+    handleDeleteAccount: vi.fn(),
   }),
 }));
 

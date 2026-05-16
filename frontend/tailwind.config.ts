@@ -43,6 +43,7 @@ const config = {
           "text-inverse": "var(--color-text-inverse)",
           "text-muted": "var(--color-text-muted)",
           warning: "var(--color-warning)",
+          danger: "var(--color-danger)",
         },
       },
       maxWidth: {

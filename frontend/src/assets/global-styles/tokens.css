@@ -66,6 +66,7 @@
   --color-accent: var(--palette-teal-700);
   --color-accent-soft: var(--palette-teal-50);
   --color-warning: var(--palette-amber-700);
+  --color-danger: #b91c1c;
   --color-highlight: #d9f99d;
 
   --interactive-bg: var(--color-surface);
@@ -97,6 +98,7 @@
   --color-accent: var(--palette-teal-300);
   --color-accent-soft: var(--palette-teal-900);
   --color-warning: var(--palette-amber-300);
+  --color-danger: #fca5a5;
   --color-highlight: #bef264;
   --interactive-bg: var(--color-surface-raised);
   --interactive-bg-hover: var(--color-surface-muted);
