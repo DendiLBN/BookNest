@@ -1,54 +1,110 @@
 # BookNest
 
-BookNest is a full-stack bookstore application built with React, TypeScript, NestJS, MongoDB, and RTK Query. It is designed as a bookstore dashboard where users can browse books, manage their account, save favorites, and use authenticated flows backed by a NestJS API.
+BookNest is a full-stack bookstore application built with React, TypeScript, NestJS, MongoDB, and RTK Query. It combines a customer-facing catalog with authenticated account flows and admin-only inventory tools.
 
 ## Features
 
-- User registration and login
-- Password change and reset
-- Book catalog with search, categories, ratings, and covers
-- Favorite books
-- Avatar upload
-- Protected user flows with access and refresh tokens
-- Storybook and focused frontend tests
-- Backend tests and CI verification
+- User registration, login, logout, password change, and password reset
+- Access-token and refresh-token authentication
+- Role-based flows for customers and administrators
+- Dashboard with catalog summary data and featured shelves
+- Book catalog with search, categories, ratings, details, and cover images
+- Favorite books and customer cart flow
+- User profile editing, avatar upload, and account deletion
+- Admin-only book management and cover upload
+- Storybook stories kept close to related components
+- Focused frontend tests and backend tests
+- Automated formatting and verification through Lefthook, ESLint, Biome, and Prettier
 
 ## Recent improvements
 
-- Rebranded the application from the original bookstore name to BookNest across the UI, browser title, footer, and email templates.
-- Improved the book catalog with more realistic titles, category data, ratings, and cover support instead of placeholder-only content.
-- Added favorite books support so users can keep a personal reading list.
-- Added avatar upload support for user profiles.
-- Added Storybook stories and fixtures close to the related frontend components.
-- Added focused frontend tests for isolated component behavior.
-- Added backend tests for core API behavior.
-- Added formatting and verification scripts for a more consistent development workflow.
-- Improved API organization on the frontend while keeping RTK Query as the main data fetching layer.
+- Rebranded the application to BookNest across the interface and project documentation.
+- Split customer and admin book flows so only administrators manage inventory.
+- Added a cart experience with a header drawer and dedicated cart page.
+- Added support for favorite books with throttled interactions and notification history.
+- Added profile editing, avatar upload, password controls, and delete-account flow.
+- Added book cover upload with backend validation for image MIME type, extension, and file signature.
+- Expanded seeded catalog data with more realistic titles and public-domain cover assets.
+- Added dashboard summary data from the backend.
+- Reorganized frontend API usage around shared RTK Query modules and shared API config.
+- Added Storybook fixtures, focused component tests, and repository-level verification hooks.
+- Replaced committed environment secrets with local `.env` files and tracked `.env.example` templates.
 
 ## Stack
 
 Frontend:
 
 - Vite
-- React
+- React 18
 - TypeScript
 - Redux Toolkit Query
 - React Router
 - Ant Design
 - Tailwind CSS
+- Yup
 - Vitest
 - Storybook
 
 Backend:
 
 - NestJS
+- TypeScript
 - MongoDB
 - Mongoose
 - JWT
 - Nodemailer
 - Jest
 
-## Scripts
+Tooling:
+
+- npm
+- Lefthook
+- lint-staged
+- ESLint
+- Biome
+- Prettier
+
+## Project structure
+
+```text
+frontend/src/features/   domain modules
+frontend/src/common/     shared frontend code
+frontend/src/layouts/    application layout
+frontend/src/store/      Redux and RTK Query setup
+backend/src/modules/     backend domain modules
+backend/src/common/      shared backend code
+```
+
+## Local setup
+
+Install dependencies:
+
+```bash
+npm install
+npm install --prefix ./frontend
+npm install --prefix ./backend
+```
+
+Create local environment files from the tracked examples:
+
+```bash
+copy backend\.env.example backend\.env
+copy frontend\.env.example frontend\.env
+```
+
+Fill in your local backend credentials in `backend/.env`, then start the app:
+
+```bash
+npm run dev
+```
+
+Local services:
+
+- Frontend: `http://localhost:5173`
+- Backend: `http://localhost:5000`
+- Storybook: `http://localhost:6006`
+
+## Useful scripts
 
 ```bash
 npm run dev
@@ -58,24 +114,24 @@ npm run format
 npm run format:check
 npm run test
 npm run build
-npm run verify
 ```
 
-## Local setup
-
-Install root, frontend, and backend dependencies:
+Frontend-only:
 
 ```bash
-npm install
-npm install --prefix ./frontend
-npm install --prefix ./backend
+npm run storybook --prefix ./frontend
+npm run test --prefix ./frontend
 ```
 
-Create local environment files for frontend and backend, then run:
+Backend-only:
 
 ```bash
-npm run dev
+npm run test --prefix ./backend
+npm run test:e2e --prefix ./backend
 ```
 
-Frontend runs on `http://localhost:5173`.
-Backend runs on `http://localhost:5000`.
+## Notes
+
+- Real `.env` files are intentionally ignored by Git. Keep secrets local and use `.env.example` only as a template.
+- RTK Query is the frontend data-fetching layer.
+- Storybook is used to inspect isolated component states without running the whole application flow.
