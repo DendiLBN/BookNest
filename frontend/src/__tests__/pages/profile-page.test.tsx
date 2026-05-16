@@ -13,6 +13,7 @@ vi.mock("@/common/users/useUser", () => ({
       firstName: "Reader",
       lastName: "Booker",
       favoriteBookIds: ["book-1", "book-2"],
+      role: "customer",
       avatarUrl: "/uploads/avatars/reader.png",
     },
   }),

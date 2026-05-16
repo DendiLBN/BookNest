@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Book, BookDocument } from './schema/book.schema';
 import { FilterQuery, Model } from 'mongoose';
 import { categories } from 'src/shared/data/categories';
+import { BookDashboardSummary } from './interfaces/book-dashboard-summary.interface';
 
 const MIN_BOOKS_NUMBER = 100;
 const BOOK_COVER_WIDTH = 120;
@@ -111,6 +112,45 @@ export class BooksService implements OnModuleInit {
     }
 
     return { deletedCount: resultDeleted.deletedCount };
+  }
+
+  async getDashboardSummary(): Promise<BookDashboardSummary> {
+    const [summary] = await this.bookModel.aggregate<{
+      totalBooks: number;
+      categories: string[];
+      averageRating: number;
+    }>([
+      {
+        $group: {
+          _id: null,
+          totalBooks: { $sum: 1 },
+          categories: { $push: '$category' },
+          averageRating: { $avg: '$rate' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalBooks: 1,
+          categories: {
+            $setUnion: {
+              $reduce: {
+                input: '$categories',
+                initialValue: [],
+                in: { $concatArrays: ['$$value', '$$this'] },
+              },
+            },
+          },
+          averageRating: 1,
+        },
+      },
+    ]);
+
+    return {
+      totalBooks: summary?.totalBooks ?? 0,
+      totalCategories: summary?.categories.length ?? 0,
+      averageRating: Number((summary?.averageRating ?? 0).toFixed(1)),
+    };
   }
 
   private buildSearchQuery(searchBookDto: SearchBookDto) {

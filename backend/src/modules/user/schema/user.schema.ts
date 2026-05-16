@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { UserRole } from '../../../common/enums/user-role.enum';
 
 @Schema({
   timestamps: true,
@@ -53,6 +54,13 @@ export class User {
     default: [],
   })
   favoriteBookIds: string[];
+
+  @Prop({
+    type: String,
+    enum: UserRole,
+    default: UserRole.Customer,
+  })
+  role: UserRole;
 
   @Prop()
   resetToken?: string;

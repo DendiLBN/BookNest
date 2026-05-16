@@ -4,6 +4,7 @@ export type TUser = {
   firstName: string;
   lastName: string;
   favoriteBookIds: string[];
+  role: "admin" | "customer";
   avatarUrl?: string;
 };
 

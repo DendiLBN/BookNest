@@ -26,6 +26,12 @@ export type TPaginatedBooksResponse = {
   totalItems: number;
 };
 
+export type TBookDashboardSummary = {
+  totalBooks: number;
+  totalCategories: number;
+  averageRating: number;
+};
+
 export type TDeleteBooksButtonProps = {
   selectedBookRowKeys: Key[];
   loading: boolean;
