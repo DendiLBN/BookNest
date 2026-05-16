@@ -1,139 +1,33 @@
-import { BookOutlined, HeartFilled, LockOutlined } from "@ant-design/icons";
-import { Button, Input } from "antd";
-
 import ChangePasswordForm from "@/features/login-page/components/forms/change-password-form";
-import { AvatarUploadButton } from "@/features/users/components/avatar-upload-button";
+import { DangerZone } from "@/features/profile-page/components/danger-zone";
+import { ProfileDetailsForm } from "@/features/profile-page/components/profile-details-form";
+import { ProfileHeader } from "@/features/profile-page/components/profile-header";
+import { ProfileStats } from "@/features/profile-page/components/profile-stats";
 
-import { useDeleteAccount } from "@/features/profile-page/hooks/useDeleteAccount";
-import { useProfileForm } from "@/features/profile-page/hooks/useProfileForm";
-import { useAvatarUpload } from "@/features/users/hooks/useAvatarUpload";
-
-import { getApiAssetUrl } from "@/common/config/api";
-import useUser from "@/common/users/useUser";
-import { profileFormLimits } from "@/features/profile-page/consts/profile-form";
+import { useProfileDashboard } from "@/features/profile-page/hooks/useProfileDashboard";
 
 export const ProfileView = () => {
-  const { user } = useUser();
-  const { fileInputRef, handleAvatarChange, isUploadingAvatar, openAvatarPicker } =
-    useAvatarUpload();
-  const { errors, handleFieldChange, handleSubmit, isUpdatingProfile, values } = useProfileForm({
-    user,
-  });
-  const { handleDeleteAccount, isDeletingAccount } = useDeleteAccount();
+  const profileDashboard = useProfileDashboard();
 
-  if (!user) {
+  if (!profileDashboard) {
     return null;
   }
 
-  const favoriteBooksCount = user.favoriteBookIds?.length ?? 0;
-  const avatarSrc = getApiAssetUrl(user.avatarUrl);
+  const { dangerZoneProps, detailsFormProps, headerProps, statsProps } = profileDashboard;
 
   return (
     <div className="flex flex-col gap-l">
-      <section className="grid gap-s rounded-l border border-app-border bg-app-surface p-s shadow-app-s md:grid-cols-[auto_minmax(0,1fr)] md:items-center md:p-m">
-        <div className="flex justify-center">
-          <AvatarUploadButton
-            avatarSrc={avatarSrc}
-            isUploading={isUploadingAvatar}
-            onClick={openAvatarPicker}
-          />
-          <input
-            accept="image/png,image/jpeg,image/webp"
-            hidden
-            onChange={handleAvatarChange}
-            ref={fileInputRef}
-            type="file"
-          />
-        </div>
-
-        <div className="min-w-0">
-          <p className="m-0 text-xs font-bold text-app-brand uppercase">Profile</p>
-          <h1 className="mt-xs mb-1 truncate text-2xl font-bold text-app-text">{user.firstName}</h1>
-          <p className="m-0 truncate text-app-text-muted">{user.email}</p>
-        </div>
-      </section>
-
-      <section className="grid gap-s md:grid-cols-3">
-        <article className="rounded-l border border-app-border bg-app-surface p-s shadow-app-s">
-          <HeartFilled className="text-xl text-app-brand" />
-          <strong className="mt-xs block text-2xl text-app-text">{favoriteBooksCount}</strong>
-          <p className="m-0 text-app-text-muted">Favorite books</p>
-        </article>
-        <article className="rounded-l border border-app-border bg-app-surface p-s shadow-app-s">
-          <BookOutlined className="text-xl text-app-accent" />
-          <strong className="mt-xs block text-2xl text-app-text">Active</strong>
-          <p className="m-0 text-app-text-muted">Account status</p>
-        </article>
-        <article className="rounded-l border border-app-border bg-app-surface p-s shadow-app-s">
-          <LockOutlined className="text-xl text-app-warning" />
-          <strong className="mt-xs block text-2xl text-app-text">Protected</strong>
-          <p className="m-0 text-app-text-muted">Password access</p>
-        </article>
-      </section>
+      <ProfileHeader {...headerProps} />
+      <ProfileStats {...statsProps} />
 
       <section className="grid gap-s lg:grid-cols-2">
-        <article className="rounded-l border border-app-border bg-app-surface p-s shadow-app-s">
-          <h2 className="mt-0 mb-xs text-lg font-bold text-app-text">Account details</h2>
-          <div className="grid gap-xs sm:grid-cols-2">
-            <label className="flex flex-col gap-1 text-sm font-semibold text-app-text">
-              First name
-              <Input
-                maxLength={profileFormLimits.nameMaxLength}
-                onChange={(event) => handleFieldChange("firstName", event.target.value)}
-                status={errors.firstName ? "error" : undefined}
-                value={values.firstName}
-              />
-              {errors.firstName && (
-                <span className="text-xs text-app-danger">{errors.firstName}</span>
-              )}
-            </label>
-            <label className="flex flex-col gap-1 text-sm font-semibold text-app-text">
-              Last name
-              <Input
-                maxLength={profileFormLimits.nameMaxLength}
-                onChange={(event) => handleFieldChange("lastName", event.target.value)}
-                status={errors.lastName ? "error" : undefined}
-                value={values.lastName}
-              />
-              {errors.lastName && (
-                <span className="text-xs text-app-danger">{errors.lastName}</span>
-              )}
-            </label>
-          </div>
-          <label className="mt-xs flex flex-col gap-1 text-sm font-semibold text-app-text">
-            Email
-            <Input
-              onChange={(event) => handleFieldChange("email", event.target.value)}
-              status={errors.email ? "error" : undefined}
-              type="email"
-              value={values.email}
-            />
-            {errors.email && <span className="text-xs text-app-danger">{errors.email}</span>}
-          </label>
-          <Button
-            className="mt-s"
-            loading={isUpdatingProfile}
-            onClick={handleSubmit}
-            type="primary"
-          >
-            Save profile
-          </Button>
-        </article>
-
+        <ProfileDetailsForm {...detailsFormProps} />
         <article className="rounded-l border border-app-border bg-app-surface p-s shadow-app-s">
           <ChangePasswordForm embedded />
         </article>
       </section>
 
-      <section className="rounded-l border border-app-danger/30 bg-app-surface p-s shadow-app-s">
-        <h2 className="mt-0 mb-xs text-lg font-bold text-app-text">Danger zone</h2>
-        <p className="mt-0 text-app-text-muted">
-          Permanently remove your account and saved profile data.
-        </p>
-        <Button danger loading={isDeletingAccount} onClick={handleDeleteAccount}>
-          Delete account
-        </Button>
-      </section>
+      <DangerZone {...dangerZoneProps} />
     </div>
   );
 };
