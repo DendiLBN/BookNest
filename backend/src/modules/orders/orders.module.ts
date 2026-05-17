@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BooksModule } from '../books/books.module';
 import { UserModule } from '../user/users.module';
+import { RolesGuard } from '../../common/guards/roles.guard';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
 import { Order, OrderSchema } from './schema/order.schema';
@@ -13,6 +14,6 @@ import { Order, OrderSchema } from './schema/order.schema';
     UserModule,
   ],
   controllers: [OrdersController],
-  providers: [OrdersService],
+  providers: [OrdersService, RolesGuard],
 })
 export class OrdersModule {}

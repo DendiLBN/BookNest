@@ -12,6 +12,14 @@ export type TOrder = {
   _id: string;
   items: TOrderItem[];
   totalPriceCents: number;
-  status: "pending" | "paid";
+  status: "cancelled" | "completed" | "paid" | "pending";
   createdAt: string;
+  shippingAddress: TShippingAddress;
+};
+
+export type TShippingAddress = {
+  recipientName: string;
+  street: string;
+  postalCode: string;
+  city: string;
 };

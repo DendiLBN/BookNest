@@ -35,6 +35,22 @@ export class Order {
   totalPriceCents: number;
 
   @Prop({
+    type: {
+      recipientName: { type: String, required: true },
+      street: { type: String, required: true },
+      postalCode: { type: String, required: true },
+      city: { type: String, required: true },
+    },
+    required: true,
+  })
+  shippingAddress: {
+    recipientName: string;
+    street: string;
+    postalCode: string;
+    city: string;
+  };
+
+  @Prop({
     type: String,
     enum: OrderStatus,
     default: OrderStatus.Pending,

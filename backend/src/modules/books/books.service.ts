@@ -66,7 +66,11 @@ export class BooksService implements OnModuleInit {
 
     const totalItems = await this.bookModel.countDocuments(query);
 
-    const data = await this.bookModel.find(query).skip(skip).limit(take);
+    const data = await this.bookModel
+      .find(query)
+      .sort(this.getSortParams(searchBookDto.sortBy))
+      .skip(skip)
+      .limit(take);
 
     return {
       data,
@@ -176,6 +180,20 @@ export class BooksService implements OnModuleInit {
       query.category = { $in: searchBookDto.category };
     }
 
+    if (
+      searchBookDto.minPriceCents !== undefined ||
+      searchBookDto.maxPriceCents !== undefined
+    ) {
+      query.priceCents = {
+        ...(searchBookDto.minPriceCents !== undefined
+          ? { $gte: searchBookDto.minPriceCents }
+          : {}),
+        ...(searchBookDto.maxPriceCents !== undefined
+          ? { $lte: searchBookDto.maxPriceCents }
+          : {}),
+      };
+    }
+
     return query;
   }
 
@@ -185,6 +203,18 @@ export class BooksService implements OnModuleInit {
       skip,
       take: perPage,
     };
+  }
+
+  private getSortParams(sortBy?: 'priceAsc' | 'priceDesc') {
+    if (sortBy === 'priceAsc') {
+      return { priceCents: 1 } as const;
+    }
+
+    if (sortBy === 'priceDesc') {
+      return { priceCents: -1 } as const;
+    }
+
+    return {};
   }
 
   private async addMissingCoverImages() {

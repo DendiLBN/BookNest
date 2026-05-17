@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BooksService } from '../books/books.service';
 import { UsersService } from '../user/users.service';
+import { OrderStatus } from './consts/order-status';
+import { CreateOrderDto } from './dto/create-order.dto';
 import { Order, OrderDocument } from './schema/order.schema';
 
 @Injectable()
@@ -13,7 +15,10 @@ export class OrdersService {
     private readonly usersService: UsersService,
   ) {}
 
-  async createFromCart(userId: string): Promise<OrderDocument> {
+  async createFromCart(
+    userId: string,
+    createOrderDto: CreateOrderDto,
+  ): Promise<OrderDocument> {
     const user = await this.usersService.findOne(userId);
     const cartItems = user?.cartItems ?? [];
 
@@ -52,6 +57,7 @@ export class OrdersService {
       userId,
       items,
       totalPriceCents,
+      shippingAddress: createOrderDto,
     });
 
     await this.usersService.update(userId, { cartItems: [] });
@@ -61,5 +67,20 @@ export class OrdersService {
 
   async findMine(userId: string): Promise<OrderDocument[]> {
     return this.orderModel.find({ userId }).sort({ createdAt: -1 }).exec();
+  }
+
+  async findAll(): Promise<OrderDocument[]> {
+    return this.orderModel.find().sort({ createdAt: -1 }).exec();
+  }
+
+  async updateStatus(
+    orderId: string,
+    status: OrderStatus,
+  ): Promise<OrderDocument | null> {
+    return this.orderModel.findByIdAndUpdate(
+      orderId,
+      { status },
+      { new: true },
+    );
   }
 }

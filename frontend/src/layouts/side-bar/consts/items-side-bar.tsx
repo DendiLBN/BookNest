@@ -10,7 +10,9 @@ import {
 } from "@ant-design/icons";
 import { MenuProps } from "antd";
 
-export const itemsSideBar: MenuProps["items"] = [
+import type { TUser } from "@/features/users/types";
+
+export const createItemsSideBar = (user?: TUser): MenuProps["items"] => [
   {
     key: "dashboard",
     icon: <BookOutlined />,
@@ -31,6 +33,15 @@ export const itemsSideBar: MenuProps["items"] = [
     icon: <ShoppingOutlined />,
     label: <Link to="/orders">Orders</Link>,
   },
+  ...(user?.role === "admin"
+    ? [
+        {
+          key: "admin-orders",
+          icon: <ShoppingOutlined />,
+          label: <Link to="/admin/orders">Admin orders</Link>,
+        },
+      ]
+    : []),
   {
     key: "profile",
     icon: <UserOutlined />,
