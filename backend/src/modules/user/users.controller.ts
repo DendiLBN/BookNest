@@ -18,47 +18,19 @@ import { SkipThrottle } from '@nestjs/throttler';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
-import { mkdirSync, readFileSync, unlinkSync } from 'fs';
+import { mkdirSync, unlinkSync } from 'fs';
 import { randomUUID } from 'crypto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { UpdateCartItemDto } from './dto/update-cart-item.dto';
+import {
+  ALLOWED_IMAGE_EXTENSIONS,
+  ALLOWED_IMAGE_MIME_TYPES,
+  IMAGE_EXTENSION_BY_MIME_TYPE,
+} from '../../common/consts/image-upload';
+import { MAX_IMAGE_UPLOAD_SIZE_BYTES } from '../../common/consts/upload-limits';
+import { isValidImageFileSignature } from '../../common/utils/is-valid-image-file';
 
 const avatarUploadPath = join(process.cwd(), 'uploads', 'avatars');
-const allowedAvatarMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
-const allowedAvatarExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
-const avatarExtensionByMimeType: Record<string, string> = {
-  'image/jpeg': '.jpg',
-  'image/png': '.png',
-  'image/webp': '.webp',
-};
-
-const isValidAvatarSignature = (
-  filePath: string,
-  mimetype: string,
-): boolean => {
-  const fileHeader = readFileSync(filePath).subarray(0, 12);
-
-  if (mimetype === 'image/jpeg') {
-    return (
-      fileHeader[0] === 0xff && fileHeader[1] === 0xd8 && fileHeader[2] === 0xff
-    );
-  }
-
-  if (mimetype === 'image/png') {
-    return fileHeader
-      .subarray(0, 8)
-      .equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
-  }
-
-  if (mimetype === 'image/webp') {
-    return (
-      fileHeader.subarray(0, 4).toString() === 'RIFF' &&
-      fileHeader.subarray(8, 12).toString() === 'WEBP'
-    );
-  }
-
-  return false;
-};
 
 @SkipThrottle()
 @Controller('users')
@@ -92,15 +64,15 @@ export class UsersController {
         filename: (_req, file, callback) => {
           callback(
             null,
-            `${randomUUID()}${avatarExtensionByMimeType[file.mimetype]}`,
+            `${randomUUID()}${IMAGE_EXTENSION_BY_MIME_TYPE[file.mimetype]}`,
           );
         },
       }),
       fileFilter: (_req, file, callback) => {
         const fileExtension = extname(file.originalname).toLowerCase();
         const isImage =
-          allowedAvatarMimeTypes.includes(file.mimetype) &&
-          allowedAvatarExtensions.includes(fileExtension);
+          ALLOWED_IMAGE_MIME_TYPES.includes(file.mimetype) &&
+          ALLOWED_IMAGE_EXTENSIONS.includes(fileExtension);
 
         if (!isImage) {
           callback(
@@ -113,7 +85,7 @@ export class UsersController {
         callback(null, true);
       },
       limits: {
-        fileSize: 2 * 1024 * 1024,
+        fileSize: MAX_IMAGE_UPLOAD_SIZE_BYTES,
       },
     }),
   )
@@ -125,7 +97,7 @@ export class UsersController {
       throw new BadRequestException('Avatar file is required');
     }
 
-    if (!isValidAvatarSignature(file.path, file.mimetype)) {
+    if (!isValidImageFileSignature(file.path, file.mimetype)) {
       unlinkSync(file.path);
       throw new BadRequestException(
         'Avatar file content is not a supported image',

@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
 import useUser from "@/common/users/useUser";
+import { FAVORITE_ACTION_COOLDOWN_MS } from "@/features/book-page/consts/book-favorites";
 import { useAddFavoriteBookMutation, useRemoveFavoriteBookMutation } from "@/store/api/users";
 import { setIsLoggedIn } from "@/store/reducers/auth";
 
@@ -29,7 +30,7 @@ export const useBookFavorites = () => {
       return;
     }
 
-    favoriteCooldownsRef.current[bookId] = now + 5000;
+    favoriteCooldownsRef.current[bookId] = now + FAVORITE_ACTION_COOLDOWN_MS;
     setCooldownBookIds((currentBookIds) => [...currentBookIds, bookId]);
 
     window.setTimeout(() => {
@@ -37,7 +38,7 @@ export const useBookFavorites = () => {
         currentBookIds.filter((currentBookId) => currentBookId !== bookId),
       );
       delete favoriteCooldownsRef.current[bookId];
-    }, 5000);
+    }, FAVORITE_ACTION_COOLDOWN_MS);
 
     const isFavorite = favoriteBookIds.includes(bookId);
 

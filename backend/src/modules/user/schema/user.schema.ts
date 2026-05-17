@@ -1,6 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { UserRole } from '../../../common/enums/user-role.enum';
+import {
+  MAX_CART_ITEM_QUANTITY,
+  MAX_USER_NAME_LENGTH,
+  MIN_CART_ITEM_QUANTITY,
+  MIN_USER_NAME_LENGTH,
+} from '../consts/user-limits';
 
 @Schema({
   timestamps: true,
@@ -28,8 +34,8 @@ export class User {
   @Prop({
     type: String,
     required: true,
-    minlength: 1,
-    maxlength: 20,
+    minlength: MIN_USER_NAME_LENGTH,
+    maxlength: MAX_USER_NAME_LENGTH,
     trim: true,
   })
   firstName: string;
@@ -37,8 +43,8 @@ export class User {
   @Prop({
     type: String,
     required: true,
-    minlength: 1,
-    maxlength: 20,
+    minlength: MIN_USER_NAME_LENGTH,
+    maxlength: MAX_USER_NAME_LENGTH,
     trim: true,
   })
   lastName: string;
@@ -59,7 +65,12 @@ export class User {
     type: [
       {
         bookId: { type: String, required: true },
-        quantity: { type: Number, required: true, min: 1, max: 99 },
+        quantity: {
+          type: Number,
+          required: true,
+          min: MIN_CART_ITEM_QUANTITY,
+          max: MAX_CART_ITEM_QUANTITY,
+        },
       },
     ],
     default: [],
