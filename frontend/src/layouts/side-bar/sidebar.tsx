@@ -13,7 +13,7 @@ import { useThemeContext } from "@/common/contexts/hooks/use-theme-context";
 
 import { getApiAssetUrl } from "@/common/config/api";
 import useUser from "@/common/users/useUser";
-import { itemsSideBar } from "@/layouts/side-bar/consts/items-side-bar";
+import { createItemsSideBar } from "@/layouts/side-bar/consts/items-side-bar";
 import { selectIsLoggedIn } from "@/store/reducers/auth";
 
 export const LandingPageSideBar = () => {
@@ -82,7 +82,7 @@ export const LandingPageSideBar = () => {
         className="border-0 px-2"
         defaultOpenKeys={collapsed ? [] : ["profile"]}
         inlineCollapsed={collapsed}
-        items={itemsSideBar}
+        items={createItemsSideBar(user)}
         mode="inline"
         selectedKeys={[selectedMenuKey]}
         theme={menuTheme}

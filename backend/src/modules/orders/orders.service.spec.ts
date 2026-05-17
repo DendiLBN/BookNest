@@ -28,9 +28,14 @@ describe('OrdersService', () => {
   it('rejects checkout when the cart is empty', async () => {
     usersService.findOne.mockResolvedValue({ cartItems: [] });
 
-    await expect(service.createFromCart('user-1')).rejects.toThrow(
-      new BadRequestException('Cart is empty'),
-    );
+    await expect(
+      service.createFromCart('user-1', {
+        recipientName: 'Reader Booker',
+        street: 'Book Street 1',
+        postalCode: '00-001',
+        city: 'Warsaw',
+      }),
+    ).rejects.toThrow(new BadRequestException('Cart is empty'));
   });
 
   it('creates an order from cart items and clears the cart', async () => {
@@ -50,7 +55,12 @@ describe('OrdersService', () => {
       _id: 'order-1',
     });
 
-    await service.createFromCart('user-1');
+    await service.createFromCart('user-1', {
+      recipientName: 'Reader Booker',
+      street: 'Book Street 1',
+      postalCode: '00-001',
+      city: 'Warsaw',
+    });
 
     expect(orderModel.create).toHaveBeenCalledWith({
       userId: 'user-1',
@@ -66,6 +76,12 @@ describe('OrdersService', () => {
         },
       ],
       totalPriceCents: 5998,
+      shippingAddress: {
+        recipientName: 'Reader Booker',
+        street: 'Book Street 1',
+        postalCode: '00-001',
+        city: 'Warsaw',
+      },
     });
     expect(usersService.update).toHaveBeenCalledWith('user-1', {
       cartItems: [],

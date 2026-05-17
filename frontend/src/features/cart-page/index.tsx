@@ -2,6 +2,7 @@ import { Empty } from "antd";
 
 import { CartItemCard } from "@/features/cart-page/components/cart-item-card";
 import { CartSummary } from "@/features/cart-page/components/cart-summary";
+import { CheckoutAddressForm } from "@/features/cart-page/components/checkout-address-form";
 
 import { useCartMutations } from "@/features/cart-page/hooks/useCartMutations";
 import { useCartSummary } from "@/features/cart-page/hooks/useCartSummary";
@@ -36,11 +37,10 @@ export const CartView = ({ compact = false }: TCartViewProps) => {
         />
       ))}
       {!compact && (
-        <CartSummary
-          isCreatingOrder={isCreatingOrder}
-          totalPriceCents={totalPriceCents}
-          onCheckout={handleCheckout}
-        />
+        <>
+          <CartSummary totalPriceCents={totalPriceCents} />
+          <CheckoutAddressForm isSubmitting={isCreatingOrder} onSubmit={handleCheckout} />
+        </>
       )}
     </div>
   );
