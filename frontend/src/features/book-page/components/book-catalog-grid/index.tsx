@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { HeartFilled, HeartOutlined, ShoppingCartOutlined, StarFilled } from "@ant-design/icons";
 import { Button } from "antd";
 
+import { formatPrice } from "@/common/utils/format-price";
 import type { TBook } from "@/features/book-page/types";
 
 type TBookCatalogGridProps = {
@@ -44,6 +45,9 @@ export const BookCatalogGrid = ({
             <div>
               <h2 className="m-0 text-lg font-bold text-app-text">{book.title}</h2>
               <p className="mt-1 mb-0 text-app-text-muted">{book.author}</p>
+              <p className="mt-1 mb-0 font-semibold text-app-accent">
+                {formatPrice(book.priceCents)}
+              </p>
             </div>
             <div className="flex flex-wrap gap-1">
               {book.category.map((category) => (

@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import ChangePasswordForm from "@/features/login-page/components/forms/change-password-form";
+import { ProtectedRoute } from "@/routes/components/protected-route";
 
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
@@ -19,23 +20,50 @@ import { Profile } from "@/pages/Profile/Profile";
 import { selectIsLoggedIn } from "@/store/reducers/auth";
 
 const AuthRoutes = lazy(() => import("@/routes/Auth.routes"));
-
 const ProtectedRoutes = lazy(() => import("@/routes/Protected.routes"));
+
+type TProtectedPageProps = {
+  children: React.ReactNode;
+  isLoggedIn: boolean;
+  loading: boolean;
+};
+
+const ProtectedPage = ({ children, isLoggedIn, loading }: TProtectedPageProps) => (
+  <ProtectedRoute isLoggedIn={isLoggedIn}>
+    <Suspense fallback={loading}>{children}</Suspense>
+  </ProtectedRoute>
+);
 
 export const LandingPageRouting = () => {
   const { loading } = useNotificationContext();
-
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   return (
     <Routes>
-      <Route path="/" element={isLoggedIn ? <Home /> : <Navigate to="/auth/login" replace />} />
-      <Route path="/home" element={isLoggedIn ? <Home /> : <Navigate to="/auth/login" replace />} />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn}>
+            <Home />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/home"
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn}>
+            <Home />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/dashboard"
-        element={isLoggedIn ? <Home /> : <Navigate to="/auth/login" replace />}
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn}>
+            <Home />
+          </ProtectedRoute>
+        }
       />
-
       <Route path="/success" element={<OnSuccessRegister />} />
       <Route path="/*" element={<Error404 />} />
 
@@ -49,80 +77,71 @@ export const LandingPageRouting = () => {
           }
         />
       )}
-      {isLoggedIn && <Route path="/auth/*" element={<Navigate to="/home" replace />} />}
-      {isLoggedIn && (
-        <Route
-          path="/cart"
-          element={
-            <Suspense fallback={loading}>
-              <Cart />
-            </Suspense>
-          }
-        />
-      )}
-      {isLoggedIn && (
-        <Route
-          path="/orders"
-          element={
-            <Suspense fallback={loading}>
-              <Orders />
-            </Suspense>
-          }
-        />
-      )}
-      {isLoggedIn && (
-        <Route
-          path="/protected/*"
-          element={
-            <Suspense fallback={loading}>
-              <ProtectedRoutes />
-            </Suspense>
-          }
-        />
-      )}
-      {isLoggedIn && (
-        <Route
-          path="/book/:bookId"
-          element={
-            <Suspense fallback={loading}>
-              <BookDetails />
-            </Suspense>
-          }
-        />
-      )}
-      {isLoggedIn && (
-        <Route
-          path="/book/*"
-          element={
-            <Suspense fallback={loading}>
-              <Book />
-            </Suspense>
-          }
-        />
-      )}
-      {isLoggedIn && (
-        <Route
-          path="/favorites"
-          element={
-            <Suspense fallback={loading}>
-              <Favorites />
-            </Suspense>
-          }
-        />
-      )}
-      {isLoggedIn && (
-        <Route
-          path="/profile"
-          element={
-            <Suspense fallback={loading}>
-              <Profile />
-            </Suspense>
-          }
-        />
-      )}
+      {isLoggedIn && <Route path="/auth/*" element={<Navigate replace to="/home" />} />}
+
+      <Route
+        path="/cart"
+        element={
+          <ProtectedPage isLoggedIn={isLoggedIn} loading={loading}>
+            <Cart />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/orders"
+        element={
+          <ProtectedPage isLoggedIn={isLoggedIn} loading={loading}>
+            <Orders />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/protected/*"
+        element={
+          <ProtectedPage isLoggedIn={isLoggedIn} loading={loading}>
+            <ProtectedRoutes />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/book/:bookId"
+        element={
+          <ProtectedPage isLoggedIn={isLoggedIn} loading={loading}>
+            <BookDetails />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/book/*"
+        element={
+          <ProtectedPage isLoggedIn={isLoggedIn} loading={loading}>
+            <Book />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/favorites"
+        element={
+          <ProtectedPage isLoggedIn={isLoggedIn} loading={loading}>
+            <Favorites />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedPage isLoggedIn={isLoggedIn} loading={loading}>
+            <Profile />
+          </ProtectedPage>
+        }
+      />
       <Route
         path="auth/change-password"
-        element={isLoggedIn ? <ChangePasswordForm /> : <Navigate to="/auth/login" replace />}
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn}>
+            <ChangePasswordForm />
+          </ProtectedRoute>
+        }
       />
     </Routes>
   );

@@ -1,6 +1,7 @@
 import { Empty, Spin } from "antd";
 
 import { formatPrice } from "@/common/utils/format-price";
+import { ORDER_STATUS_LABELS } from "@/features/orders/consts/order-status";
 import { useFetchMyOrdersQuery } from "@/store/api/orders";
 
 export const OrdersView = () => {
@@ -28,9 +29,12 @@ export const OrdersView = () => {
           <div className="mb-xs flex items-center justify-between gap-xs">
             <strong className="text-app-text">Order {order._id.slice(-6)}</strong>
             <span className="rounded-m bg-app-surface-muted px-xs py-1 text-sm text-app-text-muted">
-              {order.status}
+              {ORDER_STATUS_LABELS[order.status]}
             </span>
           </div>
+          <p className="mt-0 mb-s text-sm text-app-text-muted">
+            Placed {new Date(order.createdAt).toLocaleDateString("pl-PL")}
+          </p>
           <div className="flex flex-col gap-xs">
             {order.items.map((item) => (
               <div className="flex items-center justify-between gap-xs" key={item.bookId}>

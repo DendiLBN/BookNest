@@ -12,6 +12,6 @@ export type TOrder = {
   _id: string;
   items: TOrderItem[];
   totalPriceCents: number;
-  status: "pending" | "paid";
+  status: "cancelled" | "completed" | "paid" | "pending";
   createdAt: string;
 };

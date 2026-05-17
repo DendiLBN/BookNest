@@ -11,6 +11,14 @@ vi.mock("@/features/home-page/hooks/useHomeDashboard", () => ({
   useHomeDashboard: () => useHomeDashboard(),
 }));
 
+vi.mock("@/common/users/useUser", () => ({
+  default: () => ({
+    user: {
+      role: "customer",
+    },
+  }),
+}));
+
 const renderHomeView = () =>
   render(
     <MemoryRouter>
