@@ -43,11 +43,13 @@ export const LandingPageSideBar = () => {
     ? "books"
     : pathname.startsWith("/cart")
       ? "cart"
-      : pathname.startsWith("/favorites")
-        ? "favorites"
-        : pathname.startsWith("/profile")
-          ? "profile-overview"
-          : "dashboard";
+      : pathname.startsWith("/orders")
+        ? "orders"
+        : pathname.startsWith("/favorites")
+          ? "favorites"
+          : pathname.startsWith("/profile")
+            ? "profile-overview"
+            : "dashboard";
 
   return (
     <aside

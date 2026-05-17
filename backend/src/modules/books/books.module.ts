@@ -13,5 +13,6 @@ import { RolesGuard } from '../../common/guards/roles.guard';
   ],
   controllers: [BooksController],
   providers: [BooksService, RolesGuard],
+  exports: [BooksService],
 })
 export class BooksModule {}

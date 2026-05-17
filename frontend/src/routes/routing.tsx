@@ -14,6 +14,7 @@ import { BookDetails } from "@/pages/BookDetails/BookDetails";
 import { Cart } from "@/pages/Cart/Cart";
 import { Favorites } from "@/pages/Favorites/Favorites";
 import { Home } from "@/pages/Home/Home";
+import { Orders } from "@/pages/Orders/Orders";
 import { Profile } from "@/pages/Profile/Profile";
 import { selectIsLoggedIn } from "@/store/reducers/auth";
 
@@ -55,6 +56,16 @@ export const LandingPageRouting = () => {
           element={
             <Suspense fallback={loading}>
               <Cart />
+            </Suspense>
+          }
+        />
+      )}
+      {isLoggedIn && (
+        <Route
+          path="/orders"
+          element={
+            <Suspense fallback={loading}>
+              <Orders />
             </Suspense>
           }
         />

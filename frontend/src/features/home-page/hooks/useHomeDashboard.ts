@@ -5,18 +5,32 @@ import {
   PREVIEW_BOOKS_COUNT,
   TOP_CATEGORIES_COUNT,
 } from "@/features/home-page/consts/dashboard-limits";
+import type { THomeDashboardState } from "@/features/home-page/types";
 import { useFetchBookDashboardSummaryQuery, useFetchBooksQuery } from "@/store/api/books";
 
-export const useHomeDashboard = () => {
-  const { data: booksResponse, isFetching } = useFetchBooksQuery({
+export const useHomeDashboard = (): THomeDashboardState => {
+  const {
+    data: booksResponse,
+    isError: isBooksError,
+    isFetching: isBooksFetching,
+    isLoading: isBooksLoading,
+  } = useFetchBooksQuery({
     page: 1,
     perPage: PREVIEW_BOOKS_COUNT,
     searchString: "",
     category: [],
   });
-  const { data: dashboardSummary } = useFetchBookDashboardSummaryQuery();
+  const {
+    data: dashboardSummary,
+    isError: isDashboardSummaryError,
+    isFetching: isDashboardSummaryFetching,
+    isLoading: isDashboardSummaryLoading,
+  } = useFetchBookDashboardSummaryQuery();
 
   const books = useMemo(() => booksResponse?.data ?? [], [booksResponse]);
+  const isLoading = isBooksLoading || isDashboardSummaryLoading;
+  const isFetching = isBooksFetching || isDashboardSummaryFetching;
+  const isError = isBooksError || isDashboardSummaryError;
 
   const dashboardStats = useMemo(
     () => [
@@ -56,6 +70,9 @@ export const useHomeDashboard = () => {
     catalogStatus: isFetching ? "Syncing catalog data" : "Catalog ready",
     dashboardStats,
     featuredBooks: books.slice(0, FEATURED_BOOKS_COUNT),
+    hasBooks: books.length > 0,
+    isError,
+    isLoading,
     topCategories,
   };
 };

@@ -18,18 +18,19 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { SkipThrottle, Throttle } from '@nestjs/throttler';
+import { AUTH_RATE_LIMITS } from './consts/auth-security';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @SkipThrottle()
+  @Throttle({ default: AUTH_RATE_LIMITS.register })
   @Post('register')
   register(@Body() createUserDto: CreateUserDto) {
     return this.authService.register(createUserDto);
   }
 
-  @SkipThrottle()
+  @Throttle({ default: AUTH_RATE_LIMITS.login })
   @HttpCode(200)
   @Post('login')
   login(@Body() loginDto: LoginDto) {
@@ -63,12 +64,13 @@ export class AuthController {
       changePasswordDto.newPassword,
     );
   }
-  @Throttle({})
+  @Throttle({ default: AUTH_RATE_LIMITS.forgotPassword })
   @Post('forgot-password')
   async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
     return this.authService.forgotPassword(forgotPasswordDto.email);
   }
 
+  @Throttle({ default: AUTH_RATE_LIMITS.resetPassword })
   @Post('reset-password')
   async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
     return this.authService.resetPassword(
