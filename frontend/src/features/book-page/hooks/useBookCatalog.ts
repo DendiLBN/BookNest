@@ -20,11 +20,17 @@ export const useBookCatalog = () => {
   const { handleDeleteArray } = useDeleteAsArrayBooks();
   const {
     bookSearchText,
+    maxPriceCents,
+    minPriceCents,
     selectedBookRowKeys,
     selectedCategories,
+    sortBy,
     setBookSearchText,
+    setMaxPriceCents,
+    setMinPriceCents,
     setSelectedBookRowKeys,
     setSelectedCategories,
+    setSortBy,
   } = useBooksFormContext();
   const { rowSelection } = useBookSelection({
     selectedBookRowKeys,
@@ -69,10 +75,16 @@ export const useBookCatalog = () => {
       handleDeleteArray,
       isAdmin,
       isFetching,
+      maxPriceCents,
+      minPriceCents,
       selectedBookRowKeys,
       selectedCategories,
+      sortBy,
       setBookSearchText,
+      setMaxPriceCents,
+      setMinPriceCents,
       setSelectedCategories,
+      setSortBy,
     },
   };
 };

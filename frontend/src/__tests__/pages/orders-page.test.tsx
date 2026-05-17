@@ -39,6 +39,12 @@ describe("OrdersView", () => {
           totalPriceCents: 5998,
           status: "pending",
           createdAt: "2026-05-17T10:00:00.000Z",
+          shippingAddress: {
+            recipientName: "Reader Booker",
+            street: "Book Street 1",
+            postalCode: "00-001",
+            city: "Warsaw",
+          },
         },
       ],
       isLoading: false,

@@ -14,4 +14,12 @@ export type TOrder = {
   totalPriceCents: number;
   status: "cancelled" | "completed" | "paid" | "pending";
   createdAt: string;
+  shippingAddress: TShippingAddress;
+};
+
+export type TShippingAddress = {
+  recipientName: string;
+  street: string;
+  postalCode: string;
+  city: string;
 };

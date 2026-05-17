@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
 
 import { getApiErrorMessage } from "@/common/utils/get-api-error-message";
+import type { TShippingAddress } from "@/features/orders/types";
 import { useCreateOrderMutation } from "@/store/api/orders";
 import { useFetchUsersQuery } from "@/store/api/users";
 
@@ -12,9 +13,9 @@ export const useCheckout = () => {
   const [createOrder, { isLoading: isCreatingOrder }] = useCreateOrderMutation();
   const { refetch: refetchUser } = useFetchUsersQuery();
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (shippingAddress: TShippingAddress) => {
     try {
-      await createOrder().unwrap();
+      await createOrder(shippingAddress).unwrap();
       await refetchUser();
       openNotification("topRight", "success", "Order created successfully.", false);
       navigate("/orders");

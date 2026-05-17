@@ -5,6 +5,9 @@ export type TBooksQueryParams = {
   perPage: number;
   searchString: string;
   category: string[];
+  maxPriceCents?: number;
+  minPriceCents?: number;
+  sortBy?: "priceAsc" | "priceDesc";
 };
 
 export type TBook = {

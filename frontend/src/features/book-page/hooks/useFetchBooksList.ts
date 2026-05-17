@@ -10,13 +10,17 @@ type TUseBooksListParams = {
 };
 
 export const useBooksList = ({ currentPage, itemsPerPage }: TUseBooksListParams) => {
-  const { selectedCategories, bookSearchText } = useBooksFormContext();
+  const { bookSearchText, maxPriceCents, minPriceCents, selectedCategories, sortBy } =
+    useBooksFormContext();
 
   const { data: fetchedBooksResponse, isFetching } = useFetchBooksQuery({
     page: currentPage,
     perPage: itemsPerPage,
     searchString: bookSearchText,
     category: selectedCategories,
+    maxPriceCents,
+    minPriceCents,
+    sortBy,
   });
   const bookList = useMemo(() => fetchedBooksResponse?.data ?? [], [fetchedBooksResponse]);
 

@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import ChangePasswordForm from "@/features/login-page/components/forms/change-password-form";
+import { AdminRoute } from "@/routes/components/admin-route";
 import { ProtectedRoute } from "@/routes/components/protected-route";
 
 import { useNotificationContext } from "@/common/contexts/hooks/use-notification-context";
@@ -16,6 +17,7 @@ import { Cart } from "@/pages/Cart/Cart";
 import { Favorites } from "@/pages/Favorites/Favorites";
 import { Home } from "@/pages/Home/Home";
 import { Orders } from "@/pages/Orders/Orders";
+import { OrdersAdmin } from "@/pages/OrdersAdmin/OrdersAdmin";
 import { Profile } from "@/pages/Profile/Profile";
 import { selectIsLoggedIn } from "@/store/reducers/auth";
 
@@ -92,6 +94,16 @@ export const LandingPageRouting = () => {
         element={
           <ProtectedPage isLoggedIn={isLoggedIn} loading={loading}>
             <Orders />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/admin/orders"
+        element={
+          <ProtectedPage isLoggedIn={isLoggedIn} loading={loading}>
+            <AdminRoute>
+              <OrdersAdmin />
+            </AdminRoute>
           </ProtectedPage>
         }
       />
