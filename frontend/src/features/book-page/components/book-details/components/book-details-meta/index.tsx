@@ -1,6 +1,7 @@
 import { HeartFilled, HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Button, Rate, Tag } from "antd";
 
+import { formatPrice } from "@/common/utils/format-price";
 import { tagColors } from "@/features/book-page/consts/book-categories-colors";
 import type { TBook } from "@/features/book-page/types";
 
@@ -30,6 +31,7 @@ export const BookDetailsMeta = ({
     { label: "Rating", value: `${book.rate}/5` },
     { label: "Shelves", value: categoryCount },
     { label: "Primary", value: primaryCategory },
+    { label: "Price", value: formatPrice(book.priceCents) },
   ];
 
   return (
@@ -39,7 +41,7 @@ export const BookDetailsMeta = ({
       <p className="book-page__subtitle">{book.author}</p>
       <Rate disabled value={book.rate} />
 
-      <div className="grid w-full grid-cols-1 gap-s sm:grid-cols-3">
+      <div className="grid w-full grid-cols-1 gap-s sm:grid-cols-2 xl:grid-cols-4">
         {bookMetrics.map((metric) => (
           <div
             className="min-w-0 rounded-m border border-app-border bg-app-surface-muted p-m"

@@ -183,3 +183,33 @@
   color: var(--color-brand);
   background: var(--interactive-bg-hover);
 }
+
+.app-sidebar .ant-menu-item-selected::after {
+  border-inline-end-color: var(--color-brand);
+}
+
+.cart-surface .ant-input-number,
+.cart-surface .ant-input-number-input,
+.cart-surface .ant-btn {
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.cart-surface .ant-input-number:hover,
+.cart-surface .ant-input-number-focused,
+.cart-surface .ant-btn:hover {
+  border-color: var(--color-brand);
+}
+
+.cart-surface .ant-btn-primary {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+  color: var(--color-text-inverse);
+}
+
+.cart-surface .ant-btn-primary:hover {
+  background: var(--color-brand-strong);
+  border-color: var(--color-brand-strong);
+  color: var(--color-text-inverse);
+}

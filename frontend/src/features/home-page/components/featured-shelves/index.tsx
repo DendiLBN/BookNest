@@ -4,7 +4,7 @@ import { BookOutlined, StarFilled } from "@ant-design/icons";
 
 import type { TFeaturedShelvesProps } from "@/features/home-page/types";
 
-export const FeaturedShelves = ({ books }: TFeaturedShelvesProps) => (
+export const FeaturedShelves = ({ books, hasBooks }: TFeaturedShelvesProps) => (
   <article className="rounded-l border border-app-border bg-app-surface p-4.5 shadow-app-s lg:row-span-2">
     <div className="mb-s flex items-start justify-between gap-xs">
       <div>
@@ -42,6 +42,10 @@ export const FeaturedShelves = ({ books }: TFeaturedShelvesProps) => (
             </span>
           </Link>
         ))
+      ) : hasBooks ? (
+        <p className="m-0 text-app-text-muted">
+          No featured titles are available for the current preview.
+        </p>
       ) : (
         <p className="m-0 text-app-text-muted">
           Add books to the catalog to start building featured shelves.

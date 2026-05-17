@@ -14,6 +14,7 @@ export type TBook = {
   title: string;
   rate: number;
   author: string;
+  priceCents: number;
   tags: string[];
   avatar?: string;
   coverImageUrl?: string;

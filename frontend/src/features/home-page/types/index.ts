@@ -8,8 +8,19 @@ export type TDashboardStat = {
 
 export type TFeaturedShelvesProps = {
   books: TBook[];
+  hasBooks: boolean;
 };
 
 export type TActiveShelvesProps = {
   categories: Array<[string, number]>;
+};
+
+export type THomeDashboardState = {
+  catalogStatus: string;
+  dashboardStats: TDashboardStat[];
+  featuredBooks: TBook[];
+  topCategories: Array<[string, number]>;
+  hasBooks: boolean;
+  isError: boolean;
+  isLoading: boolean;
 };

@@ -18,6 +18,10 @@ import * as bcrypt from 'bcryptjs';
 import { LoginDto } from './dto/login.dto';
 import { nanoid } from 'nanoid';
 import { MailService } from 'src/common/services/mail.service';
+import {
+  RESET_TOKEN_EXPIRY_MINUTES,
+  RESET_TOKEN_LENGTH,
+} from './consts/auth-security';
 
 @Injectable()
 export class AuthService {
@@ -81,13 +85,17 @@ export class AuthService {
 
   async login(loginDto: LoginDto) {
     const user = await this.usersService.getUserByEmail(loginDto.email);
-    if (!user) throw new NotFoundException();
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
 
     const passwordMatches = await bcrypt.compare(
       loginDto.password,
       user.password,
     );
-    if (!passwordMatches) throw new UnauthorizedException();
+    if (!passwordMatches) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
     const tokens = await this.getTokens(user._id);
 
     await this.updateRefreshToken(user._id, tokens.refreshToken);
@@ -99,13 +107,17 @@ export class AuthService {
     const user = await this.usersService.getUserByEmail(email);
 
     if (!user) {
-      throw new NotFoundException('User not found in system');
+      return {
+        message:
+          'If an account with that email exists, password reset instructions have been sent.',
+      };
     }
 
-    const expiryDate = new Date();
-    expiryDate.setHours(expiryDate.getHours() + 1);
+    const expiryDate = new Date(
+      Date.now() + RESET_TOKEN_EXPIRY_MINUTES * 60 * 1000,
+    );
 
-    const resetToken = nanoid(64);
+    const resetToken = nanoid(RESET_TOKEN_LENGTH);
 
     await this.usersService.update(user._id, {
       resetToken,
@@ -116,7 +128,7 @@ export class AuthService {
 
     return {
       message:
-        'Reset password email sent successfully, check your email and follow how to reset password',
+        'If an account with that email exists, password reset instructions have been sent.',
     };
   }
 
