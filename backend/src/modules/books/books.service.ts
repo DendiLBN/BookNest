@@ -24,6 +24,7 @@ export class BooksService implements OnModuleInit {
 
     await this.replaceGeneratedBookNames();
     await this.addMissingCoverImages();
+    await this.addMissingPrices();
     await this.upgradeSeededCoverImages();
     await this.applyPublicDomainCoverImages();
 
@@ -44,6 +45,7 @@ export class BooksService implements OnModuleInit {
           rate: Math.floor(Math.random() * 5) + 1,
           category: [category1, category2],
           coverImageUrl: this.getBookCoverImageUrl(seedBook.title),
+          priceCents: this.getSeedBookPriceCents(bookIndex),
         });
       }
     }
@@ -81,6 +83,10 @@ export class BooksService implements OnModuleInit {
     }
 
     return book;
+  }
+
+  async findManyByIds(ids: string[]): Promise<BookDocument[]> {
+    return this.bookModel.find({ _id: { $in: ids } }).exec();
   }
 
   async updateOne(id: string, updateBookDto: Partial<Book>): Promise<Book> {
@@ -199,6 +205,20 @@ export class BooksService implements OnModuleInit {
     );
   }
 
+  private async addMissingPrices() {
+    const booksWithoutPrice = await this.bookModel.find({
+      $or: [{ priceCents: { $exists: false } }, { priceCents: null }],
+    });
+
+    await Promise.all(
+      booksWithoutPrice.map((book, index) =>
+        this.bookModel.findByIdAndUpdate(book._id, {
+          priceCents: this.getSeedBookPriceCents(index),
+        }),
+      ),
+    );
+  }
+
   private async upgradeSeededCoverImages() {
     const seededCoverBooks = await this.bookModel.find({
       coverImageUrl: /picsum\.photos\/seed\/.+\/120\/180$/,
@@ -267,6 +287,10 @@ export class BooksService implements OnModuleInit {
       title: `${seedBook.title} (${duplicateNumber + 1})`,
       author: seedBook.author,
     };
+  }
+
+  private getSeedBookPriceCents(index: number) {
+    return 2499 + (index % 8) * 500;
   }
 
   private getSeededCoverImageUrl(title: string) {

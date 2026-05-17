@@ -5,6 +5,7 @@ import {
   BookOutlined,
   HeartFilled,
   ShoppingCartOutlined,
+  ShoppingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { MenuProps } from "antd";
@@ -24,6 +25,11 @@ export const itemsSideBar: MenuProps["items"] = [
     key: "cart",
     icon: <ShoppingCartOutlined />,
     label: <Link to="/cart">Cart</Link>,
+  },
+  {
+    key: "orders",
+    icon: <ShoppingOutlined />,
+    label: <Link to="/orders">Orders</Link>,
   },
   {
     key: "profile",

@@ -3,10 +3,16 @@ import { Link } from "react-router-dom";
 import { Button, Empty, InputNumber } from "antd";
 
 import useUser from "@/common/users/useUser";
+import { formatPrice } from "@/common/utils/format-price";
 import { FULL_CATALOG_PAGE_SIZE } from "@/features/book-page/consts/book-query";
 import { MAX_CART_ITEM_QUANTITY, MIN_CART_ITEM_QUANTITY } from "@/features/cart-page/consts/cart";
 import { useFetchBooksQuery } from "@/store/api/books";
-import { useRemoveCartItemMutation, useUpdateCartItemMutation } from "@/store/api/users";
+import { useCreateOrderMutation } from "@/store/api/orders";
+import {
+  useFetchUsersQuery,
+  useRemoveCartItemMutation,
+  useUpdateCartItemMutation,
+} from "@/store/api/users";
 
 type TCartViewProps = {
   compact?: boolean;
@@ -22,6 +28,8 @@ export const CartView = ({ compact = false }: TCartViewProps) => {
   });
   const [updateCartItem] = useUpdateCartItemMutation();
   const [removeCartItem] = useRemoveCartItemMutation();
+  const [createOrder, { isLoading: isCreatingOrder }] = useCreateOrderMutation();
+  const { refetch: refetchUser } = useFetchUsersQuery();
 
   const cartItems = user?.cartItems ?? [];
   const booksById = new Map((booksResponse?.data ?? []).map((book) => [book._id, book]));
@@ -31,6 +39,14 @@ export const CartView = ({ compact = false }: TCartViewProps) => {
       book: booksById.get(cartItem.bookId),
     }))
     .filter((cartItem) => cartItem.book);
+  const totalPriceCents = resolvedCartItems.reduce(
+    (total, cartItem) => total + (cartItem.book?.priceCents ?? 0) * cartItem.quantity,
+    0,
+  );
+  const handleCheckout = async () => {
+    await createOrder().unwrap();
+    await refetchUser();
+  };
 
   if (resolvedCartItems.length === 0) {
     return (
@@ -41,7 +57,7 @@ export const CartView = ({ compact = false }: TCartViewProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-s">
+    <div className="cart-surface flex flex-col gap-s">
       {resolvedCartItems.map(({ bookId, quantity, book }) => (
         <article
           className={`grid gap-s rounded-l border border-app-border bg-app-surface p-s shadow-app-s ${
@@ -59,6 +75,9 @@ export const CartView = ({ compact = false }: TCartViewProps) => {
               {book?.title}
             </Link>
             <p className="mt-1 mb-0 text-app-text-muted">{book?.author}</p>
+            <p className="mt-1 mb-0 font-semibold text-app-accent">
+              {formatPrice(book?.priceCents ?? 0)}
+            </p>
           </div>
           <div className="flex items-center gap-xs">
             <InputNumber
@@ -78,6 +97,17 @@ export const CartView = ({ compact = false }: TCartViewProps) => {
           </div>
         </article>
       ))}
+      {!compact && (
+        <section className="flex flex-col gap-xs rounded-l border border-app-border bg-app-surface p-s shadow-app-s sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="m-0 text-sm text-app-text-muted">Order total</p>
+            <strong className="text-xl text-app-text">{formatPrice(totalPriceCents)}</strong>
+          </div>
+          <Button loading={isCreatingOrder} onClick={handleCheckout} type="primary">
+            Checkout
+          </Button>
+        </section>
+      )}
     </div>
   );
 };

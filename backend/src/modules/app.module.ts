@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './user/users.module';
 import { AuthModule } from './auth/auth.module';
+import { OrdersModule } from './orders/orders.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 
@@ -29,6 +30,7 @@ import { APP_GUARD } from '@nestjs/core';
     BooksModule,
     UserModule,
     AuthModule,
+    OrdersModule,
   ],
   providers: [
     {

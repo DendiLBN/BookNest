@@ -1,7 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import {
+  MAX_BOOK_PRICE_CENTS,
   MAX_BOOK_RATING,
   MAX_BOOK_TEXT_LENGTH,
+  MIN_BOOK_PRICE_CENTS,
   MIN_BOOK_RATING,
   MIN_BOOK_TEXT_LENGTH,
 } from '../consts/book-limits';
@@ -37,6 +39,14 @@ export class Book {
 
   @Prop({ type: String, default: '' })
   coverImageUrl?: string;
+
+  @Prop({
+    type: Number,
+    required: true,
+    min: MIN_BOOK_PRICE_CENTS,
+    max: MAX_BOOK_PRICE_CENTS,
+  })
+  priceCents: number;
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);
